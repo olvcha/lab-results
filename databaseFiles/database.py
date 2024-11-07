@@ -1,4 +1,7 @@
 import sqlite3
+import os
+from kivy.utils import platform
+from kivy.storage.jsonstore import JsonStore
 
 
 class Database:
@@ -10,8 +13,22 @@ class Database:
 
     def connection_utility(self):
         '''This method is used to connect to the database'''
-        connection = sqlite3.connect(self.database_name)
+        connection = sqlite3.connect(self.get_db_path())
         return connection
+
+    def get_db_path(self):
+        # Check the platform
+        if platform == 'android':
+            # Get the Android app's internal storage path
+            #from android.storage import app_storage_path
+            #storage_dir = app_storage_path()
+            #db_path = os.path.join(storage_dir, 'labResults.db')
+            pass
+        else:
+            # For desktop or other platforms, use a relative path
+            db_path = os.path.join(os.path.dirname(__file__), 'labResults.db')
+            print(db_path)
+        return db_path
 
     def create_tables(self):
         '''This method creates the tables in the database if they do not exist'''
@@ -33,7 +50,7 @@ class Database:
                             gender TEXT NOT NULL)''')
 
         cursor.execute('''CREATE TABLE IF NOT EXISTS examination
-                            (id INTEGER PRIMARY KEY d, 
+                            (id INTEGER PRIMARY KEY AUTOINCREMENT, 
                             user_id INTEGER NOT NULL,
                             data_reference TEXT NOT NULL, 
                             data TEXT NOT NULL)''')
