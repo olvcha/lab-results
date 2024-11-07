@@ -1,0 +1,70 @@
+# main.kv
+<MyScreenManager>:
+    LoginScreen:
+        name: 'login_screen'
+    NewResultScreen:
+        name: 'new_result_screen'
+    ResultScreen:
+        name: 'result_screen'
+
+<LoginScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            text: "Login Screen"
+            halign: "center"
+        Button:
+            text: "Login"
+            on_release: app.root.current = 'new_result_screen'
+
+
+<NewResultScreen>:
+    MDScreen:
+        md_bg_color: app.theme_cls.surfaceColor
+
+        AnchorLayout:
+            anchor_x: 'center'
+            anchor_y: 'top'
+            MDTopAppBar:
+                title: "Lab Results"
+        MDButton:
+            id: load_button
+            style: "elevated"
+            pos_hint: {'center_x':0.5, 'center_y':0.6}
+            on_release: root.load_data()
+
+            MDButtonIcon:
+                icon: "plus"
+
+            MDButtonText:
+                text: "Load PDF"
+
+        MDLabel:
+            id: file_path_label
+            text: "No file selected"
+            halign: "center"
+            pos_hint: {'center_x':0.5, 'center_y':0.5}
+
+        MDButton:
+            id: data_button
+            style: "elevated"
+            pos_hint: {'center_x':0.5, 'center_y':0.2}
+            disabled: True
+            on_release: app.root.current = 'result_screen'
+
+            MDButtonText:
+                text: "View Results"
+
+<ResultScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            text: "The results"
+            halign: "center"
+            size_hint_y: None
+            height: self.texture_size[1] + dp(10)  # Adjust height based on text
+        # This will allow the plot to fill the remaining space
+        #PlotWidget:
+        #    id: plot_widget
+
+
