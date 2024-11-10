@@ -1,0 +1,38 @@
+<NewResultScreen>:
+    MDScreen:
+        name: 'new_result'
+        md_bg_color: app.theme_cls.surfaceColor
+
+
+        AnchorLayout:
+            anchor_x: 'center'
+            anchor_y: 'top'
+            MDTopAppBar:
+                title: "Lab Results"
+        MDButton:
+            id: load_button
+            style: "elevated"
+            pos_hint: {'center_x':0.5, 'center_y':0.6}
+            on_release: root.load_data()
+
+            MDButtonIcon:
+                icon: "plus"
+
+            MDButtonText:
+                text: "Load PDF"
+
+        MDLabel:
+            id: file_path_label
+            text: "No file selected"
+            halign: "center"
+            pos_hint: {'center_x':0.5, 'center_y':0.5}
+
+        MDButton:
+            id: data_button
+            style: "elevated"
+            pos_hint: {'center_x':0.5, 'center_y':0.2}
+            disabled: True
+            on_release: app.root.current = 'result'
+
+            MDButtonText:
+                text: "View Results"

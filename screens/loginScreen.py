@@ -1,14 +1,15 @@
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.button import Button
+import os
+
+from kivy.lang import Builder
 from kivy.uix.screenmanager import Screen
+from kivymd.uix.screen import MDScreen
+
+Builder.load_file(os.path.join(os.path.dirname(__file__), 'login_screen.kv'))
 
 
-class LoginScreen(Screen):
+class LoginScreen(MDScreen):
     def __init__(self, **kwargs):
         super(LoginScreen, self).__init__(**kwargs)
-        # layout = BoxLayout(orientation='vertical')
-        # layout.add_widget(Button(text='Go to New result Screen', on_press=self.switch_to_new_result_screen))
-        # self.add_widget(layout)
 
-    def switch_to_new_result_screen(self, instance):
-        self.manager.current = 'new_result_screen'
+    def switch_to_new_result_screen(self):
+        self.manager.current = 'new_result'

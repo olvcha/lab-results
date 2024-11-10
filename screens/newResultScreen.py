@@ -10,56 +10,13 @@ from databaseFiles.tables.examinationTable import ExaminationTable
 
 from textReader import TextReader
 
-# KV = '''
-# MDScreen:
-#     md_bg_color: app.theme_cls.surfaceColor
-#
-#     AnchorLayout:
-#         anchor_x: 'center'
-#         anchor_y: 'top'
-#         MDTopAppBar:
-#             title: "Lab Results"
-#     MDButton:
-#         id: load_button
-#         style: "elevated"
-#         pos_hint: {'center_x':0.5, 'center_y':0.6}
-#         on_release: root.load_data()
-#
-#         MDButtonIcon:
-#             icon: "plus"
-#
-#         MDButtonText:
-#             text: "Load PDF"
-#
-#     MDLabel:
-#         id: file_path_label
-#         text: "No file selected"
-#         halign: "center"
-#         pos_hint: {'center_x':0.5, 'center_y':0.5}
-#
-#     MDButton:
-#         id: data_button
-#         style: "elevated"
-#         pos_hint: {'center_x':0.5, 'center_y':0.2}
-#         disabled: True
-#         on_release: app.convert_data()
-#
-#         MDButtonText:
-#             text: "View Results"
-#
-# '''
+Builder.load_file(os.path.join(os.path.dirname(__file__), 'new_result_screen.kv'))
 
 
 class NewResultScreen(Screen):
 
-
     def __init__(self, **kwargs):
         super(NewResultScreen, self).__init__(**kwargs)
-        #self.kvs = Builder.load_string(KV)
-        #layout = BoxLayout(orientation='vertical')
-        #layout.add_widget(self.kvs)
-        #layout.add_widget(Button(text='Go to Login Screen', on_press=self.switch_to_login_screen))
-        #self.add_widget(layout)
 
         self.file_popup = None
         self.selected_file_path = None
@@ -101,5 +58,3 @@ class NewResultScreen(Screen):
         text_reader.read_text()
         text_reader.save_to_json('data.json')
         self.examination_table.add_examination(1, self.selected_file_name, 'to wynik')
-
-

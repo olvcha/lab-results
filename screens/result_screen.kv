@@ -1,0 +1,11 @@
+<ResultScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            text: "The results"
+            halign: "center"
+            size_hint_y: None
+            height: self.texture_size[1] + dp(10)  # Adjust height based on text
+        # This will allow the plot to fill the remaining space
+        #PlotWidget:
+        #    id: plot_widget
