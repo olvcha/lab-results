@@ -3,12 +3,23 @@
         name: 'new_result'
         md_bg_color: app.theme_cls.surfaceColor
 
+        #AnchorLayout:
+        #    anchor_x: 'center'
+        #    anchor_y: 'top'
 
-        AnchorLayout:
-            anchor_x: 'center'
-            anchor_y: 'top'
-            MDTopAppBar:
-                title: "Lab Results"
+        MDTopAppBar:
+            type: "small"
+            size_hint_x: 1
+            pos_hint: {"top": 1}  # Position the top bar at the top
+            md_bg_color: 0, 0, 1, 1
+
+            MDTopAppBarLeadingButtonContainer:
+                MDActionTopAppBarButton:
+                    icon: "arrow-left"
+
+            MDTopAppBarTitle:
+                text: "Nowy wynik"
+
         MDButton:
             id: load_button
             style: "elevated"

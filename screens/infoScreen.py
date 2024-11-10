@@ -7,7 +7,7 @@ from kivymd.uix.screen import MDScreen
 Builder.load_file(os.path.join(os.path.dirname(__file__), 'info_screen.kv'))
 
 
-class InfoScreen(MDScreen):
+class InfoScreen(Screen):
     def __init__(self, **kwargs):
         super(InfoScreen, self).__init__(**kwargs)
 
