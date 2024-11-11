@@ -1,0 +1,32 @@
+<ResultSelectionScreen>:
+    MDScreen:
+        md_bg_color: 1, 1, 1, 1
+
+        MDTopAppBar:
+            type: "small"
+            pos_hint: {"top": 1}
+
+            MDTopAppBarLeadingButtonContainer:
+                MDActionTopAppBarButton:
+                    icon: "arrow-left"
+                    on_release: root.switch_to_results_screen()
+
+            MDTopAppBarTitle:
+                text: "Lista wyników"
+                pos_hint: {"center_x": .5}
+
+            MDTopAppBarTrailingButtonContainer:
+                MDActionTopAppBarButton:
+                    icon: "account-circle-outline"
+
+        MDBoxLayout:
+            orientation: 'vertical'
+            pos_hint: {"top": 0.65}
+            adaptive_height: True
+            padding: 20
+            spacing: 60
+
+
+
+
+

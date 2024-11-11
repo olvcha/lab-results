@@ -7,6 +7,7 @@ from kivy.uix.filechooser import FileChooserListView
 from kivy.uix.popup import Popup
 from kivy.uix.screenmanager import Screen
 from databaseFiles.tables.examinationTable import ExaminationTable
+from datetime import datetime
 
 from textReader import TextReader
 
@@ -57,4 +58,4 @@ class NewResultScreen(Screen):
         text_reader = TextReader(self.selected_file_path)
         text_reader.read_text()
         text_reader.save_to_json('data.json')
-        self.examination_table.add_examination(1, self.selected_file_name, 'to wynik')
+        self.examination_table.add_examination(1, datetime.now(), self.selected_file_name, 'to wynik')

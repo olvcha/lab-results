@@ -52,6 +52,7 @@ class Database:
         cursor.execute('''CREATE TABLE IF NOT EXISTS examination
                             (id INTEGER PRIMARY KEY AUTOINCREMENT, 
                             user_id INTEGER NOT NULL,
+                            date DATETIME NOT NULL,
                             data_reference TEXT NOT NULL, 
                             data TEXT NOT NULL)''')
 

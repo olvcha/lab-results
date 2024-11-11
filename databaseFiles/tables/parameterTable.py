@@ -8,6 +8,7 @@ class ParameterTable:
 
     def __init__(self):
         self.database = Database()
+        self.get_parameters()
 
     def add_parameter(self, parameter_id, name, min_value, max_value, loinc_code):
         '''This method inserts a new parameter into the database'''
@@ -37,3 +38,19 @@ class ParameterTable:
         connection.close()
 
         return parameter_data
+
+    def get_parameters(self):
+        '''Fetches all parameters' names from the database'''
+        connection = self.database.connection_utility()
+        cursor = connection.cursor()
+
+        query = ("SELECT name FROM parameter")
+        cursor.execute(query)
+
+        names = tuple(name[0] for name in cursor.fetchall())
+
+        cursor.close()
+        connection.close()
+
+        return names
+
