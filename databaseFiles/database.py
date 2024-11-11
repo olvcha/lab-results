@@ -46,8 +46,8 @@ class Database:
                             name TEXT NOT NULL, 
                             min_value INTEGER NOT NULL, 
                             max_value INTEGER NOT NULL,
-                            loinc_code TEXT NOT NULL,
-                            gender TEXT NOT NULL)''')
+                            loinc_code TEXT NOT NULL
+                            )''')
 
         cursor.execute('''CREATE TABLE IF NOT EXISTS examination
                             (id INTEGER PRIMARY KEY AUTOINCREMENT, 
