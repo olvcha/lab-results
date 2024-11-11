@@ -38,3 +38,18 @@ class ExaminationTable:
 
         return examination_data
 
+    def fetch_examination_data(self, user_id):
+        '''Fetches all examination data for certain user'''
+        connection = self.database.connection_utility()
+        cursor = connection.cursor()
+
+        query = ("SELECT id, date FROM examination WHERE user_id = ?")
+        cursor.execute(query, (user_id,))
+        examination_data = cursor.fetchall()
+
+        cursor.close()
+        connection.close()
+
+        return examination_data
+
+

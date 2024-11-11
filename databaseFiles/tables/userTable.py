@@ -53,6 +53,22 @@ class UserTable:
 
         if user_data:
             if user_data[0] == password:
-                return True
+                return self.get_user(username)
             else:
                 return False
+
+    def get_user(self, username):
+        '''Gets the user identified by username and password'''
+
+        connection = self.database.connection_utility()
+        cursor = connection.cursor()
+
+        query = ("SELECT id FROM user WHERE username = (?)")
+        cursor.execute(query, (username,))
+        user_id = cursor.fetchone()
+        id = user_id[0]
+
+        cursor.close()
+        connection.close()
+
+        return id
