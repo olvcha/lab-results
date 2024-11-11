@@ -20,8 +20,9 @@ class LabResultsApp(MDApp):
     def build(self):
         sm = ScreenManager()
         self.theme_cls.primary_palette = "Indigo"
-        sm.add_widget(RegistrationScreen(name="registration"))
+
         sm.add_widget(LoginScreen(name="login"))
+        sm.add_widget(RegistrationScreen(name="registration"))
         sm.add_widget(MainScreen(name="main"))
         sm.add_widget(InfoScreen(name="info"))
         sm.add_widget(NewResultScreen(name="new_result"))

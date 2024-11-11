@@ -44,15 +44,15 @@ class UserTable:
         connection = self.database.connection_utility()
         cursor = connection.cursor()
 
-        query = ("SELECT password FROM user WHERE login = ?")
-        cursor.execute(query, username)
+        query = ("SELECT password FROM user WHERE username = ?")
+        cursor.execute(query, (username,))
         user_data = cursor.fetchone()
 
         cursor.close()
         connection.close()
 
         if user_data:
-            if user_data == password:
+            if user_data[0] == password:
                 return True
             else:
                 return False
