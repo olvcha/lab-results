@@ -27,6 +27,7 @@ class RegistrationScreen(Screen):
         self.ids.submit_button.disabled = not (username and password)
 
     def save_user(self):
+        '''Saves the user to the database with provided data'''
         self.username = self.ids.username_field.text
         self.password = self.ids.password_field.text
         if self.userTable.add_user(self.username, self.password):

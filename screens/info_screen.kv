@@ -1,6 +1,6 @@
 <InfoScreen>:
     MDScreen:
-        md_bg_color: 1, 1, 1, 1  # White background
+        md_bg_color: 1, 1, 1, 1
 
         MDTopAppBar:
             type: "small"
@@ -8,7 +8,8 @@
 
             MDTopAppBarLeadingButtonContainer:
                 MDActionTopAppBarButton:
-                    icon: "menu"
+                    icon: "arrow-left"
+                    on_release: root.switch_to_main_screen()
 
             MDTopAppBarTitle:
                 text: "Informacje"

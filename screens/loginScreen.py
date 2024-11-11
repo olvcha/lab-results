@@ -14,9 +14,9 @@ class LoginScreen(MDScreen):
         super(LoginScreen, self).__init__(**kwargs)
         self.userTable = UserTable()
 
-    def switch_to_new_result_screen(self):
-
-        self.manager.current = 'new_result'
+    def switch_to_main_screen(self):
+        '''Switches to the main screen'''
+        self.manager.current = 'main'
 
     def switch_to_registration_screen(self):
         '''Switches to the registration screen'''
@@ -37,7 +37,7 @@ class LoginScreen(MDScreen):
         authorization = self.userTable.auth_user(username, password)
 
         if authorization:
-            self.switch_to_new_result_screen()
+            self.switch_to_main_screen()
         else:
             self.ids.username_field.text = ""
             self.ids.password_field.text = ""

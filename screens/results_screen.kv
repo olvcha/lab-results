@@ -1,6 +1,6 @@
-<MainScreen>:
+<ResultsScreen>:
     MDScreen:
-        md_bg_color: 1, 1, 1, 1  # White background
+        md_bg_color: 1, 1, 1, 1
 
         MDTopAppBar:
             type: "small"
@@ -8,10 +8,11 @@
 
             MDTopAppBarLeadingButtonContainer:
                 MDActionTopAppBarButton:
-                    icon: "logout"
+                    icon: "arrow-left"
+                    on_release: root.switch_to_main_screen()
 
             MDTopAppBarTitle:
-                text: "Ekran główny"
+                text: "Przeglądaj wyniki"
                 pos_hint: {"center_x": .5}
 
             MDTopAppBarTrailingButtonContainer:
@@ -31,13 +32,9 @@
                 height: "56dp"
                 pos_hint: {'center_x': 0.5}
                 size_hint_x: 0.6
-                on_release: root.switch_to_info_screen()
-
-                MDButtonIcon:
-                    icon: "book-open-variant"
 
                 MDButtonText:
-                    text: "Informacje"
+                    text: "Parametr w czasie"
                     pos_hint: {"center_x": .5, "center_y": .5}
 
             MDButton:
@@ -46,26 +43,10 @@
                 height: "56dp"
                 pos_hint: {'center_x': 0.5}
                 size_hint_x: 0.6
-                on_release: root.switch_to_new_result_screen()
-
-                MDButtonIcon:
-                    icon: "plus"
 
                 MDButtonText:
-                    text: "Stwórz nowy wynik"
+                    text: "Szczegółowe wyniki"
                     pos_hint: {"center_x": .5, "center_y": .5}
 
-            MDButton:
-                style: "filled"
-                theme_width: "Custom"
-                height: "56dp"
-                pos_hint: {'center_x': 0.5}
-                size_hint_x: 0.6
-                on_release: root.switch_to_results_screen()
 
-                MDButtonIcon:
-                    icon: "file-document"
-                MDButtonText:
-                    text: "Przeglądaj wyniki"
-                    pos_hint: {"center_x": .5, "center_y": .5}
 

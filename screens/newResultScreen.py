@@ -23,8 +23,8 @@ class NewResultScreen(Screen):
         self.selected_file_name = None
         self.examination_table = ExaminationTable()
 
-    def switch_to_login_screen(self, instance):
-        self.manager.current = 'login_screen'
+    def switch_to_main_screen(self):
+        self.manager.current = 'main'
 
     def load_data(self):
         content = BoxLayout(orientation='vertical')
