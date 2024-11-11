@@ -1,0 +1,67 @@
+<RegistrationScreen>:
+    MDScreen:
+        md_bg_color: 1, 1, 1, 1  # White background
+
+        MDTopAppBar:
+            type: "small"
+            pos_hint: {"top": 1}
+
+            MDTopAppBarLeadingButtonContainer:
+                MDActionTopAppBarButton:
+                    icon: "arrow-left"
+                    on_release: root.switch_to_login_screen()
+
+            MDTopAppBarTitle:
+                text: "Rejestracja"
+                pos_hint: {"center_x": .5}
+
+        MDBoxLayout:
+            orientation: 'vertical'
+            pos_hint: {"top": 0.65}
+            adaptive_height: True
+            padding: 20
+            spacing: 60
+
+            MDTextField:
+                id: username_field
+                mode: "filled"
+                size_hint_x: None
+                width: "200dp"
+                pos_hint: {"center_x": .5, "center_y": .5}
+                on_text: root.check_fields()
+
+                MDTextFieldHintText:
+                    text: "Pseudonim"
+
+                MDTextFieldLeadingIcon:
+                    icon: "account"
+
+            MDTextField:
+                id: password_field
+                mode: "filled"
+                size_hint_x: None
+                width: "200dp"
+                pos_hint: {"center_x": .5, "center_y": .5}
+                password: True
+                on_text: root.check_fields()
+
+                MDTextFieldHintText:
+                    text: "Hasło"
+
+                MDTextFieldLeadingIcon:
+                    icon: "lock"
+
+            MDButton:
+                id: submit_button
+                style: "filled"
+                theme_width: "Custom"
+                height: "56dp"
+                pos_hint: {'center_x': 0.5}
+                size_hint_x: 0.6
+                disabled: True
+                on_release: root.save_user()
+
+                MDButtonText:
+                    text: "Zatwierdź dane"
+                    pos_hint: {"center_x": .5, "center_y": .5}
+
