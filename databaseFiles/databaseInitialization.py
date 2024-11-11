@@ -34,9 +34,9 @@ class DatabaseInitialization:
 
         if not users:
             add_query_1 = (
-                "INSERT INTO user (id, username, password, gender) VALUES (1, 'andrzej', 'kabanos', 'male')")
+                "INSERT INTO user (username, password) VALUES ('andrzej', 'kabanos')")
             add_query_2 = (
-                "INSERT INTO user (id, username, password, gender) VALUES (2, 'anna', 'maria', 'female')")
+                "INSERT INTO user (username, password) VALUES ('anna', 'maria')")
             cursor.execute(add_query_1)
             cursor.execute(add_query_2)
 

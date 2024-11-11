@@ -36,13 +36,13 @@ class Database:
         cursor = connection.cursor()
 
         cursor.execute('''CREATE TABLE IF NOT EXISTS user
-                            (id INTEGER PRIMARY KEY NOT NULL, 
+                            (id INTEGER PRIMARY KEY AUTOINCREMENT, 
                             username TEXT NOT NULL, 
-                            password TEXT NOT NULL,
-                            gender TEXT NOT NULL)''')
+                            password TEXT NOT NULL
+                            )''')
 
         cursor.execute('''CREATE TABLE IF NOT EXISTS parameter
-                            (id INTEGER PRIMARY KEY NOT NULL, 
+                            (id INTEGER PRIMARY KEY AUTOINCREMENT, 
                             name TEXT NOT NULL, 
                             min_value INTEGER NOT NULL, 
                             max_value INTEGER NOT NULL,
