@@ -6,6 +6,8 @@ from kivy.uix.button import Button
 from kivy.uix.filechooser import FileChooserListView
 from kivy.uix.popup import Popup
 from kivy.uix.screenmanager import Screen
+from kivymd.app import MDApp
+
 from databaseFiles.tables.examinationTable import ExaminationTable
 from datetime import datetime
 
@@ -58,4 +60,8 @@ class NewResultScreen(Screen):
         text_reader = TextReader(self.selected_file_path)
         text_reader.read_text()
         text_reader.save_to_json('data.json')
-        self.examination_table.add_examination(1, datetime.now(), self.selected_file_name, 'to wynik')
+
+        app = MDApp.get_running_app()
+        user_id = app.get_user_id()
+
+        self.examination_table.add_examination(user_id, datetime.now().strftime('%Y-%m-%d %H:%M'), self.selected_file_name, 'to wynik')

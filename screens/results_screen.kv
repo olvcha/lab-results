@@ -32,6 +32,7 @@
                 height: "56dp"
                 pos_hint: {'center_x': 0.5}
                 size_hint_x: 0.6
+                on_release: root.switch_to_parameter_selection_screen()
 
                 MDButtonText:
                     text: "Parametr w czasie"
@@ -43,6 +44,7 @@
                 height: "56dp"
                 pos_hint: {'center_x': 0.5}
                 size_hint_x: 0.6
+                on_release: root.switch_to_result_selection_screen()
 
                 MDButtonText:
                     text: "Szczegółowe wyniki"

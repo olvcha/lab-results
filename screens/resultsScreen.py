@@ -12,3 +12,9 @@ class ResultsScreen(Screen):
 
     def switch_to_main_screen(self):
         self.manager.current = 'main'
+
+    def switch_to_result_selection_screen(self):
+        self.manager.current = 'result_selection'
+
+    def switch_to_parameter_selection_screen(self):
+        self.manager.current = 'parameter_selection'
