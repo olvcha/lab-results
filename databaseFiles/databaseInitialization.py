@@ -58,7 +58,7 @@ class DatabaseInitialization:
             add_query_1 = (
                 "INSERT INTO parameter (id, name, min_value, max_value, loinc_code) VALUES (1, 'Erytrocyty', 4.7, 6.1, '789-8')")
             add_query_2 = (
-                "INSERT INTO parameter (id, name, min_value, max_value, loinc_code) VALUES (2, 'Erytrocyty inne', 4.2, 5.4, '789-8')")
+                "INSERT INTO parameter (id, name, min_value, max_value, loinc_code) VALUES (2, 'Leukocyty', 4.0, 10.0, '34445-7')")
 
             cursor.execute(add_query_1)
             cursor.execute(add_query_2)

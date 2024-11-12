@@ -22,7 +22,7 @@ class ParameterSelectionScreen(Screen):
         button_container = self.ids.button_container
         button_container.clear_widgets()
 
-        parameters_tuple = self.parameterTable.get_parameters()
+        parameters_tuple = self.parameterTable.get_parameters_names()
 
         for record in parameters_tuple:
             button = MDButton(
