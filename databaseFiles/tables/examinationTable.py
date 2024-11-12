@@ -9,14 +9,14 @@ class ExaminationTable:
     def __init__(self):
         self.database = Database()
 
-    def add_examination(self, user_id, data_reference, data):
+    def add_examination(self, user_id, date, data_reference, data):
         '''This method inserts a new examination into the database'''
 
         connection = self.database.connection_utility()
         cursor = connection.cursor()
 
-        query = ("INSERT INTO examination (user_id, data_reference, data) VALUES (?, ?, ?)")
-        cursor.execute(query, (user_id, data_reference, data))
+        query = ("INSERT INTO examination (user_id, date, data_reference, data) VALUES (?, ?, ?, ?)")
+        cursor.execute(query, (user_id, date, data_reference, data))
 
         connection.commit()
         cursor.close()
@@ -37,3 +37,19 @@ class ExaminationTable:
         connection.close()
 
         return examination_data
+
+    def fetch_examination_data(self, user_id):
+        '''Fetches all examination data for certain user'''
+        connection = self.database.connection_utility()
+        cursor = connection.cursor()
+
+        query = ("SELECT id, date FROM examination WHERE user_id = ?")
+        cursor.execute(query, (user_id,))
+        examination_data = cursor.fetchall()
+
+        cursor.close()
+        connection.close()
+
+        return examination_data
+
+

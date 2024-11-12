@@ -1,18 +1,26 @@
-<LoginScreen>:
-    name: 'login'
-
+<RegistrationScreen>:
     MDScreen:
-        md_bg_color: 1, 1, 1, 1
+        md_bg_color: 1, 1, 1, 1  # White background
 
-        BoxLayout:
+        MDTopAppBar:
+            type: "small"
+            pos_hint: {"top": 1}
+
+            MDTopAppBarLeadingButtonContainer:
+                MDActionTopAppBarButton:
+                    icon: "arrow-left"
+                    on_release: root.switch_to_login_screen()
+
+            MDTopAppBarTitle:
+                text: "Rejestracja"
+                pos_hint: {"center_x": .5}
+
+        MDBoxLayout:
             orientation: 'vertical'
+            pos_hint: {"top": 0.65}
+            adaptive_height: True
             padding: 20
             spacing: 60
-
-            MDLabel:
-                text: "Witaj w aplikacji Lab Results"
-                size_hint_y: 0.2
-                halign: 'center'
 
             MDTextField:
                 id: username_field
@@ -45,21 +53,15 @@
 
             MDButton:
                 id: submit_button
-                style: "outlined"
+                style: "filled"
                 theme_width: "Custom"
+                height: "56dp"
                 pos_hint: {'center_x': 0.5}
-                size_hint_x: 0.4
+                size_hint_x: 0.6
                 disabled: True
-                on_release: root.auth_user()
+                on_release: root.save_user()
 
                 MDButtonText:
-                    text: "Zaloguj"
+                    text: "Zatwierdź dane"
                     pos_hint: {"center_x": .5, "center_y": .5}
 
-
-            MDLabel:
-                text: 'Nie masz konta? Zarejestruj się [ref=tutaj][color=#0000FF]tutaj[/color][/ref].'
-                markup: True
-                size_hint_y: 0.2
-                halign: 'center'
-                on_ref_press: root.switch_to_registration_screen()

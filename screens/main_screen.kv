@@ -1,0 +1,71 @@
+<MainScreen>:
+    MDScreen:
+        md_bg_color: 1, 1, 1, 1  # White background
+
+        MDTopAppBar:
+            type: "small"
+            pos_hint: {"top": 1}
+
+            MDTopAppBarLeadingButtonContainer:
+                MDActionTopAppBarButton:
+                    icon: "logout"
+
+            MDTopAppBarTitle:
+                text: "Ekran główny"
+                pos_hint: {"center_x": .5}
+
+            MDTopAppBarTrailingButtonContainer:
+                MDActionTopAppBarButton:
+                    icon: "account-circle-outline"
+
+        MDBoxLayout:
+            orientation: 'vertical'
+            pos_hint: {"top": 0.65}
+            adaptive_height: True
+            padding: 20
+            spacing: 60
+
+            MDButton:
+                style: "filled"
+                theme_width: "Custom"
+                height: "56dp"
+                pos_hint: {'center_x': 0.5}
+                size_hint_x: 0.6
+                on_release: root.switch_to_info_screen()
+
+                MDButtonIcon:
+                    icon: "book-open-variant"
+
+                MDButtonText:
+                    text: "Informacje"
+                    pos_hint: {"center_x": .5, "center_y": .5}
+
+            MDButton:
+                style: "filled"
+                theme_width: "Custom"
+                height: "56dp"
+                pos_hint: {'center_x': 0.5}
+                size_hint_x: 0.6
+                on_release: root.switch_to_new_result_screen()
+
+                MDButtonIcon:
+                    icon: "plus"
+
+                MDButtonText:
+                    text: "Stwórz nowy wynik"
+                    pos_hint: {"center_x": .5, "center_y": .5}
+
+            MDButton:
+                style: "filled"
+                theme_width: "Custom"
+                height: "56dp"
+                pos_hint: {'center_x': 0.5}
+                size_hint_x: 0.6
+                on_release: root.switch_to_results_screen()
+
+                MDButtonIcon:
+                    icon: "file-document"
+                MDButtonText:
+                    text: "Przeglądaj wyniki"
+                    pos_hint: {"center_x": .5, "center_y": .5}
+

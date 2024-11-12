@@ -2,6 +2,7 @@ from databaseFiles.tables.userTable import UserTable
 from databaseFiles.tables.parameterTable import ParameterTable
 from databaseFiles.tables.examinationTable import ExaminationTable
 from database import Database
+from datetime import datetime
 import json
 
 
@@ -34,9 +35,9 @@ class DatabaseInitialization:
 
         if not users:
             add_query_1 = (
-                "INSERT INTO user (id, username, password, gender) VALUES (1, 'andrzej', 'kabanos', 'male')")
+                "INSERT INTO user (username, password) VALUES ('andrzej', 'kabanos')")
             add_query_2 = (
-                "INSERT INTO user (id, username, password, gender) VALUES (2, 'anna', 'maria', 'female')")
+                "INSERT INTO user (username, password) VALUES ('anna', 'maria')")
             cursor.execute(add_query_1)
             cursor.execute(add_query_2)
 
@@ -55,9 +56,9 @@ class DatabaseInitialization:
 
         if not parameters:
             add_query_1 = (
-                "INSERT INTO parameter (id, name, min_value, max_value, loinc_code, gender) VALUES (1, 'Erytrocyty', 4.7, 6.1, '789-8', 'male')")
+                "INSERT INTO parameter (id, name, min_value, max_value, loinc_code) VALUES (1, 'Erytrocyty', 4.7, 6.1, '789-8')")
             add_query_2 = (
-                "INSERT INTO parameter (id, name, min_value, max_value, loinc_code, gender) VALUES (2, 'Erytrocyty', 4.2, 5.4, '789-8', 'female')")
+                "INSERT INTO parameter (id, name, min_value, max_value, loinc_code) VALUES (2, 'Leukocyty', 4.0, 10.0, '34445-7')")
 
             cursor.execute(add_query_1)
             cursor.execute(add_query_2)
@@ -87,13 +88,13 @@ class DatabaseInitialization:
 
         if not examinations:
             add_query_1 = (
-                "INSERT INTO examination (user_id, data_reference, data) VALUES (?, ?, ?)")
+                "INSERT INTO examination (user_id, date, data_reference, data) VALUES (?, ?, ?, ?)")
             add_query_2 = (
-                "INSERT INTO examination (user_id, data_reference, data) VALUES (?, ?, ?)")
+                "INSERT INTO examination (user_id, date, data_reference, data) VALUES (?, ?, ?, ?)")
 
             # Execute the insert queries with appropriate parameters
-            cursor.execute(add_query_1, (1, '/Users/ola/Documents/Inżynierka/badanie.png', json_string))
-            cursor.execute(add_query_2, (2, '/Users/ola/Documents/Inżynierka/badanie.png ', json_string))
+            cursor.execute(add_query_1, (1, datetime.now(), '/Users/ola/Documents/Inżynierka/badanie.png', json_string))
+            cursor.execute(add_query_2, (2, datetime.now(), '/Users/ola/Documents/Inżynierka/badanie.png ', json_string))
 
             connection.commit()
             cursor.close()

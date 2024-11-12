@@ -8,18 +8,39 @@ from kivy.uix.screenmanager import ScreenManager
 from screens.loginScreen import LoginScreen
 from screens.resultScreen import ResultScreen
 from screens.newResultScreen import NewResultScreen
+from screens.registrationScreen import RegistrationScreen
+from screens.infoScreen import InfoScreen
+from screens.mainScreen import MainScreen
+from screens.parameterSelectionScreen import ParameterSelectionScreen
+from screens.resultSelectionScreen import ResultSelectionScreen
+from screens.resultsScreen import ResultsScreen
 
 
 class LabResultsApp(MDApp):
+    user_id = None
 
     def build(self):
         sm = ScreenManager()
-        self.theme_cls.primary_palette = "Royalblue"
+        self.theme_cls.primary_palette = "Indigo"
         sm.add_widget(LoginScreen(name="login"))
-        #sm.add_widget(RegisterScreen(name="register"))
-        sm.add_widget(ResultScreen(name="result"))
+        sm.add_widget(RegistrationScreen(name="registration"))
+        sm.add_widget(MainScreen(name="main"))
+        sm.add_widget(InfoScreen(name="info"))
+        sm.add_widget(ResultsScreen(name="results"))
         sm.add_widget(NewResultScreen(name="new_result"))
+        sm.add_widget(ResultScreen(name="result"))
+        sm.add_widget(ParameterSelectionScreen(name="parameter_selection"))
+        sm.add_widget(ResultSelectionScreen(name="result_selection"))
+
         return sm
+
+    def set_user_id(self, user_id):
+        '''Sets user id'''
+        self.user_id = user_id
+
+    def get_user_id(self):
+        '''Gets user id'''
+        return self.user_id
 
 
 if __name__ == '__main__':

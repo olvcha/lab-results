@@ -1,17 +1,26 @@
 <NewResultScreen>:
     MDScreen:
-        name: 'new_result'
-        md_bg_color: app.theme_cls.surfaceColor
+        md_bg_color: 1, 1, 1, 1
+
+        MDTopAppBar:
+            type: "small"
+            size_hint_x: 1
+            pos_hint: {"top": 1}
+
+            MDTopAppBarLeadingButtonContainer:
+                MDActionTopAppBarButton:
+                    icon: "arrow-left"
+                    on_release: root.switch_to_main_screen()
+
+            MDTopAppBarTitle:
+                text: "Nowy wynik"
 
 
-        AnchorLayout:
-            anchor_x: 'center'
-            anchor_y: 'top'
-            MDTopAppBar:
-                title: "Lab Results"
         MDButton:
             id: load_button
             style: "elevated"
+            height: "56dp"
+            size_hint_x: 0.6
             pos_hint: {'center_x':0.5, 'center_y':0.6}
             on_release: root.load_data()
 
@@ -30,6 +39,8 @@
         MDButton:
             id: data_button
             style: "elevated"
+            height: "56dp"
+            size_hint_x: 0.6
             pos_hint: {'center_x':0.5, 'center_y':0.2}
             disabled: True
             on_release: app.root.current = 'result'
