@@ -76,15 +76,23 @@ class DatabaseInitialization:
         cursor.execute(check_query)
         examinations = cursor.fetchall()
 
-        json_data = {
+        json_data1 = {
             "Leukocyty (WBC)": "3,24  10^9/  4,0    10,0",
             "Erytrocyty (RBC)": "4,54  10^12/  4,5    5,5",
             "Hemoglobina (HGB)": "13,72  g/dl  13,50    18,00",
             "Hematokryt (HCT)": "41,6  %  40,0"
         }
 
+        json_data2 = {
+            "Leukocyty (WBC)": "6,24  10^9/  4,0    10,0",
+            "Erytrocyty (RBC)": "6,54  10^12/  4,5    5,5",
+            "Hemoglobina (HGB)": "13,72  g/dl  13,50    18,00",
+            "Hematokryt (HCT)": "41,6  %  40,0"
+        }
+
         # Convert the dictionary to a JSON string
-        json_string = json.dumps(json_data)
+        json_string1 = json.dumps(json_data1)
+        json_string2 = json.dumps(json_data2)
 
         if not examinations:
             add_query_1 = (
@@ -93,8 +101,8 @@ class DatabaseInitialization:
                 "INSERT INTO examination (user_id, date, data_reference, data) VALUES (?, ?, ?, ?)")
 
             # Execute the insert queries with appropriate parameters
-            cursor.execute(add_query_1, (1, datetime.now(), '/Users/ola/Documents/Inżynierka/badanie.png', json_string))
-            cursor.execute(add_query_2, (2, datetime.now(), '/Users/ola/Documents/Inżynierka/badanie.png ', json_string))
+            cursor.execute(add_query_1, (1, datetime.now(), '/Users/ola/Documents/Inżynierka/badanie.png', json_string1))
+            cursor.execute(add_query_2, (2, datetime.now(), '/Users/ola/Documents/Inżynierka/badanie.png ', json_string2))
 
             connection.commit()
             cursor.close()

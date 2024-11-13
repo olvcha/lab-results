@@ -26,6 +26,11 @@ class JsonGenerator:
         with open(self.file_name, 'w', encoding='utf-8') as json_file:
             json.dump(parsed_data, json_file, ensure_ascii=False, indent=4)
 
+    def save_to_json_text(self):
+        parsed_data = self.parse_data()
+
+        return json.dumps(parsed_data, ensure_ascii=False)
+
 
 
 

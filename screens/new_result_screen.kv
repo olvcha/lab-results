@@ -43,7 +43,7 @@
             size_hint_x: 0.6
             pos_hint: {'center_x':0.5, 'center_y':0.2}
             disabled: True
-            on_release: app.root.current = 'result'
+            on_release: root.switch_to_result_screen()
 
             MDButtonText:
                 text: "View Results"

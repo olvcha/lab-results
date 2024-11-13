@@ -18,9 +18,13 @@ class ExaminationTable:
         query = ("INSERT INTO examination (user_id, date, data_reference, data) VALUES (?, ?, ?, ?)")
         cursor.execute(query, (user_id, date, data_reference, data))
 
+        last_inserted_id = cursor.lastrowid
+
         connection.commit()
         cursor.close()
         connection.close()
+
+        return last_inserted_id
 
     def load_examination_data(self, examination_id):
         '''This method loads the data of selected examination from the database.
@@ -29,8 +33,8 @@ class ExaminationTable:
         connection = self.database.connection_utility()
         cursor = connection.cursor()
 
-        query = ("SELECT * FROM examination WHERE examination_id = ?")
-        cursor.execute(query, examination_id)
+        query = ("SELECT data FROM examination WHERE id = ?")
+        cursor.execute(query, (examination_id,))
         examination_data = cursor.fetchall()
 
         cursor.close()

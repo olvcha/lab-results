@@ -37,5 +37,9 @@ class TextReader:
             self.results.append(string.strip())
 
     def save_to_json(self, json_file_name):
-        JsonGenerator(self.results, json_file_name)
+        json_generator = JsonGenerator(self.results, json_file_name)
+        return json_generator.save_to_json_text()
+
+
+
 
