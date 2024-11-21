@@ -29,7 +29,6 @@ class PlotGenerator:
             self.data_extraction = DataExtraction(self.exam_data)
             self.filtered_exam_data = self.data_extraction.get_filtered_exam_data()
             self.parameters_data = self.data_extraction.get_parameters_data()
-            #self.exam_date = self.exam_data[1]
         else:
             self.filtered_exam_data = {}
             self.parameters_data = []

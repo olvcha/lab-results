@@ -31,7 +31,7 @@ class NewResultScreen(Screen):
 
     def switch_to_result_screen(self):
         app_screen_manager = self.manager
-        app_screen_manager.switch_to_result_screen()
+        #app_screen_manager.switch_to_result_screen()
         app_screen_manager.set_exam_id(str(self.exam_id))
         #app_screen_manager.set_exam_id("1")
         self.manager.current = 'result'

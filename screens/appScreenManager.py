@@ -22,7 +22,7 @@ class AppScreenManager(ScreenManager):
         self.add_widget(InfoScreen(name="info"))
         self.add_widget(ResultsScreen(name="results"))
         self.add_widget(NewResultScreen(name="new_result"))
-
+        self.add_widget(ResultScreen(name="result"))
         self.add_widget(ParameterSelectionScreen(name="parameter_selection"))
         self.add_widget(ResultSelectionScreen(name="result_selection"))
 
