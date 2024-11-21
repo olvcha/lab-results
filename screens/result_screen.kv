@@ -1,11 +1,25 @@
 <ResultScreen>:
-    BoxLayout:
-        orientation: 'vertical'
-        Label:
-            text: "The results"
-            halign: "center"
-            size_hint_y: None
-            height: self.texture_size[1] + dp(10)  # Adjust height based on text
-        # This will allow the plot to fill the remaining space
-        #PlotWidget:
-        #    id: plot_widget
+    MDScreen:
+        md_bg_color: 1, 1, 1, 1  # White background color for the screen
+
+        MDTopAppBar:
+            type: "small"
+            pos_hint: {"top": 1}
+
+            MDTopAppBarLeadingButtonContainer:
+                MDActionTopAppBarButton:
+                    icon: "arrow-left"
+                    on_release: root.switch_to_main_screen()
+
+            MDTopAppBarTitle:
+                text: "Wyniki"
+                pos_hint: {"center_x": .5}
+
+        # This is the container where plots will be added
+        MDBoxLayout:
+            id: plot_container
+            orientation: 'vertical'
+            padding: [10, 10, 10, 10]  # Padding around the elements
+            size_hint_y: 1  # Let this take the available space
+
+
