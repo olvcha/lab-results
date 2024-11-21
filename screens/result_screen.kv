@@ -1,6 +1,6 @@
 <ResultScreen>:
     MDScreen:
-        md_bg_color: 1, 1, 1, 1  # White background color for the screen
+        md_bg_color: 1, 1, 1, 1  # White background color
 
         MDTopAppBar:
             type: "small"
@@ -15,11 +15,17 @@
                 text: "Wyniki"
                 pos_hint: {"center_x": .5}
 
-        # This is the container where plots will be added
-        MDBoxLayout:
-            id: plot_container
-            orientation: 'vertical'
-            padding: [10, 10, 10, 10]  # Padding around the elements
-            size_hint_y: 1  # Let this take the available space
+        ScrollView:
+            bar_width: 10
+            do_scroll_x: False
+            pos_hint: {"top": 0.85}
+            size_hint_y: 0.8
 
-
+            MDBoxLayout:
+                id: plot_container
+                orientation: 'vertical'
+                padding: [10, 10, 10, 10]
+                size_hint_y: None
+                height: self.minimum_height
+                pos_hint: {"top": 0.65}
+                adaptive_height: True
