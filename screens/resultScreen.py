@@ -1,5 +1,6 @@
 import os
 from kivy.lang import Builder
+from kivy.properties import ObjectProperty
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.screenmanager import Screen
 from kivy.uix.boxlayout import BoxLayout
@@ -15,6 +16,7 @@ class ResultScreen(Screen):
         super(ResultScreen, self).__init__(**kwargs)
 
     def on_enter(self):
+        #self.update_button_colors(active_button=self.details_button)
         # Get the exam_id from the app screen manager
         exam_id = self.manager.get_exam_id()
         db = ExaminationTable()
@@ -129,3 +131,28 @@ class ResultScreen(Screen):
 
     def switch_to_main_screen(self):
         self.manager.current = 'main'
+
+    def switch_to_parameter_in_time_screen(self):
+        self.manager.current = 'parameter_in_time'
+
+    def toggle_button_colors(self, active_button):
+        # Update the button colors dynamically based on the pressed button
+        self.update_button_colors(active_button=active_button)
+
+    def update_button_colors(self, active_button):
+        # Define colors for the active and inactive buttons
+        active_color = [0.4, 0, 0.6, 1]  # Dark violet
+        inactive_color = [0.7, 0.6, 0.8, 1]  # Light violet
+
+        # Apply colors
+        if active_button == self.details_button:
+            self.details_button.md_bg_color = active_color
+            self.parameter_in_time_button.md_bg_color = inactive_color
+        elif active_button == self.parameter_in_time_button:
+            self.details_button.md_bg_color = inactive_color
+            self.parameter_in_time_button.md_bg_color = active_color
+
+    def parameter_in_time_button_action(self):
+        self.manager.current = 'parameter_in_time'
+
+

@@ -32,7 +32,7 @@ class ResultSelectionScreen(Screen):
         for record in examination_tuple:
             # Extract the details for the current record
             exam_id = record[0]
-            exam_date = record[1]
+            exam_date = record[2]
 
             # Create the button
             button = MDButton(

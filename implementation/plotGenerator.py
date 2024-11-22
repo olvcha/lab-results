@@ -34,7 +34,7 @@ class PlotGenerator:
             self.parameters_data = []
 
     ### shit here we go again
-    def plot_parameter(self, param_name, min_value, ref_value, max_value, loinc_code):
+    def plot_parameter(self, min_value, ref_value, max_value):
         """
         Generates a horizontal bar plot with three colored segments:
         - The bar spans from (min_value - offset) to (max_value + offset).
@@ -53,18 +53,16 @@ class PlotGenerator:
         else:
             clamped_ref_value = ref_value
 
-        # Create the figure and axis with further reduced size (scaled by 0.5x again)
-        fig, ax = plt.subplots(figsize=(0.5, 0.5))  # Scaling down the figure size by another half (0.25 total)
+        fig, ax = plt.subplots(figsize=(0.5, 0.5))
 
-        red_color = (224 / 255, 122 / 255, 116 / 255)  # RGB red
-        green_color = (155 / 255, 200 / 255, 122 / 255)  # RGB green
-        yellow_color = (234 / 255, 208 / 255, 111 / 225)  # RGB yellow
+        red_color = (224 / 255, 122 / 255, 116 / 255)
+        green_color = (155 / 255, 200 / 255, 122 / 255)
+        yellow_color = (234 / 255, 208 / 255, 111 / 225)
 
-        # Set smaller bar height and marker height (scaled down by another 0.5x)
-        bar_height = 0.025  # Even thinner bar
-        marker_height = 0.05  # Even shorter marker height
+        bar_height = 0.025
+        marker_height = 0.05
 
-        # Plot the bar segments with further reduced height
+        # Plot the bar segments
         ax.barh([''], [2 * offset / 3], left=bar_start, color=red_color, height=bar_height, align='center')
         ax.barh([''], [offset / 3], left=min_value - offset / 3, color=yellow_color, height=bar_height, align='center')
         ax.barh([''], [max_value - min_value], left=min_value, color=green_color, height=bar_height, align='center')
@@ -72,19 +70,14 @@ class PlotGenerator:
         ax.barh([''], [2 * offset / 3], left=max_value + offset / 3, color=red_color, height=bar_height, align='center')
 
         # Add thick black marker with horizontal caps for ref_value (scaled down by 0.5x again)
-        cap_length = 0.025 * offset  # Shorter horizontal caps
-        marker_y_shift = 0  # Keep the marker aligned with the bar
+        cap_length = 0.025 * offset
+        marker_y_shift = 0
 
         ax.vlines(clamped_ref_value, -marker_height / 2, marker_height / 2, colors='black',
-                  linewidth=4)  # Shorter black line
+                  linewidth=4)
         ax.hlines([marker_y_shift - marker_height / 2, marker_y_shift + marker_height / 2],
                   clamped_ref_value - cap_length, clamped_ref_value + cap_length, colors='black', linewidth=2)
 
-        # Set labels and title with further reduced font size
-        #ax.set_title(f'{param_name} (Loinc code: {loinc_code}) | Ref Value: {ref_value}',
-        #             fontsize=5)  # Further scaled font size
-        #ax.set_xlabel('Value', fontsize=5)  # Further scaled font size
-        #ax.tick_params(axis='x', labelsize=5)  # Further scaled label size
         ax.axis('off')
 
         # Remove y-axis ticks and labels
@@ -110,11 +103,12 @@ class PlotGenerator:
         results = []
         for _, param_name, min_value, max_value, loinc_code in self.parameters_data:
             # Match parameter name to its reference value
-            ref_name = self.find_a_match(self.filtered_exam_data, param_name)
-            ref_value = float(self.filtered_exam_data.get(f"{ref_name}", "0"))
+            #ref_name = self.find_a_match(self.filtered_exam_data, param_name)
+            #ref_value = float(self.filtered_exam_data.get(f"{ref_name}", "0"))
+            ref_value = float(self.filtered_exam_data.get(f"{param_name}", "0"))
 
             # Generate the plot widget
-            plot_widget = self.plot_parameter(param_name, min_value, ref_value, max_value, loinc_code)
+            plot_widget = self.plot_parameter(min_value, ref_value, max_value)
 
             # Append the result as a dictionary
             results.append({

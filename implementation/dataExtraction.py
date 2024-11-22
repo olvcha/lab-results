@@ -18,6 +18,7 @@ class DataExtraction:
         self.parameters_data = self.parameter_table.get_parameters_data()
         self.formatted_exam_data = self.format_data()
         self.filtered_exam_data = self.filter_exam_data()
+        print("data", self.exam_data)
         print("nazwy", self.parameters_names)
         print("parametry", self.parameters_data)
         print("format", self.formatted_exam_data)
@@ -39,8 +40,9 @@ class DataExtraction:
         for param in self.parameters_names:
             match = process.extractOne(param, self.formatted_exam_data.keys(), score_cutoff=threshold)
             if match:
-                best_match_key, score = match[0], match[1]
-                filtered_data[best_match_key] = self.formatted_exam_data[best_match_key]
+                #best_match_key, score = match[0], match[1]
+                best_match_key, score = param, match[1]
+                filtered_data[best_match_key] = self.formatted_exam_data[match[0]]
         return filtered_data
 
     def get_filtered_exam_data(self):
@@ -49,6 +51,8 @@ class DataExtraction:
     def get_parameters_data(self):
         return self.parameters_data
 
+    def get_parameters_names(self):
+        return self.parameters_names
 
 
 DE = DataExtraction({

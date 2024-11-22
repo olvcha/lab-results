@@ -90,19 +90,30 @@ class DatabaseInitialization:
             "Hematokryt (HCT)": "41,6  %  40,0"
         }
 
+        json_data3 = {
+            "Leukocyty (WBC)": "5,24  10^9/  4,0    10,0",
+            "Erytrocyty (RBC)": "5,54  10^12/  4,5    5,5",
+            "Hemoglobina (HGB)": "13,72  g/dl  13,50    18,00",
+            "Hematokryt (HCT)": "41,6  %  40,0"
+        }
+
         # Convert the dictionary to a JSON string
         json_string1 = json.dumps(json_data1)
         json_string2 = json.dumps(json_data2)
+        json_string3 = json.dumps(json_data3)
 
         if not examinations:
             add_query_1 = (
                 "INSERT INTO examination (user_id, date, data_reference, data) VALUES (?, ?, ?, ?)")
             add_query_2 = (
                 "INSERT INTO examination (user_id, date, data_reference, data) VALUES (?, ?, ?, ?)")
+            add_query_3 = (
+                "INSERT INTO examination (user_id, date, data_reference, data) VALUES (?, ?, ?, ?)")
 
             # Execute the insert queries with appropriate parameters
-            cursor.execute(add_query_1, (1, datetime.now(), '/Users/ola/Documents/Inżynierka/badanie.png', json_string1))
-            cursor.execute(add_query_2, (2, datetime.now(), '/Users/ola/Documents/Inżynierka/badanie.png ', json_string2))
+            cursor.execute(add_query_1, (1, '2024-01-21 12:06', '/Users/ola/Documents/Inżynierka/badanie.png', json_string1))
+            cursor.execute(add_query_2, (1, '2024-06-21 18:06', '/Users/ola/Documents/Inżynierka/badanie.png ', json_string2))
+            cursor.execute(add_query_3, (1, '2024-11-21 22:06', '/Users/ola', json_string3))
 
             connection.commit()
             cursor.close()

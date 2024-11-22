@@ -70,7 +70,7 @@ class ExaminationTable:
         connection = self.database.connection_utility()
         cursor = connection.cursor()
 
-        query = ("SELECT id, date FROM examination WHERE user_id = ?")
+        query = ("SELECT * FROM examination WHERE user_id = ?")
         cursor.execute(query, (user_id,))
         examination_data = cursor.fetchall()
 
@@ -80,5 +80,7 @@ class ExaminationTable:
         return examination_data
 
 
-
+db = ExaminationTable()
+print(db.load_examination_data("1"))
+print(db.fetch_examination_data("1"))
 
