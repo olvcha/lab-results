@@ -12,6 +12,7 @@ from databaseFiles.tables.examinationTable import ExaminationTable
 from datetime import datetime
 
 from textReader import TextReader
+from implementation.fileManager import FileManager
 
 Builder.load_file(os.path.join(os.path.dirname(__file__), 'new_result_screen.kv'))
 
@@ -71,5 +72,8 @@ class NewResultScreen(Screen):
         app = MDApp.get_running_app()
         user_id = app.get_user_id()
 
+        file_manager = FileManager()
+        file_id = file_manager.upload_file(self.selected_file_path)
+
         self.exam_id = self.examination_table.add_examination(user_id, datetime.now().strftime('%Y-%m-%d %H:%M'),
-                                                              self.selected_file_name, json_text)
+                                                              file_id, json_text)

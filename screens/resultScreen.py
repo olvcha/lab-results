@@ -7,6 +7,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 from implementation.plotGenerator import PlotGenerator
 from databaseFiles.tables.examinationTable import ExaminationTable
+from implementation.fileManager import FileManager
 
 Builder.load_file(os.path.join(os.path.dirname(__file__), 'result_screen.kv'))
 
@@ -20,8 +21,17 @@ class ResultScreen(Screen):
         # Get the exam_id from the app screen manager
         exam_id = self.manager.get_exam_id()
         db = ExaminationTable()
+        file_manager = FileManager()
         exam_data = db.load_examination_data(exam_id)
         date = exam_data[1]
+        data_reference = exam_data[2]
+
+        image_widget = file_manager.display_image(data_reference)
+        # Clear existing widgets (optional)
+        self.ids.image_container.clear_widgets()
+
+        # Add the image widget to the layout container
+        self.ids.image_container.add_widget(image_widget)
 
         # Reference the plot container
         plot_container = self.ids.plot_container
@@ -154,5 +164,7 @@ class ResultScreen(Screen):
 
     def parameter_in_time_button_action(self):
         self.manager.current = 'parameter_in_time'
+
+
 
 
