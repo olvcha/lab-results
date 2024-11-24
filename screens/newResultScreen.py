@@ -20,7 +20,7 @@ class NewResultScreen(Screen):
 
     def __init__(self, **kwargs):
         super(NewResultScreen, self).__init__(**kwargs)
-
+        self.exam_id = None
         self.file_popup = None
         self.selected_file_path = None
         self.selected_file_name = None
@@ -28,6 +28,13 @@ class NewResultScreen(Screen):
 
     def switch_to_main_screen(self):
         self.manager.current = 'main'
+
+    def switch_to_result_screen(self):
+        app_screen_manager = self.manager
+        #app_screen_manager.switch_to_result_screen()
+        app_screen_manager.set_exam_id(str(self.exam_id))
+        #app_screen_manager.set_exam_id("1")
+        self.manager.current = 'result'
 
     def load_data(self):
         content = BoxLayout(orientation='vertical')
@@ -59,9 +66,10 @@ class NewResultScreen(Screen):
     def convert_data(self):
         text_reader = TextReader(self.selected_file_path)
         text_reader.read_text()
-        text_reader.save_to_json('data.json')
+        json_text = text_reader.save_to_json('data.json')
 
         app = MDApp.get_running_app()
         user_id = app.get_user_id()
 
-        self.examination_table.add_examination(user_id, datetime.now().strftime('%Y-%m-%d %H:%M'), self.selected_file_name, 'to wynik')
+        self.exam_id = self.examination_table.add_examination(user_id, datetime.now().strftime('%Y-%m-%d %H:%M'),
+                                                              self.selected_file_name, json_text)
