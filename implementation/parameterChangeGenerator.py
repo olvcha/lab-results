@@ -6,6 +6,7 @@ from matplotlib import pyplot as plt
 from databaseFiles.tables.examinationTable import ExaminationTable
 from databaseFiles.tables.parameterTable import ParameterTable
 from implementation.dataExtraction import DataExtraction
+from implementation.globalData import GlobalData
 
 
 class ParameterChangeGenerator:
@@ -13,8 +14,11 @@ class ParameterChangeGenerator:
     Represents the change of the parameters in time'''
 
     def __init__(self):
-        app = MDApp.get_running_app()
-        self.user_id = app.get_user_id()
+        # app = MDApp.get_running_app()
+        # self.user_id = app.get_user_id()
+        global_data = GlobalData()
+        self.user_id = global_data.get_user_id()
+
         self.examination_table = ExaminationTable()
         self.parameter_table = ParameterTable()
 

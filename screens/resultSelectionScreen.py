@@ -4,28 +4,29 @@ from kivy.uix.screenmanager import Screen
 from kivymd.app import MDApp
 from kivymd.uix.button import MDButton, MDButtonText
 from databaseFiles.tables.examinationTable import ExaminationTable
+from implementation.globalData import GlobalData
 
 Builder.load_file(os.path.join(os.path.dirname(__file__), 'result_selection_screen.kv'))
 
 
 class ResultSelectionScreen(Screen):
-    '''Handles result screen actions'''
+    '''Handle result screen actions.'''
 
     def __init__(self, **kwargs):
         super(ResultSelectionScreen, self).__init__(**kwargs)
         self.examinationTable = ExaminationTable()
-
-    def switch_to_results_screen(self):
-        '''Switches to the results screen'''
-        self.manager.current = 'results'
+        self.global_data = GlobalData()
 
     def load_buttons(self):
-        '''Load the buttons. The number of buttons depends on the amount of data in the database, it is flexible.'''
+        '''Load the buttons for results.
+        The number of buttons depends on the amount of data in the database, it is flexible.'''
         button_container = self.ids.button_container
         button_container.clear_widgets()
 
-        app = MDApp.get_running_app()
-        user_id = app.get_user_id()
+        # app = MDApp.get_running_app()
+        # user_id = app.get_user_id()
+        # global_data = GlobalData()
+        user_id = self.global_data.get_user_id()
 
         examination_tuple = self.examinationTable.fetch_examination_data(user_id)
 
@@ -43,7 +44,7 @@ class ResultSelectionScreen(Screen):
                 height="56dp",
                 size_hint_x=0.8,
                 # Use a default argument to capture the current value of exam_id
-                on_release=lambda btn, exam_id_=exam_id: self.on_button_press(exam_id_)
+                on_release=lambda btn, exam_id_=exam_id: self.switch_to_result_screen(exam_id_)
             )
             print(button.id)
 
@@ -57,9 +58,13 @@ class ResultSelectionScreen(Screen):
             # Add the button to the container
             button_container.add_widget(button)
 
-    def on_button_press(self, exam_id):
+    def switch_to_result_screen(self, exam_id):
         app_screen_manager = self.manager
-        # app_screen_manager.switch_to_result_screen()
-        app_screen_manager.set_exam_id(str(exam_id))
-        # app_screen_manager.set_exam_id("1")
+        # app_screen_manager.set_exam_id(str(exam_id))
+        #global_data = GlobalData()
+        self.global_data.set_exam_id(str(exam_id))
         self.manager.current = 'result'
+
+    def switch_to_results_screen(self):
+        '''Switches to the results screen'''
+        self.manager.current = 'results'

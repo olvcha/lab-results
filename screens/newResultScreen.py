@@ -11,6 +11,7 @@ from kivymd.app import MDApp
 from databaseFiles.tables.examinationTable import ExaminationTable
 from datetime import datetime
 
+from implementation.globalData import GlobalData
 from textReader import TextReader
 from implementation.fileManager import FileManager
 
@@ -18,6 +19,7 @@ Builder.load_file(os.path.join(os.path.dirname(__file__), 'new_result_screen.kv'
 
 
 class NewResultScreen(Screen):
+    '''Handle new result screen actions'''
 
     def __init__(self, **kwargs):
         super(NewResultScreen, self).__init__(**kwargs)
@@ -26,18 +28,11 @@ class NewResultScreen(Screen):
         self.selected_file_path = None
         self.selected_file_name = None
         self.examination_table = ExaminationTable()
-
-    def switch_to_main_screen(self):
-        self.manager.current = 'main'
-
-    def switch_to_result_screen(self):
-        app_screen_manager = self.manager
-        #app_screen_manager.switch_to_result_screen()
-        app_screen_manager.set_exam_id(str(self.exam_id))
-        #app_screen_manager.set_exam_id("1")
-        self.manager.current = 'result'
+        self.file_manager = FileManager()
+        self.global_data = GlobalData()
 
     def load_data(self):
+        '''Pop-up window for file selection and loading.'''
         content = BoxLayout(orientation='vertical')
 
         filechooser = FileChooserListView(filters=['*.pdf', '*.png', '*.jpg', '*.jpeg', '*.gif'])
@@ -53,6 +48,7 @@ class NewResultScreen(Screen):
         self.file_popup.open()
 
     def select_file(self, selection):
+        '''Show file selection.'''
         if selection:
             self.selected_file_path = selection[0]
             self.selected_file_name = os.path.basename(self.selected_file_path)
@@ -65,15 +61,29 @@ class NewResultScreen(Screen):
         self.file_popup.dismiss()
 
     def convert_data(self):
+        '''Convert the given data.'''
         text_reader = TextReader(self.selected_file_path)
         text_reader.read_text()
         json_text = text_reader.save_to_json('data.json')
 
-        app = MDApp.get_running_app()
-        user_id = app.get_user_id()
+        # app = MDApp.get_running_app()
+        # user_id = app.get_user_id()
+        # global_data = GlobalData()
+        user_id = self.global_data.get_user_id()
 
-        file_manager = FileManager()
-        file_id = file_manager.upload_file(self.selected_file_path)
+        # file_manager = FileManager()
+        file_id = self.file_manager.upload_file(self.selected_file_path)
 
         self.exam_id = self.examination_table.add_examination(user_id, datetime.now().strftime('%Y-%m-%d %H:%M'),
                                                               file_id, json_text)
+
+    def switch_to_main_screen(self):
+        self.manager.current = 'main'
+
+    def switch_to_result_screen(self):
+        app_screen_manager = self.manager
+        # app_screen_manager.set_exam_id(str(self.exam_id))
+        global_data = GlobalData()
+        global_data.set_exam_id(str(self.exam_id))
+        # app_screen_manager.set_exam_id("1")
+        self.manager.current = 'result'
