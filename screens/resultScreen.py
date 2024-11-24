@@ -26,12 +26,12 @@ class ResultScreen(Screen):
         date = exam_data[1]
         data_reference = exam_data[2]
 
-        image_widget = file_manager.display_image(data_reference)
+        #image_widget = file_manager.display_image(data_reference)
         # Clear existing widgets (optional)
-        self.ids.image_container.clear_widgets()
+        #self.ids.image_container.clear_widgets()
 
         # Add the image widget to the layout container
-        self.ids.image_container.add_widget(image_widget)
+        #self.ids.image_container.add_widget(image_widget)
 
         # Reference the plot container
         plot_container = self.ids.plot_container
@@ -144,6 +144,9 @@ class ResultScreen(Screen):
 
     def switch_to_parameter_in_time_screen(self):
         self.manager.current = 'parameter_in_time'
+
+    def switch_to_data_reference_screen(self):
+        self.manager.current = 'data_reference'
 
     def toggle_button_colors(self, active_button):
         # Update the button colors dynamically based on the pressed button
