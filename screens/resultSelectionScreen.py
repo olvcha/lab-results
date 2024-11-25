@@ -10,7 +10,7 @@ Builder.load_file(os.path.join(os.path.dirname(__file__), 'result_selection_scre
 
 
 class ResultSelectionScreen(Screen):
-    '''Handle result screen actions.'''
+    '''Handle result selection screen actions.'''
 
     def __init__(self, **kwargs):
         super(ResultSelectionScreen, self).__init__(**kwargs)

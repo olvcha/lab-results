@@ -9,10 +9,10 @@
             MDTopAppBarLeadingButtonContainer:
                 MDActionTopAppBarButton:
                     icon: "arrow-left"
-                    on_release: root.switch_to_main_screen()
+                    on_release: root.switch_to_result_selection_screen()
 
             MDTopAppBarTitle:
-                text: "Wyniki"
+                text: "Szczegóły"
                 pos_hint: {"center_x": .5}
 
         MDBoxLayout:
@@ -33,7 +33,7 @@
                 on_release: root.switch_to_result_screen()
 
                 MDButtonText:
-                    text: "Szczegóły"
+                    text: "Wyniki"
                     pos_hint: {"center_x": .5, "center_y": .5}
 
             MDButton:
@@ -43,7 +43,7 @@
                 md_bg_color: [0.7, 0.6, 0.8, 1]
                 pos_hint: {'center_x': 0.5}
                 size_hint_x: 0.4
-                on_release: root.parameter_in_time_button_action()
+                on_release: root.switch_to_parameter_in_time_screen()
 
                 MDButtonText:
                     text: "Parametry w czasie"
@@ -51,8 +51,9 @@
 
         MDBoxLayout:
             orientation: 'vertical'
+            pos_hint: {"top": 0.80}
             size_hint_y: None
-            height: 400
+            height: 1000
             padding: [10]
             spacing: 10
             id: image_container  # Container where the image will be displayed

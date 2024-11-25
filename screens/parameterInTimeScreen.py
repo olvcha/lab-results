@@ -14,6 +14,7 @@ Builder.load_file(os.path.join(os.path.dirname(__file__), 'parameter_in_time_scr
 
 class ParameterInTimeScreen(Screen):
     '''Handle parameter in time screen actions.'''
+
     def __init__(self, **kwargs):
         super(ParameterInTimeScreen, self).__init__(**kwargs)
 
@@ -60,3 +61,9 @@ class ParameterInTimeScreen(Screen):
 
     def switch_to_result_screen(self):
         self.manager.current = 'result'
+
+    def switch_to_data_reference_screen(self):
+        self.manager.current = 'data_reference'
+
+    def switch_to_result_selection_screen(self):
+        self.manager.current = 'result_selection'

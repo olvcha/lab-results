@@ -9,7 +9,7 @@
             MDTopAppBarLeadingButtonContainer:
                 MDActionTopAppBarButton:
                     icon: "arrow-left"
-                    on_release: root.switch_to_main_screen()
+                    on_release: root.switch_to_result_selection_screen()
 
             MDTopAppBarTitle:
                 text: "Wyniki"
@@ -24,7 +24,7 @@
             pos_hint: {"top": 0.85}  # Position below the app bar
 
             MDButton:
-                id: details_button
+                id: data_reference_button
                 style: "filled"
                 theme_width: "Custom"
                 md_bg_color: [0.4, 0, 0.6, 1]
