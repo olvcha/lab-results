@@ -10,7 +10,7 @@ from screens.resultScreen import ResultScreen
 from screens.parameterSelectionScreen import ParameterSelectionScreen
 from screens.resultSelectionScreen import ResultSelectionScreen
 from screens.parameterInTimeScreen import ParameterInTimeScreen
-
+from screens.dataReferenceScreen import DataReferenceScreen
 
 
 class AppScreenManager(ScreenManager):
@@ -27,14 +27,15 @@ class AppScreenManager(ScreenManager):
         self.add_widget(ParameterSelectionScreen(name="parameter_selection"))
         self.add_widget(ResultSelectionScreen(name="result_selection"))
         self.add_widget(ParameterInTimeScreen(name="parameter_in_time"))
+        self.add_widget(DataReferenceScreen(name="data_reference"))
 
-    def set_exam_id(self, exam_id):
-        """Set the exam_id"""
-        self.exam_id = exam_id
-
-    def get_exam_id(self):
-        """Get the stored exam_id."""
-        return self.exam_id
+    # def set_exam_id(self, exam_id):
+    #     """Set the exam_id"""
+    #     self.exam_id = exam_id
+    #
+    # def get_exam_id(self):
+    #     """Get the stored exam_id."""
+    #     return self.exam_id
 
     # def switch_to_result_screen(self):
     #     '''Switches to the result screen'''

@@ -13,10 +13,16 @@ Builder.load_file(os.path.join(os.path.dirname(__file__), 'parameter_in_time_scr
 
 
 class ParameterInTimeScreen(Screen):
+    '''Handle parameter in time screen actions.'''
+
     def __init__(self, **kwargs):
         super(ParameterInTimeScreen, self).__init__(**kwargs)
 
     def on_enter(self):
+        self.display_parameter_in_time()
+
+    def display_parameter_in_time(self):
+        '''Display parameter in time plot.'''
         # Reference the plot container
         plot_container = self.ids.plot_container
 
@@ -53,5 +59,11 @@ class ParameterInTimeScreen(Screen):
 
             plot_container.add_widget(result_layout)
 
-    def details_button_action(self):
+    def switch_to_result_screen(self):
         self.manager.current = 'result'
+
+    def switch_to_data_reference_screen(self):
+        self.manager.current = 'data_reference'
+
+    def switch_to_result_selection_screen(self):
+        self.manager.current = 'result_selection'

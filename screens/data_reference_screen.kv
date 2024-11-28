@@ -1,4 +1,4 @@
-<ResultScreen>:
+<DataReferenceScreen>:
     MDScreen:
         md_bg_color: 1, 1, 1, 1  # White background color
 
@@ -12,7 +12,7 @@
                     on_release: root.switch_to_result_selection_screen()
 
             MDTopAppBarTitle:
-                text: "Wyniki"
+                text: "Szczegóły"
                 pos_hint: {"center_x": .5}
 
         MDBoxLayout:
@@ -24,16 +24,16 @@
             pos_hint: {"top": 0.85}  # Position below the app bar
 
             MDButton:
-                id: data_reference_button
+                id: details_button
                 style: "filled"
                 theme_width: "Custom"
                 md_bg_color: [0.4, 0, 0.6, 1]
                 pos_hint: {'center_x': 0.5}
                 size_hint_x: 0.4
-                on_release: root.switch_to_data_reference_screen()
+                on_release: root.switch_to_result_screen()
 
                 MDButtonText:
-                    text: "Szczegóły"
+                    text: "Wyniki"
                     pos_hint: {"center_x": .5, "center_y": .5}
 
             MDButton:
@@ -49,25 +49,11 @@
                     text: "Parametry w czasie"
                     pos_hint: {"center_x": .5, "center_y": .5}
 
-        ScrollView:
-            bar_width: 10
-            do_scroll_x: False
-            pos_hint: {"top": 0.75}
-            size_hint_y: 0.8
-
-            MDBoxLayout:
-                id: plot_container
-                orientation: 'vertical'
-                padding: [10, 10, 10, 10]
-                size_hint_y: None
-                height: self.minimum_height
-                pos_hint: {"top": 0.65}
-                adaptive_height: True
-
         MDBoxLayout:
             orientation: 'vertical'
+            pos_hint: {"top": 0.80}
             size_hint_y: None
-            height: 400
+            height: 1000
             padding: [10]
             spacing: 10
             id: image_container  # Container where the image will be displayed

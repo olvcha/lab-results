@@ -9,7 +9,7 @@
             MDTopAppBarLeadingButtonContainer:
                 MDActionTopAppBarButton:
                     icon: "arrow-left"
-                    on_release: root.switch_to_main_screen()
+                    on_release: root.switch_to_result_selection_screen()
 
             MDTopAppBarTitle:
                 text: "Parametry w czasie"
@@ -30,22 +30,23 @@
                 md_bg_color: [0.4, 0, 0.6, 1]
                 pos_hint: {'center_x': 0.5}
                 size_hint_x: 0.4
-                on_release: root.details_button_action()
+                on_release: root.switch_to_result_screen()
 
                 MDButtonText:
-                    text: "Szczegóły"
+                    text: "Wyniki"
                     pos_hint: {"center_x": .5, "center_y": .5}
 
             MDButton:
-                id: parameter_in_time_button
+                id: data_reference_button
                 style: "filled"
                 theme_width: "Custom"
                 md_bg_color: [0.7, 0.6, 0.8, 1]
                 pos_hint: {'center_x': 0.5}
                 size_hint_x: 0.4
+                on_release: root.switch_to_data_reference_screen()
 
                 MDButtonText:
-                    text: "Parametry w czasie"
+                    text: "Szczegóły"
                     pos_hint: {"center_x": .5, "center_y": .5}
 
         ScrollView:

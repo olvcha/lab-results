@@ -107,17 +107,18 @@ class PlotGenerator:
             #ref_value = float(self.filtered_exam_data.get(f"{ref_name}", "0"))
             ref_value = float(self.filtered_exam_data.get(f"{param_name}", "0"))
 
-            # Generate the plot widget
-            plot_widget = self.plot_parameter(min_value, ref_value, max_value)
+            if ref_value != 0.0:
+                # Generate the plot widget
+                plot_widget = self.plot_parameter(min_value, ref_value, max_value)
 
-            # Append the result as a dictionary
-            results.append({
-                "param_name": param_name,
-                "min_value": min_value,
-                "max_value": max_value,
-                "ref_value": ref_value,
-                "plot_widget": plot_widget
-            })
+                # Append the result as a dictionary
+                results.append({
+                    "param_name": param_name,
+                    "min_value": min_value,
+                    "max_value": max_value,
+                    "ref_value": ref_value,
+                    "plot_widget": plot_widget
+                })
 
         return results
 
