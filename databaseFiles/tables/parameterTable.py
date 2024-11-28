@@ -8,7 +8,6 @@ class ParameterTable:
 
     def __init__(self):
         self.database = Database()
-        #self.get_parameters()
 
     def add_parameter(self, parameter_id, name, min_value, max_value, loinc_code):
         '''This method inserts a new parameter into the database'''

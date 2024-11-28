@@ -9,14 +9,14 @@ class ExaminationTable:
     def __init__(self):
         self.database = Database()
 
-    def add_examination(self, user_id, date, data_reference, data):
+    def add_examination(self, user_id, date, data_reference_id, data):
         '''Insert a new examination into the database'''
 
         connection = self.database.connection_utility()
         cursor = connection.cursor()
 
-        query = ("INSERT INTO examination (user_id, date, data_reference, data) VALUES (?, ?, ?, ?)")
-        cursor.execute(query, (user_id, date, data_reference, data))
+        query = ("INSERT INTO examination (user_id, date, data_reference_id, data) VALUES (?, ?, ?, ?)")
+        cursor.execute(query, (user_id, date, data_reference_id, data))
 
         last_inserted_id = cursor.lastrowid
 
@@ -44,7 +44,7 @@ class ExaminationTable:
 
     def load_examination_data(self, examination_id):
         '''Load the data of selected examination from the database.
-        Data is returned in order: parameter_name, reference_value, min_value, max_value'''
+        Data is returned in order: user_id, date, data_reference_id, data.'''
 
         connection = self.database.connection_utility()
         cursor = connection.cursor()
@@ -55,13 +55,13 @@ class ExaminationTable:
 
         user_id = examination_data[0][1]
         date = examination_data[0][2]
-        data_reference = examination_data[0][3]
+        data_reference_id = examination_data[0][3]
         data = examination_data[0][4]
 
         cursor.close()
         connection.close()
 
-        examination_tuple = (user_id, date, data_reference, data)
+        examination_tuple = (user_id, date, data_reference_id, data)
 
         return examination_tuple
 
@@ -80,7 +80,7 @@ class ExaminationTable:
         return examination_data
 
 
-db = ExaminationTable()
-print(db.load_examination_data("1"))
-print(db.fetch_examination_data("1"))
+#db = ExaminationTable()
+#print(db.load_examination_data(1))
+#print(db.fetch_examination_data("1"))
 

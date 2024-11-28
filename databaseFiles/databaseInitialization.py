@@ -23,6 +23,7 @@ class DatabaseInitialization:
         self.initialize_user_table()
         self.initialize_parameter_table()
         self.initialize_examination_table()
+        self.initialize_examination_parameter_table()
 
     def initialize_user_table(self):
         '''This method is responsible for initializing the user table data'''
@@ -56,9 +57,9 @@ class DatabaseInitialization:
 
         if not parameters:
             add_query_1 = (
-                "INSERT INTO parameter (id, name, min_value, max_value, loinc_code) VALUES (1, 'Erytrocyty', 4.7, 6.1, '789-8')")
+                "INSERT INTO parameter (name, min_value, max_value, loinc_code) VALUES ('Erytrocyty (RBC)', 4.7, 6.1, '789-8')")
             add_query_2 = (
-                "INSERT INTO parameter (id, name, min_value, max_value, loinc_code) VALUES (2, 'Leukocyty', 4.0, 10.0, '34445-7')")
+                "INSERT INTO parameter (name, min_value, max_value, loinc_code) VALUES ('Leukocyty (WBC)', 4.0, 10.0, '34445-7')")
 
             cursor.execute(add_query_1)
             cursor.execute(add_query_2)
@@ -104,11 +105,11 @@ class DatabaseInitialization:
 
         if not examinations:
             add_query_1 = (
-                "INSERT INTO examination (user_id, date, data_reference, data) VALUES (?, ?, ?, ?)")
+                "INSERT INTO examination (user_id, date, data_reference_id, data) VALUES (?, ?, ?, ?)")
             add_query_2 = (
-                "INSERT INTO examination (user_id, date, data_reference, data) VALUES (?, ?, ?, ?)")
+                "INSERT INTO examination (user_id, date, data_reference_id, data) VALUES (?, ?, ?, ?)")
             add_query_3 = (
-                "INSERT INTO examination (user_id, date, data_reference, data) VALUES (?, ?, ?, ?)")
+                "INSERT INTO examination (user_id, date, data_reference_id, data) VALUES (?, ?, ?, ?)")
 
             # Execute the insert queries with appropriate parameters
             cursor.execute(add_query_1, (1, '2024-01-21 12:06', '/Users/ola/Documents/Inżynierka/badanie.png', json_string1))
@@ -119,5 +120,39 @@ class DatabaseInitialization:
             cursor.close()
             connection.close()
 
+    def initialize_examination_parameter_table(self):
+        connection = self.database.connection_utility()
+        cursor = connection.cursor()
+
+        check_query = ("SELECT * FROM examination_parameter")
+        cursor.execute(check_query)
+        parameters = cursor.fetchall()
+
+        if not parameters:
+            add_query_1 = (
+                "INSERT INTO examination_parameter (value, exam_id, parameter_id) VALUES ('3.24', 1, 2)")
+            add_query_2 = (
+                "INSERT INTO examination_parameter (value, exam_id, parameter_id) VALUES ('4.54', 1, 1)")
+            add_query_3 = (
+                "INSERT INTO examination_parameter (value, exam_id, parameter_id) VALUES ('6.24', 2, 2)")
+            add_query_4 = (
+                "INSERT INTO examination_parameter (value, exam_id, parameter_id) VALUES ('6,54', 2, 1)")
+            add_query_5 = (
+                "INSERT INTO examination_parameter (value, exam_id, parameter_id) VALUES ('5.24', 3, 2)")
+            add_query_6 = (
+                "INSERT INTO examination_parameter (value, exam_id, parameter_id) VALUES ('5.54', 3, 1)")
+
+            cursor.execute(add_query_1)
+            cursor.execute(add_query_2)
+            cursor.execute(add_query_3)
+            cursor.execute(add_query_4)
+            cursor.execute(add_query_5)
+            cursor.execute(add_query_6)
+
+            connection.commit()
+            cursor.close()
+            connection.close()
+
 
 init = DatabaseInitialization()
+
