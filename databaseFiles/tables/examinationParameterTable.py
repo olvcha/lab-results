@@ -59,7 +59,7 @@ class ExaminationParameterTable:
 
         return parameter_tuple
 
-#
-# ep = ExaminationParameterTable()
-# print(ep.get_examination_parameters_by_exam_id("1"))
-# print(ep.get_examination_parameters_by_parameter_id("1"))
+
+ep = ExaminationParameterTable()
+print(ep.get_examination_parameters_by_exam_id("1"))
+print(ep.get_examination_parameters_by_parameter_id("1"))

@@ -4,6 +4,7 @@ import re
 from rapidfuzz import process
 
 from databaseFiles.tables.parameterTable import ParameterTable
+from databaseFiles.tables.examinationParameterTable import ExaminationParameterTable
 
 
 class DataExtraction:
