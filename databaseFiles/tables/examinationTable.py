@@ -80,7 +80,7 @@ class ExaminationTable:
         return examination_data
 
 
-#db = ExaminationTable()
-#print(db.load_examination_data(1))
-#print(db.fetch_examination_data("1"))
+# db = ExaminationTable()
+# print(db.load_examination_data(1))
+# print(db.fetch_examination_data("1"))
 

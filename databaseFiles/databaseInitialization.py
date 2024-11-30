@@ -112,9 +112,9 @@ class DatabaseInitialization:
                 "INSERT INTO examination (user_id, date, data_reference_id, data) VALUES (?, ?, ?, ?)")
 
             # Execute the insert queries with appropriate parameters
-            cursor.execute(add_query_1, (1, '2024-01-21 12:06', '/Users/ola/Documents/Inżynierka/badanie.png', json_string1))
-            cursor.execute(add_query_2, (1, '2024-06-21 18:06', '/Users/ola/Documents/Inżynierka/badanie.png ', json_string2))
-            cursor.execute(add_query_3, (1, '2024-11-21 22:06', '/Users/ola', json_string3))
+            cursor.execute(add_query_1, (1, '21-01-2024', '/Users/ola/Documents/Inżynierka/badanie.png', json_string1))
+            cursor.execute(add_query_2, (1, '15-06-2024', '/Users/ola/Documents/Inżynierka/badanie.png ', json_string2))
+            cursor.execute(add_query_3, (1, '03-11-2024', '/Users/ola', json_string3))
 
             connection.commit()
             cursor.close()
@@ -136,7 +136,7 @@ class DatabaseInitialization:
             add_query_3 = (
                 "INSERT INTO examination_parameter (value, exam_id, parameter_id) VALUES ('6.24', 2, 2)")
             add_query_4 = (
-                "INSERT INTO examination_parameter (value, exam_id, parameter_id) VALUES ('6,54', 2, 1)")
+                "INSERT INTO examination_parameter (value, exam_id, parameter_id) VALUES ('6.54', 2, 1)")
             add_query_5 = (
                 "INSERT INTO examination_parameter (value, exam_id, parameter_id) VALUES ('5.24', 3, 2)")
             add_query_6 = (

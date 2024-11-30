@@ -78,7 +78,7 @@ class NewResultScreen(Screen):
         # file_manager = FileManager()
         file_id = self.file_manager.upload_file(self.selected_file_path)
 
-        self.exam_id = self.examination_table.add_examination(user_id, datetime.now().strftime('%Y-%m-%d %H:%M'),
+        self.exam_id = self.examination_table.add_examination(user_id, datetime.now().strftime('%d-%m-%Y'),
                                                               file_id, json_text)
 
         self.extract_and_save(json_text, self.exam_id)
