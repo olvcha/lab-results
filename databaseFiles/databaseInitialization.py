@@ -61,8 +61,24 @@ class DatabaseInitialization:
             add_query_2 = (
                 "INSERT INTO parameter (name, min_value, max_value, loinc_code) VALUES ('Leukocyty (WBC)', 4.0, 10.0, '34445-7')")
 
-            cursor.execute(add_query_1)
-            cursor.execute(add_query_2)
+            add_query = (    '''INSERT INTO parameter (name, min_value, max_value, loinc_code) 
+                                VALUES 
+                                ('Erytrocyty (RBC)', 4.2, 5.4, '789-8'),
+                                ('Leukocyty (WBC)', 4.0, 10.0, '804-5'),
+                                ('Krwinki czerwone (RBC)', 4.2, 5.4, '789-8'),
+                                ('Krwinki białe (WBC)', 4.0, 10.0, '804-5'),
+                                ('Hemoglobina (HGB)', 13.0, 18.0, '718-7'),
+                                ('Hematokryt (HCT)', 40.0, 54.0, '20570-8'),
+                                ('MCV', 82.0, 92.0, '787-2'),
+                                ('MCH', 27.0, 31.0, '785-6'),
+                                ('MCHC', 32.0, 36.0, '786-4'),
+                                ('RDW', 11.5, 14.5, '30385-9'),
+                                ('MPV', 7.5, 10.5, '32623-1'),
+                                ('Płytki krwi (PLT)', 150, 450, '26515-7');
+                                ''')
+            #cursor.execute(add_query_1)
+            #cursor.execute(add_query_2)
+            cursor.execute(add_query)
 
             connection.commit()
             cursor.close()
