@@ -68,20 +68,22 @@ class NewResultScreen(Screen):
 
     def convert_data(self):
         '''Convert the given data.'''
-        text_reader = TextReader(self.selected_file_path)
-        text_reader.read_text()
-        json_text = text_reader.save_to_json()
-        # pdf_reader = PdfTextReader(self.selected_file_path)
-        # json_text = pdf_reader.save_to_json()
+        file_extension = os.path.splitext(self.selected_file_path)[1].lower()
 
-        # app = MDApp.get_running_app()
-        # user_id = app.get_user_id()
-        # global_data = GlobalData()
+        if file_extension == '.pdf':
+            pdf_reader = PdfTextReader(self.selected_file_path)
+            json_text = pdf_reader.save_to_json()
+        elif file_extension in ['.png', '.jpg', '.jpeg', '.bmp', '.tiff']:
+            text_reader = TextReader(self.selected_file_path)
+            text_reader.read_text()
+            json_text = text_reader.save_to_json()
+        else:
+            json_text = {}
+
         user_id = self.global_data.get_user_id()
 
         # file_manager = FileManager()
         file_id = self.file_manager.upload_file(self.selected_file_path, user_id, datetime.now().strftime('%d-%m-%Y'))
-        #file_id = 'cos'
 
         self.exam_id = self.examination_table.add_examination(user_id, datetime.now().strftime('%d-%m-%Y'),
                                                               file_id, json_text)
@@ -94,7 +96,6 @@ class NewResultScreen(Screen):
         filtered_exam_data = data_extraction.filter_exam_data()
         for parameter_id, value in filtered_exam_data.items():
             self.examination_parameter_table.add_examination_parameter(value, exam_id, parameter_id)
-
 
     def switch_to_main_screen(self):
         self.manager.current = 'main'

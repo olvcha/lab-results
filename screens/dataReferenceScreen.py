@@ -23,20 +23,17 @@ class DataReferenceScreen(Screen):
         self.display_data_reference()
 
     def display_data_reference(self):
-        '''Display data reference image.'''
-        # exam_id = self.manager.get_exam_id()
-        # db = ExaminationTable()
-        # file_manager = FileManager()
-
+        '''Display data reference (images or PDFs).'''
         exam_id = self.global_data.get_exam_id()
-
         exam_data = self.exam_table.load_examination_data(exam_id)
         data_reference = exam_data[2]
 
-        image_widget = self.file_manager.display_file(data_reference)
+        file_widgets = self.file_manager.display_file(data_reference)
 
         self.ids.image_container.clear_widgets()
-        self.ids.image_container.add_widget(image_widget)
+
+        for widget in file_widgets:
+            self.ids.image_container.add_widget(widget)
 
     def switch_to_result_screen(self):
         self.manager.current = 'result'
