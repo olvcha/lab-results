@@ -1,5 +1,6 @@
 import os
 
+from PyPDF2 import PdfFileReader
 from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
@@ -17,6 +18,7 @@ from implementation.globalData import GlobalData
 from textReader import TextReader
 from implementation.fileManager import FileManager
 from implementation.dataExtractionN import DataExtractionN
+from implementation.pdfTextReader import PdfTextReader
 
 Builder.load_file(os.path.join(os.path.dirname(__file__), 'new_result_screen.kv'))
 
@@ -68,7 +70,9 @@ class NewResultScreen(Screen):
         '''Convert the given data.'''
         text_reader = TextReader(self.selected_file_path)
         text_reader.read_text()
-        json_text = text_reader.save_to_json('data.json')
+        json_text = text_reader.save_to_json()
+        # pdf_reader = PdfTextReader(self.selected_file_path)
+        # json_text = pdf_reader.save_to_json()
 
         # app = MDApp.get_running_app()
         # user_id = app.get_user_id()
@@ -77,6 +81,7 @@ class NewResultScreen(Screen):
 
         # file_manager = FileManager()
         file_id = self.file_manager.upload_file(self.selected_file_path, user_id, datetime.now().strftime('%d-%m-%Y'))
+        #file_id = 'cos'
 
         self.exam_id = self.examination_table.add_examination(user_id, datetime.now().strftime('%d-%m-%Y'),
                                                               file_id, json_text)

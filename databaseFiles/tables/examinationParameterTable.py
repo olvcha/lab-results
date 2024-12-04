@@ -25,7 +25,7 @@ class ExaminationParameterTable:
         cursor = connection.cursor()
 
         query = ("SELECT * FROM examination_parameter WHERE exam_id = ?")
-        cursor.execute(query, (exam_id))
+        cursor.execute(query, (exam_id,))
         examination_parameter_data = cursor.fetchall()
 
         parameter_tuple=[]

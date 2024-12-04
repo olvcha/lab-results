@@ -33,7 +33,7 @@ class DataReferenceScreen(Screen):
         exam_data = self.exam_table.load_examination_data(exam_id)
         data_reference = exam_data[2]
 
-        image_widget = self.file_manager.display_image(data_reference)
+        image_widget = self.file_manager.display_file(data_reference)
 
         self.ids.image_container.clear_widgets()
         self.ids.image_container.add_widget(image_widget)

@@ -101,9 +101,10 @@ class FileManager:
         image_stream.seek(0)
         return image_stream
 
-    def display_image(self, file_id):
+    def display_file(self, file_id):
         '''Create the image widget to display.'''
         image_stream = self.stream_image_from_drive(file_id)
         core_image = CoreImage(image_stream, ext="png")
         image_widget = Image(texture=core_image.texture)
         return image_widget
+
