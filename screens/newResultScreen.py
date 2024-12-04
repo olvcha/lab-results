@@ -76,7 +76,7 @@ class NewResultScreen(Screen):
         user_id = self.global_data.get_user_id()
 
         # file_manager = FileManager()
-        file_id = self.file_manager.upload_file(self.selected_file_path)
+        file_id = self.file_manager.upload_file(self.selected_file_path, user_id, datetime.now().strftime('%d-%m-%Y'))
 
         self.exam_id = self.examination_table.add_examination(user_id, datetime.now().strftime('%d-%m-%Y'),
                                                               file_id, json_text)
