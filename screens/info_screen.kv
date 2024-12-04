@@ -32,6 +32,10 @@
                 height: "56dp"
                 pos_hint: {'center_x': 0.5}
                 size_hint_x: 0.6
+                on_release: root.show_info_dialog()
+
+                MDButtonIcon:
+                    icon: "bookmark"
 
                 MDButtonText:
                     text: "Instrukcja obsługi"
@@ -43,6 +47,10 @@
                 height: "56dp"
                 pos_hint: {'center_x': 0.5}
                 size_hint_x: 0.6
+                on_release: root.show_about_dialog()
+
+                MDButtonIcon:
+                    icon: "information"
 
                 MDButtonText:
                     text: "O aplikacji"
@@ -54,6 +62,10 @@
                 height: "56dp"
                 pos_hint: {'center_x': 0.5}
                 size_hint_x: 0.6
+                on_release: root.show_parameters_dialog()
+
+                MDButtonIcon:
+                    icon: "water"
 
                 MDButtonText:
                     text: "Badane parametry"

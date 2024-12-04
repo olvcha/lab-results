@@ -3,7 +3,7 @@ import os
 import json
 from googleapiclient.discovery import build
 from google.oauth2 import service_account
-from googleapiclient.http import MediaIoBaseDownload
+from googleapiclient.http import MediaIoBaseDownload, MediaFileUpload
 from kivy.uix.image import Image
 from kivy.core.image import Image as CoreImage
 
@@ -16,7 +16,7 @@ PARENT_FOLDER_ID = config['PARENT_FOLDER_ID']
 
 
 class FileManager:
-    '''Represents file managing: uploading and retrieving files from the Google Drive.'''
+    '''Represent file managing: uploading and retrieving files from the Google Drive.'''
     def __init__(self):
         pass
 
@@ -26,23 +26,67 @@ class FileManager:
 
         return creds
 
-    def upload_file(self, file_path):
+    def create_user_folder(self, service, user_id):
+        '''Create a folder for the user if it does not already exist.'''
+        query = f"'{PARENT_FOLDER_ID}' in parents and name='{user_id}' and mimeType='application/vnd.google-apps.folder' and trashed=false"
+        results = service.files().list(q=query, fields="files(id, name)").execute()
+        folders = results.get('files', [])
+
+        if folders:
+            return folders[0]['id']
+
+        # Create new folder
+        folder_metadata = {
+            'name': str(user_id),
+            'mimeType': 'application/vnd.google-apps.folder',
+            'parents': [PARENT_FOLDER_ID]
+        }
+        folder = service.files().create(body=folder_metadata, fields='id').execute()
+
+        return folder.get('id')
+
+    def upload_file(self, file_path, user_id, date):
         '''Upload the file. Return file id.'''
         creds = self.authenticate()
         service = build('drive', 'v3', credentials=creds)
 
+        # Create or get user folder
+        user_folder_id = self.create_user_folder(service, user_id)
+
+        # Format file name
+        file_name = f"{user_id}_{date}"
+
         file_metadata = {
-            'name': 1,
-            'parents': [PARENT_FOLDER_ID]
+            'name': file_name,
+            'parents': [user_folder_id]
         }
 
+        media = MediaFileUpload(file_path)
         file = service.files().create(
             body=file_metadata,
-            media_body=file_path,
+            media_body=media,
             fields='id'
         ).execute()
 
         return file.get('id')
+
+    # def upload_file(self, file_path, user_id, date):
+    #     '''Upload the finle. Return file id.'''
+    #     creds = self.authenticate()
+    #     service = build('drive', 'v3', credentials=creds)
+    #
+    #     file_metadata = {
+    #         'name': 1,
+    #         'parents': [PARENT_FOLDER_ID]
+    #     }
+    #
+    #     file = service.files().create(
+    #         body=file_metadata,
+    #         media_body=file_path,
+    #         fields='id'
+    #     ).execute()
+    #
+    #     return file.get('id')
 
     def stream_image_from_drive(self, file_id):
         '''Retrieve the image and stream it.'''
@@ -63,7 +107,3 @@ class FileManager:
         core_image = CoreImage(image_stream, ext="png")
         image_widget = Image(texture=core_image.texture)
         return image_widget
-
-#
-# fm = FileManager()
-# fm.upload_file(os.getcwd() + '/../badanie.png')

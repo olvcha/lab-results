@@ -9,11 +9,14 @@ from kivy.uix.screenmanager import Screen
 from kivymd.app import MDApp
 
 from databaseFiles.tables.examinationTable import ExaminationTable
+from databaseFiles.tables.examinationParameterTable import ExaminationParameterTable
 from datetime import datetime
 
+from implementation.dataExtraction import DataExtraction
 from implementation.globalData import GlobalData
 from textReader import TextReader
 from implementation.fileManager import FileManager
+from implementation.dataExtractionN import DataExtractionN
 
 Builder.load_file(os.path.join(os.path.dirname(__file__), 'new_result_screen.kv'))
 
@@ -30,6 +33,7 @@ class NewResultScreen(Screen):
         self.examination_table = ExaminationTable()
         self.file_manager = FileManager()
         self.global_data = GlobalData()
+        self.examination_parameter_table = ExaminationParameterTable()
 
     def load_data(self):
         '''Pop-up window for file selection and loading.'''
@@ -72,10 +76,20 @@ class NewResultScreen(Screen):
         user_id = self.global_data.get_user_id()
 
         # file_manager = FileManager()
-        file_id = self.file_manager.upload_file(self.selected_file_path)
+        file_id = self.file_manager.upload_file(self.selected_file_path, user_id, datetime.now().strftime('%d-%m-%Y'))
 
-        self.exam_id = self.examination_table.add_examination(user_id, datetime.now().strftime('%Y-%m-%d %H:%M'),
+        self.exam_id = self.examination_table.add_examination(user_id, datetime.now().strftime('%d-%m-%Y'),
                                                               file_id, json_text)
+
+        self.extract_and_save(json_text, self.exam_id)
+
+    def extract_and_save(self, exam_data, exam_id):
+        '''Extract the parameters data and save to the database.'''
+        data_extraction = DataExtractionN(exam_data)
+        filtered_exam_data = data_extraction.filter_exam_data()
+        for parameter_id, value in filtered_exam_data.items():
+            self.examination_parameter_table.add_examination_parameter(value, exam_id, parameter_id)
+
 
     def switch_to_main_screen(self):
         self.manager.current = 'main'

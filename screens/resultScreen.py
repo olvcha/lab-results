@@ -94,10 +94,11 @@ class ResultScreen(Screen):
 
         # Dynamically add widgets for each result
         for result in results:
-            param_name = result["param_name"]
+            parameter_name = result["parameter_name"]
+            loinc_code = result["loinc_code"]
             min_value = result["min_value"]
             max_value = result["max_value"]
-            ref_value = result["ref_value"]
+            value = result["value"]
             plot_widget = result["plot_widget"]
 
             # Create a horizontal layout for the result with spacing
@@ -118,7 +119,8 @@ class ResultScreen(Screen):
                 row_default_height=40,  # Consistent row height for alignment
                 padding=[0, 10, 0, 10]  # Optional: Vertical padding for alignment
             )
-            labels_layout.add_widget(Label(text=f"[b]{param_name}[/b]", markup=True, color=[0, 0, 0, 1]))
+            labels_layout.add_widget(Label(text=f"[b]{parameter_name}[/b]", markup=True, color=[0, 0, 0, 1]))
+            labels_layout.add_widget(Label(text=f"Kod LOINC: {loinc_code}", markup=True, color=[0, 0, 0, 1]))
             labels_layout.add_widget(Label(text=f"Norma: {min_value} - {max_value}", color=[0, 0, 0, 1]))
 
             # RIGHT SIDE: Vertical layout for reference value and plot
@@ -131,7 +133,7 @@ class ResultScreen(Screen):
                 padding=[0, 10, 0, 10]  # Optional: Vertical padding for alignment
             )
             plot_with_label_layout.add_widget(
-                Label(text=f"Ref: {ref_value}", color=[0, 0, 0, 1], size_hint_y=None, height=30))
+                Label(text=f"Ref: {value}", color=[0, 0, 0, 1], size_hint_y=None, height=30))
             plot_with_label_layout.add_widget(plot_widget)
 
             # Add both layouts to the result layout

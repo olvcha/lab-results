@@ -1,28 +1,42 @@
+import json
+from time import sleep
+
 from kivy_garden.matplotlib import FigureCanvasKivyAgg
 from matplotlib import pyplot as plt
+import matplotlib
+from rapidfuzz import process
 
-from databaseFiles.tables.examinationParameterTable import ExaminationParameterTable
-from databaseFiles.tables.parameterTable import ParameterTable
+# matplotlib.use('Agg')  # Use 'Agg' for non-interactive plotting
+from databaseFiles.tables.examinationTable import ExaminationTable
+
+from implementation.dataExtraction import DataExtraction
 
 
-class PlotGenerator:
+class PlotGeneratorOld:
     '''Responsible for processing raw data into visualisations in the form of plot'''
 
     def __init__(self, exam_id):
-        self.examination_parameter_table = ExaminationParameterTable()
-        self.parameter_table = ParameterTable()
+        self.examination_table = ExaminationTable()
+        self.exam_data = self.examination_table.load_examination_data(str(exam_id))
+        if not self.exam_data or not self.exam_data[0]:
+            print(f"No data found for exam_id: {exam_id}")
+            self.data = {}
+        else:
+            json_str = self.exam_data[3]
+            self.exam_data = json.loads(json_str)
 
-        try:
-            self.examination_parameters = self.examination_parameter_table.get_examination_parameters_by_exam_id(
-                exam_id)
-        except KeyError:
-            print(f"Key error: No data found for exam_id: {exam_id}")
-        except ValueError:
-            print(f"Value error: Invalid data for exam_id: {exam_id}")
+        if self.exam_data:
+            self.data_extraction = DataExtraction(self.exam_data)
+            self.filtered_exam_data = self.data_extraction.get_filtered_exam_data()
+            self.parameters_data = self.data_extraction.get_parameters_data()
+        else:
+            self.filtered_exam_data = {}
+            self.parameters_data = []
 
+    ### shit here we go again
     def plot_parameter(self, min_value, ref_value, max_value):
         """
-        Generate a horizontal bar plot with three colored segments:
+        Generates a horizontal bar plot with three colored segments:
         - The bar spans from (min_value - offset) to (max_value + offset).
         - Three colored segments: red, yellow, and green.
         """
@@ -80,28 +94,37 @@ class PlotGenerator:
 
     def generate_results(self):
         """
-        Generate a list of results, each containing:
+        Generates a list of results, each containing:
         - param_name: Name of the parameter.
+        - min_value, max_value, ref_value: Numeric values for the parameter.
         - loinc_code: Parameter code.
-        - min_value, max_value, value: Numeric values for the parameter.
         - plot_widget: The plot widget for visualization.
         """
         results = []
-        for value, parameter_id in self.examination_parameters:
-            parameter_data = self.parameter_table.load_parameter_data(parameter_id)
-            parameter_name = parameter_data[0][1]
-            min_value = parameter_data[0][2]
-            max_value = parameter_data[0][3]
-            loinc_code = parameter_data[0][4]
-            plot_widget = self.plot_parameter(float(min_value), float(value), float(max_value))
+        for _, param_name, min_value, max_value, loinc_code in self.parameters_data:
+            # Match parameter name to its reference value
+            #ref_name = self.find_a_match(self.filtered_exam_data, param_name)
+            #ref_value = float(self.filtered_exam_data.get(f"{ref_name}", "0"))
+            ref_value = float(self.filtered_exam_data.get(f"{param_name}", "0"))
 
-            results.append({
-                "parameter_name": parameter_name,
-                "loinc_code": loinc_code,
-                "min_value": min_value,
-                "max_value": max_value,
-                "value": value,
-                "plot_widget": plot_widget
-            })
+            if ref_value != 0.0:
+                # Generate the plot widget
+                plot_widget = self.plot_parameter(min_value, ref_value, max_value)
+
+                # Append the result as a dictionary
+                results.append({
+                    "param_name": param_name,
+                    "min_value": min_value,
+                    "max_value": max_value,
+                    "ref_value": ref_value,
+                    "plot_widget": plot_widget
+                })
 
         return results
+
+    def find_a_match(self, ref_data, param_name):
+        '''Finds the closest match between parameter name and reference from exam data'''
+        closest_match = process.extractOne(param_name, ref_data.keys(), score_cutoff=50)
+
+        return closest_match[0] if closest_match else None
+

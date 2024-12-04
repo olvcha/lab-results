@@ -8,7 +8,7 @@ class Database:
     '''This class represents the database for whole app. '''
 
     def __init__(self):
-        self.database_name = 'labResults.db'
+        self.database_name = 'labResultsNew.db'
         self.create_tables()
 
     def connection_utility(self):
@@ -26,7 +26,7 @@ class Database:
             pass
         else:
             # For desktop or other platforms, use a relative path
-            db_path = os.path.join(os.path.dirname(__file__), 'labResults.db')
+            db_path = os.path.join(os.path.dirname(__file__), 'labResultsNew.db')
             print(db_path)
         return db_path
 
@@ -34,6 +34,9 @@ class Database:
         '''This method creates the tables in the database if they do not exist'''
         connection = self.connection_utility()
         cursor = connection.cursor()
+
+        # Enable foreign key constraints in SQLite
+        cursor.execute("PRAGMA foreign_keys = ON;")
 
         cursor.execute('''CREATE TABLE IF NOT EXISTS user
                             (id INTEGER PRIMARY KEY AUTOINCREMENT, 
@@ -53,8 +56,16 @@ class Database:
                             (id INTEGER PRIMARY KEY AUTOINCREMENT, 
                             user_id INTEGER NOT NULL,
                             date DATETIME NOT NULL,
-                            data_reference TEXT NOT NULL, 
-                            data TEXT NOT NULL)''')
+                            data_reference_id TEXT NOT NULL, 
+                            data TEXT NOT NULL,
+                            FOREIGN KEY(user_id) REFERENCES user(id))''')
+
+        cursor.execute('''CREATE TABLE IF NOT EXISTS examination_parameter 
+                            (value TEXT NOT NULL,
+                            exam_id INTEGER NOT NULL,
+                            parameter_id INTEGER NOT NULL,
+                            FOREIGN KEY(exam_id) REFERENCES examination(id),
+                            FOREIGN KEY(parameter_id) REFERENCES parameter(id))''')
 
         connection.commit()
         cursor.close()
