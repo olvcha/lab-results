@@ -16,9 +16,10 @@ class RegistrationScreen(Screen):
 
     def switch_to_login_screen(self):
         '''Switch to login screen.'''
-        self.manager.current = 'login'
         self.ids.username_field.text = ""
         self.ids.password_field.text = ""
+        self.ids.register_warning.text = ""
+        self.manager.current = 'login'
 
     def check_fields(self):
         '''Check if registration fields are valid.'''
@@ -30,6 +31,11 @@ class RegistrationScreen(Screen):
         '''Save the user to the database with provided data.'''
         self.username = self.ids.username_field.text
         self.password = self.ids.password_field.text
-        if self.userTable.add_user(self.username, self.password):
+        if self.userTable.get_user(self.username) is None:
+            self.userTable.add_user(self.username, self.password)
             self.switch_to_login_screen()
+        else:
+            self.ids.register_warning.text = "Użytkownik już istnieje. Spróbuj ponownie."
+            self.ids.username_field.text = ""
+            self.ids.password_field.text = ""
 

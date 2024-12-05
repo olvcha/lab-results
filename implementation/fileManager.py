@@ -1,6 +1,8 @@
 import io
-import os
 import json
+import os
+
+import fitz
 from googleapiclient.discovery import build
 from google.oauth2 import service_account
 from googleapiclient.http import MediaIoBaseDownload, MediaFileUpload
@@ -16,7 +18,8 @@ PARENT_FOLDER_ID = config['PARENT_FOLDER_ID']
 
 
 class FileManager:
-    '''Represent file managing: uploading and retrieving files from the Google Drive.'''
+    '''Represent file managing: uploading and retrieving files from Google Drive.'''
+
     def __init__(self):
         pass
 
@@ -70,40 +73,65 @@ class FileManager:
 
         return file.get('id')
 
-    # def upload_file(self, file_path, user_id, date):
-    #     '''Upload the finle. Return file id.'''
-    #     creds = self.authenticate()
-    #     service = build('drive', 'v3', credentials=creds)
-    #
-    #     file_metadata = {
-    #         'name': 1,
-    #         'parents': [PARENT_FOLDER_ID]
-    #     }
-    #
-    #     file = service.files().create(
-    #         body=file_metadata,
-    #         media_body=file_path,
-    #         fields='id'
-    #     ).execute()
-    #
-    #     return file.get('id')
-
-    def stream_image_from_drive(self, file_id):
-        '''Retrieve the image and stream it.'''
+    def stream_file_from_drive(self, file_id):
+        '''Retrieve the file (image or PDF) and stream it.'''
         creds = self.authenticate()
         service = build('drive', 'v3', credentials=creds)
         request = service.files().get_media(fileId=file_id)
-        image_stream = io.BytesIO()
-        downloader = MediaIoBaseDownload(image_stream, request)
+        file_stream = io.BytesIO()
+        downloader = MediaIoBaseDownload(file_stream, request)
         done = False
         while not done:
             status, done = downloader.next_chunk()
-        image_stream.seek(0)
-        return image_stream
+        file_stream.seek(0)
 
-    def display_image(self, file_id):
-        '''Create the image widget to display.'''
-        image_stream = self.stream_image_from_drive(file_id)
-        core_image = CoreImage(image_stream, ext="png")
-        image_widget = Image(texture=core_image.texture)
-        return image_widget
+        return file_stream
+
+    def get_file_mime_type(self, file_id):
+        '''Retrieve the MIME type of the file using the Google Drive API.'''
+        creds = self.authenticate()
+        service = build('drive', 'v3', credentials=creds)
+        file_metadata = service.files().get(fileId=file_id, fields='mimeType').execute()
+
+        return file_metadata['mimeType']
+
+    def convert_pdf_to_images(self, pdf_stream):
+        '''Convert PDF stream to images (one image per page) using PyMuPDF.'''
+        doc = fitz.open(stream=pdf_stream.read(), filetype="pdf")
+        images = []
+
+        for page_num in range(len(doc)):
+            page = doc.load_page(page_num)
+            pix = page.get_pixmap()
+            img_data = pix.tobytes()
+            images.append(img_data)
+
+        return images
+
+    def display_file(self, file_id):
+        '''Create the appropriate widget to display the file (image or PDF).'''
+
+        mime_type = self.get_file_mime_type(file_id)
+
+        if mime_type == 'application/pdf':
+            # Handle PDF file type
+            file_stream = self.stream_file_from_drive(file_id)
+            images = self.convert_pdf_to_images(file_stream)
+            image_widgets = []
+            for img_data in images:
+                core_image = CoreImage(io.BytesIO(img_data), ext="png")
+                image_widget = Image(texture=core_image.texture)
+                image_widgets.append(image_widget)
+
+            return image_widgets
+
+        elif mime_type.startswith('image/'):
+            # Handle image files (JPG, PNG, GIF, etc.)
+            file_stream = self.stream_file_from_drive(file_id)
+            file_type = mime_type.split('/')[1]
+            core_image = CoreImage(file_stream, ext=file_type)
+            image_widget = Image(texture=core_image.texture)
+
+            return [image_widget]
+
+        return []

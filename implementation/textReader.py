@@ -1,7 +1,7 @@
 import easyocr
 import ssl
 #import json
-from jsonGenerator import JsonGenerator
+from implementation.jsonGenerator import JsonGenerator
 
 # Bypass SSL verification (not recommended for production use)
 ssl._create_default_https_context = ssl._create_unverified_context
@@ -36,8 +36,8 @@ class TextReader:
         if string:
             self.results.append(string.strip())
 
-    def save_to_json(self, json_file_name):
-        json_generator = JsonGenerator(self.results, json_file_name)
+    def save_to_json(self):
+        json_generator = JsonGenerator(self.results)
         return json_generator.save_to_json_text()
 
 

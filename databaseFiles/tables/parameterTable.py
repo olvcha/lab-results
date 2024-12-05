@@ -81,4 +81,7 @@ class ParameterTable:
 
         return parameters_data
 
+# p = ParameterTable()
+# print(p.get_parameters_names())
+
 
