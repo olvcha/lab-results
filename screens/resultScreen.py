@@ -152,8 +152,8 @@ class ResultScreen(Screen):
     def switch_to_data_reference_screen(self):
         self.manager.current = 'data_reference'
 
-    def switch_to_result_selection_screen(self):
-        self.manager.current = 'result_selection'
+    def switch_to_results_screen(self):
+        self.manager.current = 'results'
 
 
 

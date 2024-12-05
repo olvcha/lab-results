@@ -65,6 +65,6 @@ class ResultSelectionScreen(Screen):
         self.global_data.set_exam_id(str(exam_id))
         self.manager.current = 'result'
 
-    def switch_to_results_screen(self):
-        '''Switches to the results screen'''
-        self.manager.current = 'results'
+    def switch_to_main_screen(self):
+        '''Switches to the main screen'''
+        self.manager.current = 'main'
