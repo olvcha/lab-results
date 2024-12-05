@@ -10,7 +10,7 @@ from implementation.globalData import GlobalData
 Builder.load_file(os.path.join(os.path.dirname(__file__), 'login_screen.kv'))
 
 
-class LoginScreen(MDScreen):
+class LoginScreen(Screen):
     '''Handle login screen actions'''
     def __init__(self, **kwargs):
         super(LoginScreen, self).__init__(**kwargs)

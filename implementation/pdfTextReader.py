@@ -1,7 +1,6 @@
-import pandas as pd
 from PyPDF2 import PdfReader
 
-from jsonGenerator import JsonGenerator
+from implementation.jsonGenerator import JsonGenerator
 
 
 class PdfTextReader:

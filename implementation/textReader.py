@@ -1,7 +1,7 @@
 import easyocr
 import ssl
 #import json
-from jsonGenerator import JsonGenerator
+from implementation.jsonGenerator import JsonGenerator
 
 # Bypass SSL verification (not recommended for production use)
 ssl._create_default_https_context = ssl._create_unverified_context
