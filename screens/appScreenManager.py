@@ -28,15 +28,3 @@ class AppScreenManager(ScreenManager):
         self.add_widget(ResultSelectionScreen(name="result_selection"))
         self.add_widget(ParameterInTimeScreen(name="parameter_in_time"))
         self.add_widget(DataReferenceScreen(name="data_reference"))
-
-    # def set_exam_id(self, exam_id):
-    #     """Set the exam_id"""
-    #     self.exam_id = exam_id
-    #
-    # def get_exam_id(self):
-    #     """Get the stored exam_id."""
-    #     return self.exam_id
-
-    # def switch_to_result_screen(self):
-    #     '''Switches to the result screen'''
-    #     self.add_widget(ResultScreen(name="result"))

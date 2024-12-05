@@ -16,6 +16,11 @@ class LoginScreen(Screen):
         super(LoginScreen, self).__init__(**kwargs)
         self.userTable = UserTable()
 
+    def on_enter(self):
+        self.ids.username_field.text = ""
+        self.ids.password_field.text = ""
+        self.ids.login_warning.text = ""
+
     def switch_to_main_screen(self):
         '''Switch to the main screen'''
         self.manager.current = 'main'
@@ -43,14 +48,14 @@ class LoginScreen(Screen):
         if authorization is not False:
             self.on_login(authorization)
             self.switch_to_main_screen()
+            self.ids.login_warning.text = ""
         else:
             self.ids.username_field.text = ""
             self.ids.password_field.text = ""
+            self.ids.login_warning.text = "Nieprawidłowe dane. Spróbuj ponownie."
 
     def on_login(self, user_id):
         '''Handle actions upon successfully logging in, in that case it is setting the logged user's id'''
-        #app = MDApp.get_running_app()
-        #app.set_user_id(user_id)
         global_data = GlobalData()
         global_data.set_user_id(user_id)
 

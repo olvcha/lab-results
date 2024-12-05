@@ -15,9 +15,6 @@ class MainScreen(Screen):
         self.global_data = GlobalData()
 
     def on_enter(self):
-        # app = MDApp.get_running_app()
-        # user_id = app.get_user_id()  # Access the logged-in user's ID
-        #global_data = GlobalData()
         user_id = self.global_data.get_user_id()
         print(f"Logged in as User ID: {user_id}")
 
@@ -32,3 +29,9 @@ class MainScreen(Screen):
     def switch_to_results_screen(self):
         '''Switch to the results screen'''
         self.manager.current = 'results'
+
+    def log_out(self):
+        '''Switch to login screen'''
+        global_data = GlobalData()
+        global_data.set_user_id(None)
+        self.manager.current = 'login'

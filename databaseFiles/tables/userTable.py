@@ -51,11 +51,13 @@ class UserTable:
         cursor.close()
         connection.close()
 
-        if user_data:
+        if user_data is not None:
             if user_data[0] == password:
                 return self.get_user(username)
             else:
                 return False
+
+        return False
 
     def get_user(self, username):
         '''Gets the user identified by username and password'''
@@ -66,9 +68,13 @@ class UserTable:
         query = ("SELECT id FROM user WHERE username = (?)")
         cursor.execute(query, (username,))
         user_id = cursor.fetchone()
-        id = user_id[0]
 
-        cursor.close()
-        connection.close()
+        if user_id is not None:
+            id = user_id[0]
 
-        return id
+            cursor.close()
+            connection.close()
+
+            return id
+
+        return None
