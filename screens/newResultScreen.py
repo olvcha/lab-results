@@ -32,10 +32,23 @@ class NewResultScreen(Screen):
         self.selected_file_path = None
         self.selected_file_name = None
         self.date_dialog = None
+        self.selected_date = None
         self.examination_table = ExaminationTable()
         self.file_manager = FileManager()
         self.global_data = GlobalData()
         self.examination_parameter_table = ExaminationParameterTable()
+
+    def on_enter(self):
+        # File
+        self.ids.load_button_text.text = "Wybierz plik"
+        self.ids.file_icon.icon = 'close'
+        self.ids.load_button.disabled = True
+        # Date
+
+        self.ids.date_button_text.text = "Wybierz datę"
+        self.ids.file_icon.icon = 'close'
+        # Analize
+        self.ids.data_button.disabled = True
 
     def load_data(self):
         '''Pop-up window for file selection and loading.'''
@@ -58,15 +71,12 @@ class NewResultScreen(Screen):
         if selection:
             self.selected_file_path = selection[0]
             self.selected_file_name = os.path.basename(self.selected_file_path)
+            self.ids.load_button_text.text = self.selected_file_name
             self.ids.file_icon.icon = 'check'
             self.ids.data_button.disabled = False
             self.convert_data()
 
         self.file_popup.dismiss()
-
-    def select_date(self):
-        '''Show date selection.'''
-
 
     def convert_data(self):
         '''Convert the given data.'''
@@ -83,9 +93,9 @@ class NewResultScreen(Screen):
             json_text = {}
 
         user_id = self.global_data.get_user_id()
-        file_id = self.file_manager.upload_file(self.selected_file_path, user_id, datetime.now().strftime('%d-%m-%Y'))
+        file_id = self.file_manager.upload_file(self.selected_file_path, user_id, self.selected_date)
 
-        self.exam_id = self.examination_table.add_examination(user_id, datetime.now().strftime('%d-%m-%Y'),
+        self.exam_id = self.examination_table.add_examination(user_id, self.selected_date,
                                                               file_id, json_text)
 
         self.extract_and_save(json_text, self.exam_id)
@@ -98,15 +108,21 @@ class NewResultScreen(Screen):
             self.examination_parameter_table.add_examination_parameter(value, exam_id, parameter_id)
 
     def show_date_picker(self):
+        '''Show the date picker.'''
         self.date_dialog = MDModalDatePicker()
         self.date_dialog.bind(on_ok=self.on_save, on_cancel=self.on_cancel)
         self.date_dialog.open()
 
     def on_cancel(self, instance):
+        '''Cancel the date picker.'''
         self.date_dialog.dismiss()
+
     def on_save(self, instance):
-        print(instance.get_date()[0])
+        '''Save selected date and cancel the date picker'''
+        self.selected_date = instance.get_date()[0].strftime('%d-%m-%Y')
         self.ids.date_icon.icon = 'check'
+        self.ids.date_button_text.text = str(self.selected_date)
+        self.ids.load_button.disabled = False
         self.date_dialog.dismiss()
 
 
