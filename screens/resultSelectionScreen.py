@@ -60,7 +60,7 @@ class ResultSelectionScreen(Screen):
 
             # Create and add text to the button
             button_text = MDButtonText(
-                text=f"ID: {exam_id}, Date: {exam_date}",
+                text=f"Badanie nr {exam_id}: {exam_date}",
                 pos_hint={'center_x': 0.5, 'center_y': 0.5}
             )
             button.add_widget(button_text)
@@ -72,7 +72,7 @@ class ResultSelectionScreen(Screen):
         self.no_results_dialog = MDDialog(
             # ----------------------------Icon-----------------------------
             MDDialogIcon(
-                icon="water",
+                icon="information",
             ),
             # -----------------------Headline text-------------------------
             MDDialogHeadlineText(

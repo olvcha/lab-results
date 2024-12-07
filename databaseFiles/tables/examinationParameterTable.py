@@ -115,9 +115,9 @@ class ExaminationParameterTable:
         return parameter_ids
 
 
-ep = ExaminationParameterTable()
+#ep = ExaminationParameterTable()
 #print(ep.get_examination_parameters_by_exam_id("1"))
 #print(ep.get_examination_parameters_by_parameter_id("1"))
 #print(ep.get_examination_parameters())
-print(ep.join_examination_with_examination_parameters(1,1))
-print(ep.get_parameter_ids(1))
+#print(ep.join_examination_with_examination_parameters(1,1))
+#print(ep.get_parameter_ids(1))
