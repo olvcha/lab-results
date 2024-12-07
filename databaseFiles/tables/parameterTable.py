@@ -81,6 +81,20 @@ class ParameterTable:
 
         return parameters_data
 
+    def get_priority_parameter(self, parameter_id):
+        connection = self.database.connection_utility()
+        cursor = connection.cursor()
 
+        query = ("SELECT loinc_code FROM parameter WHERE id = ?")
+        cursor.execute(query, (parameter_id,))
+        loinc = cursor.fetchall()[0][0]
 
+        query = ("SELECT id FROM parameter WHERE priority = 1 AND loinc_code = ?")
+        cursor.execute(query, (loinc,))
+        priority_id = cursor.fetchall()[0]
+
+        cursor.close()
+        connection.close()
+
+        return priority_id
 

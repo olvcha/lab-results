@@ -14,6 +14,7 @@ from kivymd.uix.pickers import MDModalDatePicker
 
 from databaseFiles.tables.examinationTable import ExaminationTable
 from databaseFiles.tables.examinationParameterTable import ExaminationParameterTable
+from databaseFiles.tables.parameterTable import ParameterTable
 
 from implementation.globalData import GlobalData
 from implementation.textReader import TextReader
@@ -40,6 +41,7 @@ class NewResultScreen(Screen):
         self.file_manager = FileManager()
         self.global_data = GlobalData()
         self.examination_parameter_table = ExaminationParameterTable()
+        self.parameter_table = ParameterTable()
 
     def on_enter(self):
         # File
@@ -48,7 +50,7 @@ class NewResultScreen(Screen):
         self.ids.load_button.disabled = True
         # Date
         self.ids.date_button_text.text = "Wybierz datę"
-        self.ids.file_icon.icon = 'close'
+        self.ids.date_icon.icon = 'close'
         # Analize
         self.ids.data_button.disabled = True
 
@@ -106,7 +108,8 @@ class NewResultScreen(Screen):
     def save_parameters_data(self, exam_id, filtered_exam_data):
         '''Save examination parameters to the database.'''
         for parameter_id, value in filtered_exam_data.items():
-            self.examination_parameter_table.add_examination_parameter(value, exam_id, parameter_id)
+            priority_id = self.parameter_table.get_priority_parameter(parameter_id)[0]
+            self.examination_parameter_table.add_examination_parameter(value, exam_id, priority_id)
 
     def extract_and_save(self, exam_data, exam_id):
         '''Extract the parameters data and save to the database.'''
