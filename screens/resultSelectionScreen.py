@@ -1,8 +1,12 @@
 import os
 from kivy.lang import Builder
 from kivy.uix.screenmanager import Screen
+from kivy.uix.widget import Widget
 from kivymd.app import MDApp
 from kivymd.uix.button import MDButton, MDButtonText
+from kivymd.uix.dialog import MDDialog, MDDialogIcon, MDDialogHeadlineText, MDDialogSupportingText, \
+    MDDialogButtonContainer
+
 from databaseFiles.tables.examinationTable import ExaminationTable
 from implementation.globalData import GlobalData
 
@@ -14,8 +18,14 @@ class ResultSelectionScreen(Screen):
 
     def __init__(self, **kwargs):
         super(ResultSelectionScreen, self).__init__(**kwargs)
+        self.no_results_dialog = None
         self.examinationTable = ExaminationTable()
         self.global_data = GlobalData()
+
+    def on_enter(self):
+        user_id = self.global_data.get_user_id()
+        if not self.examinationTable.fetch_examination_data(user_id):
+            self.show_no_results_dialog()
 
     def load_buttons(self):
         '''Load the buttons for results.
@@ -57,6 +67,39 @@ class ResultSelectionScreen(Screen):
 
             # Add the button to the container
             button_container.add_widget(button)
+
+    def show_no_results_dialog(self):
+        self.no_results_dialog = MDDialog(
+            # ----------------------------Icon-----------------------------
+            MDDialogIcon(
+                icon="water",
+            ),
+            # -----------------------Headline text-------------------------
+            MDDialogHeadlineText(
+                text="Informacja",
+            ),
+            # -----------------------Supporting text-----------------------
+            MDDialogSupportingText(
+                text="Nie znaleziono wyników. Dodaj nowy wynik lub spróbuj ponownie.",
+                halign="left",
+            ),
+            # ---------------------Button container------------------------
+            MDDialogButtonContainer(
+                Widget(),
+                MDButton(
+                    MDButtonText(text="Powrót"),
+                    style="text",
+                    on_release=lambda *args: self.close_dialog()
+                ),
+                spacing="8dp",
+            ),
+            # -------------------------------------------------------------
+        )
+        self.no_results_dialog.open()
+
+    def close_dialog(self):
+        self.no_results_dialog.dismiss()
+        self.switch_to_main_screen()
 
     def switch_to_result_screen(self, exam_id):
         app_screen_manager = self.manager
