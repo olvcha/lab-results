@@ -5,6 +5,11 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.screenmanager import Screen
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
+from kivy.uix.widget import Widget
+from kivymd.uix.button import MDButton, MDButtonText
+from kivymd.uix.dialog import MDDialog, MDDialogIcon, MDDialogHeadlineText, MDDialogSupportingText, \
+    MDDialogButtonContainer
+
 from implementation.plotGenerator import PlotGenerator
 from databaseFiles.tables.examinationTable import ExaminationTable
 from implementation.parameterChangeGenerator import ParameterChangeGenerator
@@ -17,49 +22,73 @@ class ParameterInTimeScreen(Screen):
 
     def __init__(self, **kwargs):
         super(ParameterInTimeScreen, self).__init__(**kwargs)
+        self.info_dialog = None
 
     def on_enter(self):
         self.display_parameter_in_time()
 
     def display_parameter_in_time(self):
         '''Display parameter in time plot.'''
-        # Reference the plot container
         plot_container = self.ids.plot_container
-
-        # Clear any existing widgets
         plot_container.clear_widgets()
-
-        # Set padding and spacing for the plot container
-        plot_container.padding = [10, 10, 10, 10]  # Apply consistent padding for the container
+        plot_container.padding = [10, 10, 10, 10]
 
         parameter_change_plots = ParameterChangeGenerator()
         results = parameter_change_plots.generate_results()
 
-        for result in results:
-            #param_name = result["param_name"]
-            plot_widget = result["plot_widget"]
+        if len(results) > 0:
+            for result in results:
+                plot_widget = result["plot_widget"]
+                plot_layout = BoxLayout(
+                    orientation='vertical',
+                    size_hint_y=None,
+                    height=350,
+                    spacing=10,
+                    padding=[10, 10, 10, 10]
+                )
 
-            # Create a layout for each parameter plot
-            plot_layout = BoxLayout(
-                orientation='vertical',
-                size_hint_y=None,  # Let the height be manually controlled
-                height=350,  # Set height to include label (30) + plot (300) + spacing
-                spacing=10,  # Add spacing between label and plot
-                padding=[10, 10, 10, 10]  # Padding inside this layout
-            )
+                # Configuration
+                plot_widget.size_hint_y = None
+                plot_widget.height = 300
+                plot_layout.add_widget(plot_widget)
 
-            # Add the parameter name label
-            # plot_layout.add_widget(
-            #     Label(text=param_name, color=[0, 0, 0, 1], size_hint_y=None, height=30)
-            # )
+                # Add to the main container
+                plot_container.add_widget(plot_layout)
+        else:
+            self.show_info_dialog()
 
-            # Configure the plot widget
-            plot_widget.size_hint_y = None
-            plot_widget.height = 300
-            plot_layout.add_widget(plot_widget)
+    def show_info_dialog(self):
+        self.info_dialog = MDDialog(
+            # ----------------------------Icon-----------------------------
+            MDDialogIcon(
+                icon="information",
+            ),
+            # -----------------------Headline text-------------------------
+            MDDialogHeadlineText(
+                text="Informacja",
+            ),
+            # -----------------------Supporting text-----------------------
+            MDDialogSupportingText(
+                text="Niewystarczająca ilość danych. Dodaj kolejne wyniki, aby uzyskać dostęp do porównania.",
+                halign="left",
+            ),
+            # ---------------------Button container------------------------
+            MDDialogButtonContainer(
+                Widget(),
+                MDButton(
+                    MDButtonText(text="Zamknij"),
+                    style="text",
+                    on_release=lambda *args: self.info_dialog_action()
+                ),
+                spacing="8dp",
+            ),
+            # -------------------------------------------------------------
+        )
+        self.info_dialog.open()
 
-            # Add the plot layout to the main container
-            plot_container.add_widget(plot_layout)
+    def info_dialog_action(self):
+        self.switch_to_result_screen()
+        self.info_dialog.dismiss()
 
     def switch_to_result_screen(self):
         self.manager.current = 'result'

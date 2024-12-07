@@ -22,7 +22,7 @@ class ParameterChangeGenerator:
         self.parameter_table = ParameterTable()
         self.examination_parameter_table = ExaminationParameterTable()
 
-        self.generate_results()
+        #self.generate_results()
 
     def plot_parameter_in_time(self, parameter_name, dates, values, min_value, max_value, loinc):
         fig, ax = plt.subplots(figsize=(10, 6))
@@ -58,10 +58,10 @@ class ParameterChangeGenerator:
                                                                                                       param_id):
                 dates.append(data[2])
                 values.append(float(data[1]))
-
-            plot_widget = self.plot_parameter_in_time(parameter_name, dates, values, min_value, max_value, loinc)
-            results.append({
-                "plot_widget": plot_widget
+                if len(values) > 1:
+                    plot_widget = self.plot_parameter_in_time(parameter_name, dates, values, min_value, max_value, loinc)
+                    results.append({
+                        "plot_widget": plot_widget
             })
 
         return results

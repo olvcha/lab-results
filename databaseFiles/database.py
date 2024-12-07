@@ -8,7 +8,7 @@ class Database:
     '''This class represents the database for whole app. '''
 
     def __init__(self):
-        self.database_name = 'labResultsNew.db'
+        self.database_name = 'labResults.db'
         self.create_tables()
 
     def connection_utility(self):
@@ -20,14 +20,13 @@ class Database:
         # Check the platform
         if platform == 'android':
             # Get the Android app's internal storage path
-            #from android.storage import app_storage_path
-            #storage_dir = app_storage_path()
-            #db_path = os.path.join(storage_dir, 'labResults.db')
+            # from android.storage import app_storage_path
+            # storage_dir = app_storage_path()
+            # db_path = os.path.join(storage_dir, 'labResults.db')
             pass
         else:
             # For desktop or other platforms, use a relative path
-            db_path = os.path.join(os.path.dirname(__file__), 'labResultsNew.db')
-            print(db_path)
+            db_path = os.path.join(os.path.dirname(__file__), 'labResults.db')
         return db_path
 
     def create_tables(self):
@@ -49,7 +48,8 @@ class Database:
                             name TEXT NOT NULL, 
                             min_value INTEGER NOT NULL, 
                             max_value INTEGER NOT NULL,
-                            loinc_code TEXT NOT NULL
+                            loinc_code TEXT NOT NULL,
+                            priority BOOLEAN NOT NULL
                             )''')
 
         cursor.execute('''CREATE TABLE IF NOT EXISTS examination
@@ -71,4 +71,3 @@ class Database:
         cursor.close()
         connection.close()
 
-database = Database()

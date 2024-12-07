@@ -40,7 +40,7 @@ class ResultSelectionScreen(Screen):
 
         examination_tuple = self.examinationTable.fetch_examination_data(user_id)
 
-        for record in examination_tuple:
+        for index, record in enumerate(examination_tuple, start=1):
             # Extract the details for the current record
             exam_id = record[0]
             exam_date = record[2]
@@ -60,7 +60,8 @@ class ResultSelectionScreen(Screen):
 
             # Create and add text to the button
             button_text = MDButtonText(
-                text=f"Badanie nr {exam_id}: {exam_date}",
+                #text=f"Badanie nr {exam_id}: {exam_date}",
+                text=f"Badanie nr {index}: {exam_date}",
                 pos_hint={'center_x': 0.5, 'center_y': 0.5}
             )
             button.add_widget(button_text)

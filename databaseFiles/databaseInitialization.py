@@ -19,14 +19,14 @@ class DatabaseInitialization:
         self.initialize()
 
     def initialize(self):
-        '''This method initializes the data'''
-        self.initialize_user_table()
+        '''Initialize the data.'''
+        #self.initialize_user_table()
         self.initialize_parameter_table()
-        self.initialize_examination_table()
-        self.initialize_examination_parameter_table()
+        #self.initialize_examination_table()
+        #self.initialize_examination_parameter_table()
 
     def initialize_user_table(self):
-        '''This method is responsible for initializing the user table data'''
+        '''Initialize the user table data.'''
         connection = self.database.connection_utility()
         cursor = connection.cursor()
 
@@ -47,7 +47,7 @@ class DatabaseInitialization:
             connection.close()
 
     def initialize_parameter_table(self):
-        '''This method is responsible for initializing the parameter table data'''
+        '''Initialize the parameter table data'''
         connection = self.database.connection_utility()
         cursor = connection.cursor()
 
@@ -56,28 +56,21 @@ class DatabaseInitialization:
         parameters = cursor.fetchall()
 
         if not parameters:
-            add_query_1 = (
-                "INSERT INTO parameter (name, min_value, max_value, loinc_code) VALUES ('Erytrocyty (RBC)', 4.7, 6.1, '789-8')")
-            add_query_2 = (
-                "INSERT INTO parameter (name, min_value, max_value, loinc_code) VALUES ('Leukocyty (WBC)', 4.0, 10.0, '34445-7')")
-
-            add_query = (    '''INSERT INTO parameter (name, min_value, max_value, loinc_code) 
+            add_query = (    '''INSERT INTO parameter (name, min_value, max_value, loinc_code, priority) 
                                 VALUES 
-                                ('Erytrocyty (RBC)', 4.2, 5.4, '789-8'),
-                                ('Leukocyty (WBC)', 4.0, 10.0, '804-5'),
-                                ('Krwinki czerwone (RBC)', 4.2, 5.4, '789-8'),
-                                ('Krwinki białe (WBC)', 4.0, 10.0, '804-5'),
-                                ('Hemoglobina (HGB)', 13.0, 18.0, '718-7'),
-                                ('Hematokryt (HCT)', 40.0, 54.0, '20570-8'),
-                                ('MCV', 82.0, 92.0, '787-2'),
-                                ('MCH', 27.0, 31.0, '785-6'),
-                                ('MCHC', 32.0, 36.0, '786-4'),
-                                ('RDW', 11.5, 14.5, '30385-9'),
-                                ('MPV', 7.5, 10.5, '32623-1'),
-                                ('Płytki krwi (PLT)', 150, 450, '26515-7');
+                                ('Erytrocyty (RBC)', 4.2, 5.4, '789-8', true),
+                                ('Leukocyty (WBC)', 4.0, 10.0, '804-5', true),
+                                ('Krwinki czerwone (RBC)', 4.2, 5.4, '789-8', false),
+                                ('Krwinki białe (WBC)', 4.0, 10.0, '804-5', false),
+                                ('Hemoglobina (HGB)', 13.0, 18.0, '718-7', true),
+                                ('Hematokryt (HCT)', 40.0, 54.0, '20570-8', true),
+                                ('MCV', 82.0, 92.0, '787-2', true),
+                                ('MCH', 27.0, 31.0, '785-6', true),
+                                ('MCHC', 32.0, 36.0, '786-4', true),
+                                ('RDW', 11.5, 14.5, '30385-9', true),
+                                ('MPV', 7.5, 10.5, '32623-1', true),
+                                ('Płytki krwi (PLT)', 150, 450, '26515-7', true);
                                 ''')
-            #cursor.execute(add_query_1)
-            #cursor.execute(add_query_2)
             cursor.execute(add_query)
 
             connection.commit()
@@ -85,7 +78,7 @@ class DatabaseInitialization:
             connection.close()
 
     def initialize_examination_table(self):
-        '''This method is responsible for initializing the examination table data'''
+        '''Initialize the examination table data.'''
         connection = self.database.connection_utility()
         cursor = connection.cursor()
 
@@ -137,6 +130,7 @@ class DatabaseInitialization:
             connection.close()
 
     def initialize_examination_parameter_table(self):
+        '''Initialize examination parameter data.'''
         connection = self.database.connection_utility()
         cursor = connection.cursor()
 
