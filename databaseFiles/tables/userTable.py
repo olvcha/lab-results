@@ -78,3 +78,14 @@ class UserTable:
             return id
 
         return None
+
+    def get_user_by_id(self, user_id):
+        connection = self.database.connection_utility()
+        cursor = connection.cursor()
+
+        query = ("SELECT username FROM user WHERE id = (?)")
+        cursor.execute(query, (user_id,))
+        username = cursor.fetchone()[0]
+
+        return username
+

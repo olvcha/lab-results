@@ -1,7 +1,8 @@
 from databaseFiles.tables.userTable import UserTable
 from databaseFiles.tables.parameterTable import ParameterTable
 from databaseFiles.tables.examinationTable import ExaminationTable
-from database import Database
+#rom databaseGile import Database
+from databaseFiles.database import Database
 from datetime import datetime
 import json
 
@@ -11,11 +12,10 @@ class DatabaseInitialization:
     Inserts basic data into the tables: user, parameter and examination.
     '''
     def __init__(self):
-        self.userTable = UserTable()
-        self.parameterTable = ParameterTable()
-        self.examinationTable = ExaminationTable()
         self.database = Database()
-
+        #self.userTable = UserTable()
+        #self.parameterTable = ParameterTable()
+        #self.examinationTable = ExaminationTable()
         self.initialize()
 
     def initialize(self):
@@ -65,12 +65,18 @@ class DatabaseInitialization:
                                 ('Hemoglobina (HGB)', 13.0, 18.0, '718-7', true),
                                 ('Hematokryt (HCT)', 40.0, 54.0, '20570-8', true),
                                 ('MCV', 82.0, 92.0, '787-2', true),
+                                ('Średnia objętość erytrocyta (MCV)',82.0, 92.0, '787-2', false),
                                 ('MCH', 27.0, 31.0, '785-6', true),
+                                ('Średnia masa HGB w erytrocycie (MCH)', 27.0, 31.0, '785-6', false),
                                 ('MCHC', 32.0, 36.0, '786-4', true),
+                                ('Średnie stężenie HGB w erytrocytach (MCHC)', 32.0, 36.0, '786-4', false),
                                 ('RDW', 11.5, 14.5, '30385-9', true),
+                                ('Wskaźnik anizocytozy erytrocytów (RDW)', 11.5, 14.5, '30385-9', false),
                                 ('MPV', 7.5, 10.5, '32623-1', true),
+                                ('Średnia objętość płytki krwi (MPV)', 7.5, 10.5, '32623-1', false),
                                 ('Płytki krwi (PLT)', 150, 450, '26515-7', true);
                                 ''')
+
             cursor.execute(add_query)
 
             connection.commit()
@@ -162,7 +168,3 @@ class DatabaseInitialization:
             connection.commit()
             cursor.close()
             connection.close()
-
-
-init = DatabaseInitialization()
-
