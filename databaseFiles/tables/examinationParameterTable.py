@@ -85,7 +85,10 @@ class ExaminationParameterTable:
                  "      ON examination_parameter.exam_id = examination.id "
                  "WHERE     user_id = ? "
                  "AND       parameter_id = ? "
-                 "ORDER BY DATE(examination.date) ASC")
+                 "ORDER BY date(substr(examination.date, 7, 4) ||"
+                 "'-' || substr(examination.date, 4, 2) ||"
+                 "'-' || substr(examination.date, 1, 2))"
+                 )
         cursor.execute(query, (user_id, parameter_id))
         data = cursor.fetchall()
 
