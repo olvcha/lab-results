@@ -4,10 +4,8 @@ from screens.loginScreen import LoginScreen
 from screens.registrationScreen import RegistrationScreen
 from screens.mainScreen import MainScreen
 from screens.infoScreen import InfoScreen
-from screens.resultsScreen import ResultsScreen
 from screens.newResultScreen import NewResultScreen
 from screens.resultScreen import ResultScreen
-from screens.parameterSelectionScreen import ParameterSelectionScreen
 from screens.resultSelectionScreen import ResultSelectionScreen
 from screens.parameterInTimeScreen import ParameterInTimeScreen
 from screens.dataReferenceScreen import DataReferenceScreen

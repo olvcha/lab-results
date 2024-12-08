@@ -131,6 +131,7 @@ class ResultScreen(Screen):
                 color=[0, 0, 0, 1],
                 font_style="Title",
                 role="medium",
+                halign="center",
                 valign="middle"
             ))
             labels_layout.add_widget(MDLabel(
@@ -139,6 +140,7 @@ class ResultScreen(Screen):
                 color=[0, 0, 0, 1],
                 font_style="Body",
                 role="medium",
+                halign="center",
                 valign="middle"
             ))
             labels_layout.add_widget(MDLabel(
@@ -146,13 +148,14 @@ class ResultScreen(Screen):
                 color=[0, 0, 0, 1],
                 font_style="Body",
                 role="medium",
+                halign="center",
                 valign="middle"
             ))
 
             # RIGHT SIDE: Vertical layout for reference value, plot, and MDIcon
             plot_with_label_layout = GridLayout(
                 cols=1,
-                size_hint_x=0.3,
+                size_hint_x=0.5,
                 size_hint_y=None,
                 row_force_default=True,
                 row_default_height=40,
