@@ -51,7 +51,7 @@ class DataReferenceScreen(Screen):
     def show_wait_dialog(self):
         self.wait_dialog = MDDialog(
             MDDialogIcon(icon="information"),
-            MDDialogHeadlineText(text="Proszę czekać. Ładowanie danych."),
+            MDDialogHeadlineText(text="Proszę czekać. \n Ładowanie danych."),
         )
         self.wait_dialog.open()
 

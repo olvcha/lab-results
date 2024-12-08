@@ -70,8 +70,6 @@ class DatabaseInitialization:
                                 ('Średnia masa HGB w erytrocycie (MCH)', 27.0, 31.0, '785-6', false),
                                 ('MCHC', 32.0, 36.0, '786-4', true),
                                 ('Średnie stężenie HGB w erytrocytach (MCHC)', 32.0, 36.0, '786-4', false),
-                                ('RDW', 11.5, 14.5, '30385-9', true),
-                                ('Wskaźnik anizocytozy erytrocytów (RDW)', 11.5, 14.5, '30385-9', false),
                                 ('MPV', 7.5, 10.5, '32623-1', true),
                                 ('Średnia objętość płytki krwi (MPV)', 7.5, 10.5, '32623-1', false),
                                 ('Płytki krwi (PLT)', 150, 450, '26515-7', true);

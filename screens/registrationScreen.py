@@ -58,7 +58,7 @@ class RegistrationScreen(Screen):
         self.register_dialog = MDDialog(
             # ----------------------------Icon-----------------------------
             MDDialogIcon(
-                icon="bookmark",
+                icon="emoticon",
             ),
             # -----------------------Headline text-------------------------
             MDDialogHeadlineText(

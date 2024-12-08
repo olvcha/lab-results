@@ -122,7 +122,6 @@ class InfoScreen(Screen):
                      "• [b]MCV[/b]: Średnia objętość krwinki czerwonej, pozwala ocenić typ anemii\n"
                      "• [b]MCH[/b]: Średnia masa hemoglobiny w erytrocycie pomaga diagnozować zaburzenia czerwonych krwinek\n"
                      "• [b]MCHC[/b]: Średnie stężenie hemoglobiny w erytrocytach, ocenia ich jakość\n"
-                     "• [b]RDW[/b]: Wskaźnik zmienności objętości krwinek czerwonych, pozwala wykryć zaburzenia morfologii\n"
                      "• [b]MPV[/b]: Średnia objętość płytek krwi pomaga w ocenie ich funkcji\n",
                 halign="left",
             ),

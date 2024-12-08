@@ -5,6 +5,7 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.screenmanager import Screen
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
+from kivymd.uix.label import MDIcon, MDLabel
 
 from implementation.globalData import GlobalData
 from implementation.plotGenerator import PlotGenerator
@@ -45,7 +46,7 @@ class ResultScreen(Screen):
         labels_layout = BoxLayout(
             orientation='vertical',
             size_hint_y=None,
-            height=80,  # Adjust to fit the labels
+            height=100,  # Adjust to fit the labels
             padding=[0, 0, 10, 0],  # Add right padding for alignment
             spacing=5
         )
@@ -93,6 +94,8 @@ class ResultScreen(Screen):
         results = plot_generator.generate_results()
 
         # Dynamically add widgets for each result
+        # Dynamically add widgets for each result
+        # Dynamically add widgets for each result
         for result in results:
             parameter_name = result["parameter_name"]
             loinc_code = result["loinc_code"]
@@ -106,8 +109,8 @@ class ResultScreen(Screen):
                 orientation='horizontal',
                 size_hint_y=None,
                 height=150,  # Set a fixed height for all rows
-                padding=[10, 10],  # Add spacing around the entire layout
-                spacing=10  # Space between left and right sides
+                padding=[5, 5],
+                spacing=15
             )
 
             # LEFT SIDE: Vertical layout for parameter information
@@ -116,31 +119,72 @@ class ResultScreen(Screen):
                 size_hint_x=0.4,
                 size_hint_y=None,
                 row_force_default=True,
-                row_default_height=40,  # Consistent row height for alignment
-                padding=[0, 10, 0, 10]  # Optional: Vertical padding for alignment
+                row_default_height=40,
+                padding=[0, 10, 0, 10]
             )
-            labels_layout.add_widget(Label(text=f"[b]{parameter_name}[/b]", markup=True, color=[0, 0, 0, 1]))
-            labels_layout.add_widget(Label(text=f"Kod LOINC: {loinc_code}", markup=True, color=[0, 0, 0, 1]))
-            labels_layout.add_widget(Label(text=f"Norma: {min_value} - {max_value}", color=[0, 0, 0, 1]))
+            labels_layout.add_widget(MDLabel(
+                text=f"[b]{parameter_name}[/b]",
+                markup=True,
+                color=[0, 0, 0, 1],
+                font_style="Title",
+                role="medium",
+                valign="middle"
+            ))
+            labels_layout.add_widget(MDLabel(
+                text=f"Kod LOINC: {loinc_code}",
+                markup=True,
+                color=[0, 0, 0, 1],
+                font_style="Body",
+                role="medium",
+                valign="middle"
+            ))
+            labels_layout.add_widget(MDLabel(
+                text=f"Norma: {min_value} - {max_value}",
+                color=[0, 0, 0, 1],
+                font_style="Body",
+                role="medium",
+                valign="middle"
+            ))
 
-            # RIGHT SIDE: Vertical layout for reference value and plot
+            # RIGHT SIDE: Vertical layout for reference value, plot, and MDIcon
             plot_with_label_layout = GridLayout(
                 cols=1,
-                size_hint_x=0.6,
+                size_hint_x=0.5,
                 size_hint_y=None,
                 row_force_default=True,
-                row_default_height=40,  # Match row height to the left side
-                padding=[0, 10, 0, 10]  # Optional: Vertical padding for alignment
+                row_default_height=40,
+                padding=[0, 10, 0, 10]
             )
+
+            # Add the reference value to the layout
             plot_with_label_layout.add_widget(
-                Label(text=f"Ref: {value}", color=[0, 0, 0, 1], size_hint_y=None, height=30))
+                Label(
+                    text=f"Ref: {value}",
+                    color=[0, 0, 0, 1],
+                    size_hint_y=None,
+                    height=30
+                )
+            )
+
+            # Add the plot_widget
             plot_with_label_layout.add_widget(plot_widget)
 
-            # Add both layouts to the result layout
+            # Add the MDIcon vertically centered
+            md_icon = MDIcon(
+                id='date_icon',
+                icon='emoticon',
+                size_hint_y=None,
+                halign="center",
+                height=30,
+                #pos_hint={"center_y": 0.5}  # Center the icon vertically
+            )
+            #plot_with_label_layout.add_widget(md_icon)
+
+            # Combine the left and right layouts into the horizontal result layout
             result_layout.add_widget(labels_layout)
             result_layout.add_widget(plot_with_label_layout)
 
-            # Add the result layout to the plot container
+            # Add the entire result layout to the main scrollable container
             plot_container.add_widget(result_layout)
 
     def switch_to_main_screen(self):
