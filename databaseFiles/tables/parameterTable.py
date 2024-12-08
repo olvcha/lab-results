@@ -9,14 +9,14 @@ class ParameterTable:
     def __init__(self):
         self.database = Database()
 
-    def add_parameter(self, parameter_id, name, min_value, max_value, loinc_code, priority):
+    def add_parameter(self, parameter_id, name, min_value, max_value, unit, loinc_code, priority):
         '''Insert a new parameter into the database.'''
 
         connection = self.database.connection_utility()
         cursor = connection.cursor()
 
-        query = ("INSERT INTO parameter (id, name, min_value, max_value, loinc_code, priority) VALUES (?, ?, ?, ?, ?, ?)")
-        cursor.execute(query, (parameter_id, name, min_value, max_value, loinc_code, priority))
+        query = ("INSERT INTO parameter (id, name, min_value, max_value, unit, loinc_code, priority) VALUES (?, ?, ?, ?, ?, ?, ?)")
+        cursor.execute(query, (parameter_id, name, min_value, max_value, unit, loinc_code, priority))
 
         connection.commit()
         cursor.close()

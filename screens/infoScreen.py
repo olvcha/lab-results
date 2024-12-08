@@ -118,7 +118,6 @@ class InfoScreen(Screen):
                      "• [b]Leukocyty (WBC)[/b]: Białe krwinki, które walczą z infekcjami i chorobami\n"
                      "• [b]Hemoglobina (HGB)[/b]: Białko w czerwonych krwinkach, które łapie tlen i roznosi go po organizmie\n"
                      "• [b]Hematokryt (HCT)[/b]: Procentowy udział krwinek czerwonych we krwi\n"
-                     "• [b]Płytki krwi (PLT)[/b]: Liczba płytek krwi wskazuje zdolność krwi do krzepnięcia\n"
                      "• [b]MCV[/b]: Średnia objętość krwinki czerwonej, pozwala ocenić typ anemii\n"
                      "• [b]MCH[/b]: Średnia masa hemoglobiny w erytrocycie pomaga diagnozować zaburzenia czerwonych krwinek\n"
                      "• [b]MCHC[/b]: Średnie stężenie hemoglobiny w erytrocytach, ocenia ich jakość\n"

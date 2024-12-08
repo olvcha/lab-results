@@ -48,6 +48,7 @@ class Database:
                             name TEXT NOT NULL, 
                             min_value INTEGER NOT NULL, 
                             max_value INTEGER NOT NULL,
+                            unit TEXT NOT NULL,
                             loinc_code TEXT NOT NULL,
                             priority BOOLEAN NOT NULL
                             )''')

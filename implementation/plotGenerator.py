@@ -92,7 +92,8 @@ class PlotGenerator:
             parameter_name = parameter_data[0][1]
             min_value = parameter_data[0][2]
             max_value = parameter_data[0][3]
-            loinc_code = parameter_data[0][4]
+            unit = parameter_data[0][4]
+            loinc_code = parameter_data[0][5]
             plot_widget = self.plot_parameter(float(min_value), float(value), float(max_value))
 
             results.append({
@@ -101,6 +102,7 @@ class PlotGenerator:
                 "min_value": min_value,
                 "max_value": max_value,
                 "value": value,
+                "unit": unit,
                 "plot_widget": plot_widget
             })
 

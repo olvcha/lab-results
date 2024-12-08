@@ -26,22 +26,6 @@ class ExaminationTable:
 
         return last_inserted_id
 
-    # def load_examination_data(self, examination_id):
-    #     '''Load the data of selected examination from the database.
-    #     Data is returned in order: parameter_name, reference_value, min_value, max_value'''
-    #
-    #     connection = self.database.connection_utility()
-    #     cursor = connection.cursor()
-    #
-    #     query = ("SELECT data FROM examination WHERE id = ?")
-    #     cursor.execute(query, (examination_id,))
-    #     examination_data = cursor.fetchall()
-    #
-    #     cursor.close()
-    #     connection.close()
-    #
-    #     return examination_data
-
     def load_examination_data(self, examination_id):
         '''Load the data of selected examination from the database.
         Data is returned in order: user_id, date, data_reference_id, data.'''

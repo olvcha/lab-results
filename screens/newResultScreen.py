@@ -1,3 +1,4 @@
+from datetime import datetime, date
 import os
 
 from kivy.lang import Builder
@@ -131,10 +132,16 @@ class NewResultScreen(Screen):
     def on_save(self, instance):
         '''Save selected date and cancel the date picker'''
         self.selected_date = instance.get_date()[0].strftime('%d-%m-%Y')
-        self.ids.date_icon.icon = 'check'
-        self.ids.date_button_text.text = str(self.selected_date)
-        self.ids.load_button.disabled = False
-        self.date_dialog.dismiss()
+        if instance.get_date()[0] <= date.today():
+            self.ids.date_icon.icon = 'check'
+            self.ids.date_button_text.text = str(self.selected_date)
+            self.ids.load_button.disabled = False
+            self.date_dialog.dismiss()
+        else:
+            self.ids.date_button_text.text = "Niepoprawna data."
+            self.ids.date_icon.icon = 'close'
+            self.ids.load_button.disabled = True
+            self.date_dialog.dismiss()
 
     def check_data(self, data, filtered_data):
         '''Check if read data is valid. Save data to database if True, else raise an error.'''

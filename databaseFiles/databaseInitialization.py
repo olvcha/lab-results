@@ -56,23 +56,22 @@ class DatabaseInitialization:
         parameters = cursor.fetchall()
 
         if not parameters:
-            add_query = (    '''INSERT INTO parameter (name, min_value, max_value, loinc_code, priority) 
+            add_query = (    '''INSERT INTO parameter (name, min_value, max_value, unit, loinc_code, priority) 
                                 VALUES 
-                                ('Erytrocyty (RBC)', 4.2, 5.4, '789-8', true),
-                                ('Leukocyty (WBC)', 4.0, 10.0, '804-5', true),
-                                ('Krwinki czerwone (RBC)', 4.2, 5.4, '789-8', false),
-                                ('Krwinki białe (WBC)', 4.0, 10.0, '804-5', false),
-                                ('Hemoglobina (HGB)', 13.0, 18.0, '718-7', true),
-                                ('Hematokryt (HCT)', 40.0, 54.0, '20570-8', true),
-                                ('MCV', 82.0, 92.0, '787-2', true),
-                                ('Średnia objętość erytrocyta (MCV)',82.0, 92.0, '787-2', false),
-                                ('MCH', 27.0, 31.0, '785-6', true),
-                                ('Średnia masa HGB w erytrocycie (MCH)', 27.0, 31.0, '785-6', false),
-                                ('MCHC', 32.0, 36.0, '786-4', true),
-                                ('Średnie stężenie HGB w erytrocytach (MCHC)', 32.0, 36.0, '786-4', false),
-                                ('MPV', 7.5, 10.5, '32623-1', true),
-                                ('Średnia objętość płytki krwi (MPV)', 7.5, 10.5, '32623-1', false),
-                                ('Płytki krwi (PLT)', 150, 450, '26515-7', true);
+                                ('Erytrocyty (RBC)', 4.2, 5.4, '10^9/l', '789-8', true),
+                                ('Leukocyty (WBC)', 4.0, 10.0, '10^12/l','804-5', true),
+                                ('Krwinki czerwone (RBC)', 4.2, 5.4, '10^9/l', '789-8', false),
+                                ('Krwinki białe (WBC)', 4.0, 10.0, '10^12/l', '804-5', false),
+                                ('Hemoglobina (HGB)', 13.0, 18.0, 'g/dl','718-7', true),
+                                ('Hematokryt (HCT)', 40.0, 54.0, '%', '20570-8', true),
+                                ('MCV', 82.0, 92.0, 'fl', '787-2', true),
+                                ('Średnia objętość erytrocyta (MCV)',82.0, 92.0, 'fl', '787-2', false),
+                                ('MCH', 27.0, 31.0, 'pg', '785-6', true),
+                                ('Średnia masa HGB w erytrocycie (MCH)', 27.0, 31.0, 'pg', '785-6', false),
+                                ('MCHC', 32.0, 36.0, 'g/dl','786-4', true),
+                                ('Średnie stężenie HGB w erytrocytach (MCHC)', 32.0, 36.0,' g/dl', '786-4', false),
+                                ('MPV', 7.5, 10.5, 'fl','32623-1', true),
+                                ('Średnia objętość płytki krwi (MPV)', 7.5, 10.5, 'fl', '32623-1', false);
                                 ''')
 
             cursor.execute(add_query)

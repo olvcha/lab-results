@@ -17,24 +17,26 @@ Builder.load_file(os.path.join(os.path.dirname(__file__), 'result_screen.kv'))
 
 class ResultScreen(Screen):
     '''Handle result screen actions.'''
+
     def __init__(self, **kwargs):
         super(ResultScreen, self).__init__(**kwargs)
         self.exam_table = ExaminationTable()
         self.global_data = GlobalData()
+        self.text_color = None
 
     def on_enter(self):
         self.display_result()
 
     def display_result(self):
-        #exam_id = self.manager.get_exam_id()
-        #global_data = GlobalData()
+        # exam_id = self.manager.get_exam_id()
+        # global_data = GlobalData()
         exam_id = self.global_data.get_exam_id()
 
-        #db = ExaminationTable()
-        #file_manager = FileManager()
+        # db = ExaminationTable()
+        # file_manager = FileManager()
         exam_data = self.exam_table.load_examination_data(exam_id)
         date = exam_data[1]
-        #data_reference = exam_data[2]
+        # data_reference = exam_data[2]
 
         # Reference the plot container
         plot_container = self.ids.plot_container
@@ -102,6 +104,7 @@ class ResultScreen(Screen):
             min_value = result["min_value"]
             max_value = result["max_value"]
             value = result["value"]
+            unit = result["unit"]
             plot_widget = result["plot_widget"]
 
             # Create a horizontal layout for the result with spacing
@@ -139,7 +142,7 @@ class ResultScreen(Screen):
                 valign="middle"
             ))
             labels_layout.add_widget(MDLabel(
-                text=f"Norma: {min_value} - {max_value}",
+                text=f"Norma: {min_value} - {max_value} [{unit}]",
                 color=[0, 0, 0, 1],
                 font_style="Body",
                 role="medium",
@@ -149,7 +152,7 @@ class ResultScreen(Screen):
             # RIGHT SIDE: Vertical layout for reference value, plot, and MDIcon
             plot_with_label_layout = GridLayout(
                 cols=1,
-                size_hint_x=0.5,
+                size_hint_x=0.3,
                 size_hint_y=None,
                 row_force_default=True,
                 row_default_height=40,
@@ -159,8 +162,10 @@ class ResultScreen(Screen):
             # Add the reference value to the layout
             plot_with_label_layout.add_widget(
                 Label(
-                    text=f"Ref: {value}",
-                    color=[0, 0, 0, 1],
+                    text=self.define_reference_value(min_value, max_value, value, unit),
+                    markup=True,
+                    font_name="Roboto",
+                    color=self.text_color,
                     size_hint_y=None,
                     height=30
                 )
@@ -176,9 +181,9 @@ class ResultScreen(Screen):
                 size_hint_y=None,
                 halign="center",
                 height=30,
-                #pos_hint={"center_y": 0.5}  # Center the icon vertically
+                # pos_hint={"center_y": 0.5}  # Center the icon vertically
             )
-            #plot_with_label_layout.add_widget(md_icon)
+            # plot_with_label_layout.add_widget(md_icon)
 
             # Combine the left and right layouts into the horizontal result layout
             result_layout.add_widget(labels_layout)
@@ -186,6 +191,18 @@ class ResultScreen(Screen):
 
             # Add the entire result layout to the main scrollable container
             plot_container.add_widget(result_layout)
+
+    def define_reference_value(self, min_value, max_value, value, unit):
+        if float(value) < float(min_value):
+            self.text_color = [1, 0, 0, 1]
+            return f"[b]{value}[/b] [{unit}]  [b]v[/b]"
+        elif float(value) > float(max_value):
+            self.text_color = [1, 0, 0, 1]
+            return f"[b]{value}[/b] [{unit}]  [b]^[/b]"
+        self.text_color = [0, 0, 0, 1]
+        return f"[b]{value}[/b] [{unit}]"
+
+
 
     def switch_to_main_screen(self):
         self.manager.current = 'main'
@@ -198,9 +215,3 @@ class ResultScreen(Screen):
 
     def switch_to_results_screen(self):
         self.manager.current = 'results'
-
-
-
-
-
-
