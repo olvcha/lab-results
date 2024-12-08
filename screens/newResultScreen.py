@@ -1,17 +1,21 @@
+from datetime import datetime, date
 import os
 
 from kivy.lang import Builder
-from kivy.metrics import dp
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.uix.filechooser import FileChooserListView
 from kivy.uix.popup import Popup
 from kivy.uix.screenmanager import Screen
-from kivymd.uix.pickers import MDDockedDatePicker, MDModalDatePicker
+from kivy.uix.widget import Widget
+from kivymd.uix.button import MDButton, MDButtonText
+from kivymd.uix.dialog import MDDialog, MDDialogIcon, MDDialogHeadlineText, MDDialogSupportingText, \
+    MDDialogButtonContainer
+from kivymd.uix.pickers import MDModalDatePicker
 
 from databaseFiles.tables.examinationTable import ExaminationTable
 from databaseFiles.tables.examinationParameterTable import ExaminationParameterTable
-from datetime import datetime
+from databaseFiles.tables.parameterTable import ParameterTable
 
 from implementation.globalData import GlobalData
 from implementation.textReader import TextReader
@@ -33,10 +37,12 @@ class NewResultScreen(Screen):
         self.selected_file_name = None
         self.date_dialog = None
         self.selected_date = None
+        self.error_dialog = None
         self.examination_table = ExaminationTable()
         self.file_manager = FileManager()
         self.global_data = GlobalData()
         self.examination_parameter_table = ExaminationParameterTable()
+        self.parameter_table = ParameterTable()
 
     def on_enter(self):
         # File
@@ -44,9 +50,8 @@ class NewResultScreen(Screen):
         self.ids.file_icon.icon = 'close'
         self.ids.load_button.disabled = True
         # Date
-
         self.ids.date_button_text.text = "Wybierz datę"
-        self.ids.file_icon.icon = 'close'
+        self.ids.date_icon.icon = 'close'
         # Analize
         self.ids.data_button.disabled = True
 
@@ -73,7 +78,6 @@ class NewResultScreen(Screen):
             self.selected_file_name = os.path.basename(self.selected_file_path)
             self.ids.load_button_text.text = self.selected_file_name
             self.ids.file_icon.icon = 'check'
-            self.ids.data_button.disabled = False
             self.convert_data()
 
         self.file_popup.dismiss()
@@ -92,13 +96,21 @@ class NewResultScreen(Screen):
         else:
             json_text = {}
 
-        user_id = self.global_data.get_user_id()
-        file_id = self.file_manager.upload_file(self.selected_file_path, user_id, self.selected_date)
+        filtered_parameters_data = self.extract_parameters_data(json_text)
+        self.check_data(json_text, filtered_parameters_data)
 
-        self.exam_id = self.examination_table.add_examination(user_id, self.selected_date,
-                                                              file_id, json_text)
+    def extract_parameters_data(self, exam_data):
+        '''Extract and filter parameters data and leave only the parameters that appear in the database.'''
+        data_extraction = DataExtraction(exam_data)
+        filtered_exam_data = data_extraction.filter_exam_data()
 
-        self.extract_and_save(json_text, self.exam_id)
+        return filtered_exam_data
+
+    def save_parameters_data(self, exam_id, filtered_exam_data):
+        '''Save examination parameters to the database.'''
+        for parameter_id, value in filtered_exam_data.items():
+            priority_id = self.parameter_table.get_priority_parameter(parameter_id)[0]
+            self.examination_parameter_table.add_examination_parameter(value, exam_id, priority_id)
 
     def extract_and_save(self, exam_data, exam_id):
         '''Extract the parameters data and save to the database.'''
@@ -120,11 +132,60 @@ class NewResultScreen(Screen):
     def on_save(self, instance):
         '''Save selected date and cancel the date picker'''
         self.selected_date = instance.get_date()[0].strftime('%d-%m-%Y')
-        self.ids.date_icon.icon = 'check'
-        self.ids.date_button_text.text = str(self.selected_date)
-        self.ids.load_button.disabled = False
-        self.date_dialog.dismiss()
+        if instance.get_date()[0] <= date.today():
+            self.ids.date_icon.icon = 'check'
+            self.ids.date_button_text.text = str(self.selected_date)
+            self.ids.load_button.disabled = False
+            self.date_dialog.dismiss()
+        else:
+            self.ids.date_button_text.text = "Niepoprawna data."
+            self.ids.date_icon.icon = 'close'
+            self.ids.load_button.disabled = True
+            self.date_dialog.dismiss()
 
+    def check_data(self, data, filtered_data):
+        '''Check if read data is valid. Save data to database if True, else raise an error.'''
+        if not filtered_data:
+            self.show_info_dialog()
+        else:
+            user_id = self.global_data.get_user_id()
+            file_id = self.file_manager.upload_file(self.selected_file_path, user_id, self.selected_date)
+
+            self.exam_id = self.examination_table.add_examination(user_id, self.selected_date,
+                                                                  file_id, data)
+
+            self.save_parameters_data(self.exam_id, filtered_data)
+            #self.extract_and_save(data, self.exam_id)
+            self.ids.data_button.disabled = False
+
+    def show_info_dialog(self):
+        self.error_dialog = MDDialog(
+            # ----------------------------Icon-----------------------------
+            MDDialogIcon(
+                icon="information",
+            ),
+            # -----------------------Headline text-------------------------
+            MDDialogHeadlineText(
+                text="Informacja",
+            ),
+            # -----------------------Supporting text-----------------------
+            MDDialogSupportingText(
+                text="Błąd przetwarzania. Przesłano plik w złym formacie lub nie wykryto parametrów. Spróbuj ponownie.",
+                halign="left",
+            ),
+            # ---------------------Button container------------------------
+            MDDialogButtonContainer(
+                Widget(),
+                MDButton(
+                    MDButtonText(text="Zamknij"),
+                    style="text",
+                    on_release=lambda *args: self.error_dialog.dismiss()
+                ),
+                spacing="8dp",
+            ),
+            # -------------------------------------------------------------
+        )
+        self.error_dialog.open()
 
     def switch_to_main_screen(self):
         self.manager.current = 'main'

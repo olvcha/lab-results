@@ -5,6 +5,7 @@ Config.set('graphics', 'height', '640')
 
 from kivymd.app import MDApp
 from screens.appScreenManager import AppScreenManager
+from databaseFiles.databaseInitialization import DatabaseInitialization
 
 
 class LabResultsApp(MDApp):
@@ -13,6 +14,9 @@ class LabResultsApp(MDApp):
     def build(self):
         '''Build the app'''
         self.theme_cls.primary_palette = "Indigo"
+        db = DatabaseInitialization()
+        db.initialize()
+
         return AppScreenManager()
 
     # def set_user_id(self, user_id):

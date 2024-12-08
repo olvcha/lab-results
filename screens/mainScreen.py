@@ -4,7 +4,7 @@ from kivymd.app import MDApp
 from kivy.uix.screenmanager import Screen
 
 from implementation.globalData import GlobalData
-
+from databaseFiles.tables.userTable import UserTable
 Builder.load_file(os.path.join(os.path.dirname(__file__), 'main_screen.kv'))
 
 
@@ -16,7 +16,12 @@ class MainScreen(Screen):
 
     def on_enter(self):
         user_id = self.global_data.get_user_id()
-        print(f"Logged in as User ID: {user_id}")
+        self.welcome(user_id)
+
+    def welcome(self, user_id):
+        user_table = UserTable()
+        username = user_table.get_user_by_id(user_id)
+        self.ids.welcome_label.text = f"Witaj, {username}!"
 
     def switch_to_info_screen(self):
         '''Switch to the info screen'''

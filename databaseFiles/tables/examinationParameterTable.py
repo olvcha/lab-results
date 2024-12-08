@@ -84,7 +84,8 @@ class ExaminationParameterTable:
                  "RIGHT JOIN examination "
                  "      ON examination_parameter.exam_id = examination.id "
                  "WHERE     user_id = ? "
-                 "AND       parameter_id = ? ")
+                 "AND       parameter_id = ? "
+                 "ORDER BY DATE(examination.date) ASC")
         cursor.execute(query, (user_id, parameter_id))
         data = cursor.fetchall()
 
@@ -115,9 +116,9 @@ class ExaminationParameterTable:
         return parameter_ids
 
 
-ep = ExaminationParameterTable()
+#ep = ExaminationParameterTable()
 #print(ep.get_examination_parameters_by_exam_id("1"))
 #print(ep.get_examination_parameters_by_parameter_id("1"))
 #print(ep.get_examination_parameters())
-print(ep.join_examination_with_examination_parameters(1,1))
-print(ep.get_parameter_ids(1))
+#print(ep.join_examination_with_examination_parameters(1,1))
+#print(ep.get_parameter_ids(1))

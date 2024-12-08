@@ -8,11 +8,14 @@
             orientation: 'vertical'
             padding: 20
             spacing: 60
+            pos_hint: {"top": 0.95}
 
             MDLabel:
-                text: "Witaj w aplikacji Lab Results"
+                text: "Witaj w aplikacji \n Lab Results!"
                 size_hint_y: 0.2
                 halign: 'center'
+                font_style: "Headline"
+                role: "large"
 
             MDTextField:
                 id: username_field

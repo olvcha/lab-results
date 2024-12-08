@@ -46,10 +46,13 @@ class InfoScreen(Screen):
             ),
             # -----------------------Supporting text-----------------------
             MDDialogSupportingText(
-                text="Lorem ipsum dolor sit amet, consectetur adipiscing elit,"
-                     "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
-                     "Ut enim ad minim veniam, quis nostrud exercitation"
-                     "ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                text="• Prześlij zdjęcie lub plik pdf z wynikami badań laboratoryjnych oraz podaj datę wykonania badania\n"
+                "• Analizuj wyniki odrazu po dodaniu lub z ekranu Przeglądaj wyniki\n"
+                "• Możesz także śledzić zmianę parametrów w czasie\n \n"
+                "[color=#FF0000][b]UWAGA![/b][/color]: Interpretacja wyników badań krwi zawsze powinna odbywać się w konsultacji z lekarzem. "
+                "Pamiętaj, że nawet jeśli któryś z parametrów odbiega od normy, "
+                "nie zawsze oznacza to poważny problem – czasem to tylko sygnał, że warto lepiej zadbać o organizm.",
+                halign="left",
             ),
             # ---------------------Button container------------------------
             MDDialogButtonContainer(
@@ -111,10 +114,15 @@ class InfoScreen(Screen):
             ),
             # -----------------------Supporting text-----------------------
             MDDialogSupportingText(
-                text="Lorem ipsum dolor sit amet, consectetur adipiscing elit,"
-                     "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
-                     "Ut enim ad minim veniam, quis nostrud exercitation"
-                    "ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                text="• [b]Erytrocyty (RBC)[/b]: Czerwone krwinki, które przenoszą tlen w Twoim ciele\n"
+                     "• [b]Leukocyty (WBC)[/b]: Białe krwinki, które walczą z infekcjami i chorobami\n"
+                     "• [b]Hemoglobina (HGB)[/b]: Białko w czerwonych krwinkach, które łapie tlen i roznosi go po organizmie\n"
+                     "• [b]Hematokryt (HCT)[/b]: Procentowy udział krwinek czerwonych we krwi\n"
+                     "• [b]MCV[/b]: Średnia objętość krwinki czerwonej, pozwala ocenić typ anemii\n"
+                     "• [b]MCH[/b]: Średnia masa hemoglobiny w erytrocycie pomaga diagnozować zaburzenia czerwonych krwinek\n"
+                     "• [b]MCHC[/b]: Średnie stężenie hemoglobiny w erytrocytach, ocenia ich jakość\n"
+                     "• [b]MPV[/b]: Średnia objętość płytek krwi pomaga w ocenie ich funkcji\n",
+                halign="left",
             ),
             # ---------------------Button container------------------------
             MDDialogButtonContainer(

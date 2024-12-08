@@ -22,7 +22,7 @@
             height: "56dp"
             size_hint_x: 0.5
             disabled: True
-            pos_hint: {'center_x':0.4, 'center_y':0.7}
+            pos_hint: {'center_x':0.4, 'center_y':0.5}
             on_release: root.load_data()
 
             MDButtonIcon:
@@ -36,7 +36,7 @@
             id: file_icon
             icon: "close"
             valign: "center"
-            pos_hint: {'center_x':0.8, 'center_y':0.7}
+            pos_hint: {'center_x':0.8, 'center_y':0.5}
 
         MDButton:
             id: date_button
@@ -44,7 +44,7 @@
             style: "filled"
             height: "56dp"
             size_hint_x: 0.5
-            pos_hint: {'center_x': 0.4, 'center_y': 0.5}
+            pos_hint: {'center_x': 0.4, 'center_y': 0.7}
 
             on_release: root.show_date_picker()
 
@@ -59,7 +59,7 @@
             id: date_icon
             icon: "close"
             valign: "center"
-            pos_hint: {'center_x':0.8, 'center_y':0.5}
+            pos_hint: {'center_x':0.8, 'center_y':0.7}
 
         MDButton:
             id: data_button

@@ -9,7 +9,7 @@
             MDTopAppBarLeadingButtonContainer:
                 MDActionTopAppBarButton:
                     icon: "arrow-left"
-                    on_release: root.switch_to_result_selection_screen()
+                    on_release: root.switch_to_results_screen()
 
             MDTopAppBarTitle:
                 text: "Wyniki"
@@ -52,7 +52,7 @@
         ScrollView:
             bar_width: 10
             do_scroll_x: False
-            pos_hint: {"top": 0.75}
+            pos_hint: {"top": 0.83}
             size_hint_y: 0.8
 
             MDBoxLayout:
@@ -64,13 +64,7 @@
                 pos_hint: {"top": 0.65}
                 adaptive_height: True
 
-        MDBoxLayout:
-            orientation: 'vertical'
-            size_hint_y: None
-            height: 400
-            padding: [10]
-            spacing: 10
-            id: image_container  # Container where the image will be displayed
+
 
 
 

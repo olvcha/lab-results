@@ -1,7 +1,8 @@
 from databaseFiles.tables.userTable import UserTable
 from databaseFiles.tables.parameterTable import ParameterTable
 from databaseFiles.tables.examinationTable import ExaminationTable
-from database import Database
+#rom databaseGile import Database
+from databaseFiles.database import Database
 from datetime import datetime
 import json
 
@@ -11,22 +12,21 @@ class DatabaseInitialization:
     Inserts basic data into the tables: user, parameter and examination.
     '''
     def __init__(self):
-        self.userTable = UserTable()
-        self.parameterTable = ParameterTable()
-        self.examinationTable = ExaminationTable()
         self.database = Database()
-
+        #self.userTable = UserTable()
+        #self.parameterTable = ParameterTable()
+        #self.examinationTable = ExaminationTable()
         self.initialize()
 
     def initialize(self):
-        '''This method initializes the data'''
-        self.initialize_user_table()
+        '''Initialize the data.'''
+        #self.initialize_user_table()
         self.initialize_parameter_table()
-        self.initialize_examination_table()
-        self.initialize_examination_parameter_table()
+        #self.initialize_examination_table()
+        #self.initialize_examination_parameter_table()
 
     def initialize_user_table(self):
-        '''This method is responsible for initializing the user table data'''
+        '''Initialize the user table data.'''
         connection = self.database.connection_utility()
         cursor = connection.cursor()
 
@@ -47,7 +47,7 @@ class DatabaseInitialization:
             connection.close()
 
     def initialize_parameter_table(self):
-        '''This method is responsible for initializing the parameter table data'''
+        '''Initialize the parameter table data'''
         connection = self.database.connection_utility()
         cursor = connection.cursor()
 
@@ -56,28 +56,24 @@ class DatabaseInitialization:
         parameters = cursor.fetchall()
 
         if not parameters:
-            add_query_1 = (
-                "INSERT INTO parameter (name, min_value, max_value, loinc_code) VALUES ('Erytrocyty (RBC)', 4.7, 6.1, '789-8')")
-            add_query_2 = (
-                "INSERT INTO parameter (name, min_value, max_value, loinc_code) VALUES ('Leukocyty (WBC)', 4.0, 10.0, '34445-7')")
-
-            add_query = (    '''INSERT INTO parameter (name, min_value, max_value, loinc_code) 
+            add_query = (    '''INSERT INTO parameter (name, min_value, max_value, unit, loinc_code, priority) 
                                 VALUES 
-                                ('Erytrocyty (RBC)', 4.2, 5.4, '789-8'),
-                                ('Leukocyty (WBC)', 4.0, 10.0, '804-5'),
-                                ('Krwinki czerwone (RBC)', 4.2, 5.4, '789-8'),
-                                ('Krwinki białe (WBC)', 4.0, 10.0, '804-5'),
-                                ('Hemoglobina (HGB)', 13.0, 18.0, '718-7'),
-                                ('Hematokryt (HCT)', 40.0, 54.0, '20570-8'),
-                                ('MCV', 82.0, 92.0, '787-2'),
-                                ('MCH', 27.0, 31.0, '785-6'),
-                                ('MCHC', 32.0, 36.0, '786-4'),
-                                ('RDW', 11.5, 14.5, '30385-9'),
-                                ('MPV', 7.5, 10.5, '32623-1'),
-                                ('Płytki krwi (PLT)', 150, 450, '26515-7');
+                                ('Erytrocyty (RBC)', 4.2, 5.4, '10^9/l', '789-8', true),
+                                ('Leukocyty (WBC)', 4.0, 10.0, '10^12/l','804-5', true),
+                                ('Krwinki czerwone (RBC)', 4.2, 5.4, '10^9/l', '789-8', false),
+                                ('Krwinki białe (WBC)', 4.0, 10.0, '10^12/l', '804-5', false),
+                                ('Hemoglobina (HGB)', 13.0, 18.0, 'g/dl','718-7', true),
+                                ('Hematokryt (HCT)', 40.0, 54.0, '%', '20570-8', true),
+                                ('MCV', 82.0, 92.0, 'fl', '787-2', true),
+                                ('Średnia objętość erytrocyta (MCV)',82.0, 92.0, 'fl', '787-2', false),
+                                ('MCH', 27.0, 31.0, 'pg', '785-6', true),
+                                ('Średnia masa HGB w erytrocycie (MCH)', 27.0, 31.0, 'pg', '785-6', false),
+                                ('MCHC', 32.0, 36.0, 'g/dl','786-4', true),
+                                ('Średnie stężenie HGB w erytrocytach (MCHC)', 32.0, 36.0,' g/dl', '786-4', false),
+                                ('MPV', 7.5, 10.5, 'fl','32623-1', true),
+                                ('Średnia objętość płytki krwi (MPV)', 7.5, 10.5, 'fl', '32623-1', false);
                                 ''')
-            #cursor.execute(add_query_1)
-            #cursor.execute(add_query_2)
+
             cursor.execute(add_query)
 
             connection.commit()
@@ -85,7 +81,7 @@ class DatabaseInitialization:
             connection.close()
 
     def initialize_examination_table(self):
-        '''This method is responsible for initializing the examination table data'''
+        '''Initialize the examination table data.'''
         connection = self.database.connection_utility()
         cursor = connection.cursor()
 
@@ -137,6 +133,7 @@ class DatabaseInitialization:
             connection.close()
 
     def initialize_examination_parameter_table(self):
+        '''Initialize examination parameter data.'''
         connection = self.database.connection_utility()
         cursor = connection.cursor()
 
@@ -168,7 +165,3 @@ class DatabaseInitialization:
             connection.commit()
             cursor.close()
             connection.close()
-
-
-init = DatabaseInitialization()
-
