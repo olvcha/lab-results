@@ -22,7 +22,6 @@ class RegistrationScreen(Screen):
         self.register_dialog = None
 
     def switch_to_login_screen(self):
-        '''Switch to login screen.'''
         self.ids.username_field.text = ""
         self.ids.password_field.text = ""
         self.ids.repeat_password_field.text = ""

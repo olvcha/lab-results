@@ -2,7 +2,6 @@ import os
 from kivy.lang import Builder
 from kivy.uix.screenmanager import Screen
 from kivy.uix.widget import Widget
-from kivymd.app import MDApp
 from kivymd.uix.button import MDButton, MDButtonText
 from kivymd.uix.dialog import MDDialog, MDDialogIcon, MDDialogHeadlineText, MDDialogSupportingText, \
     MDDialogButtonContainer
@@ -104,11 +103,8 @@ class ResultSelectionScreen(Screen):
 
     def switch_to_result_screen(self, exam_id):
         app_screen_manager = self.manager
-        # app_screen_manager.set_exam_id(str(exam_id))
-        #global_data = GlobalData()
         self.global_data.set_exam_id(str(exam_id))
         self.manager.current = 'result'
 
     def switch_to_main_screen(self):
-        '''Switches to the main screen'''
         self.manager.current = 'main'

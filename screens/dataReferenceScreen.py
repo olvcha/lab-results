@@ -1,7 +1,7 @@
 import os
 from kivy.lang import Builder
 from kivy.uix.screenmanager import Screen
-from kivy.clock import Clock  # Import Clock for scheduling
+from kivy.clock import Clock
 from kivy.uix.widget import Widget
 from kivymd.uix.button import MDButton, MDButtonText
 from kivymd.uix.dialog import MDDialog, MDDialogIcon, MDDialogHeadlineText, MDDialogButtonContainer, \
@@ -25,10 +25,9 @@ class DataReferenceScreen(Screen):
         self.global_data = GlobalData()
 
     def on_enter(self):
-        # Show wait dialog
         self.ids.image_container.clear_widgets()
         self.show_wait_dialog()
-        # Schedule the data loading to start after the dialog is visible
+
         Clock.schedule_once(lambda dt: self.display_data_reference(), 0.3)
 
     def display_data_reference(self):

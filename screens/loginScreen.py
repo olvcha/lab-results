@@ -2,8 +2,6 @@ import os
 
 from kivy.lang import Builder
 from kivy.uix.screenmanager import Screen
-from kivymd.uix.screen import MDScreen
-from kivymd.app import MDApp
 from databaseFiles.tables.userTable import UserTable
 from implementation.globalData import GlobalData
 
@@ -22,11 +20,9 @@ class LoginScreen(Screen):
         self.ids.login_warning.text = ""
 
     def switch_to_main_screen(self):
-        '''Switch to the main screen'''
         self.manager.current = 'main'
 
     def switch_to_registration_screen(self):
-        '''Switch to the registration screen'''
         self.manager.current = 'registration'
         self.ids.username_field.text = ""
         self.ids.password_field.text = ""
@@ -37,7 +33,6 @@ class LoginScreen(Screen):
         password = self.ids.password_field.text
         self.ids.submit_button.disabled = not (username and password)
 
-    #to-do: error
     def auth_user(self):
         '''Authorize the user. If data is correct, the user will be redirected to the main screen.
         If not, the error will be displayed'''

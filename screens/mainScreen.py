@@ -1,6 +1,5 @@
 import os
 from kivy.lang import Builder
-from kivymd.app import MDApp
 from kivy.uix.screenmanager import Screen
 
 from implementation.globalData import GlobalData
@@ -24,19 +23,15 @@ class MainScreen(Screen):
         self.ids.welcome_label.text = f"Witaj, {username}!"
 
     def switch_to_info_screen(self):
-        '''Switch to the info screen'''
         self.manager.current = 'info'
 
     def switch_to_new_result_screen(self):
-        '''Switch to the new result screen'''
         self.manager.current = 'new_result'
 
     def switch_to_results_screen(self):
-        '''Switch to the results screen'''
         self.manager.current = 'results'
 
     def log_out(self):
-        '''Switch to login screen'''
         global_data = GlobalData()
         global_data.set_user_id(None)
         self.manager.current = 'login'

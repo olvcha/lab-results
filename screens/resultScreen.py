@@ -1,11 +1,10 @@
 import os
 from kivy.lang import Builder
-from kivy.properties import ObjectProperty
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.screenmanager import Screen
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
-from kivymd.uix.label import MDIcon, MDLabel
+from kivymd.uix.label import MDLabel
 
 from implementation.globalData import GlobalData
 from implementation.plotGenerator import PlotGenerator
@@ -27,32 +26,23 @@ class ResultScreen(Screen):
         self.display_result()
 
     def display_result(self):
-        # exam_id = self.manager.get_exam_id()
-        # global_data = GlobalData()
         exam_id = self.global_data.get_exam_id()
-
-        # db = ExaminationTable()
-        # file_manager = FileManager()
         exam_data = self.exam_table.load_examination_data(exam_id)
         date = exam_data[1]
-        # data_reference = exam_data[2]
 
         # Reference the plot container
         plot_container = self.ids.plot_container
-
-        # Clear any existing widgets
         plot_container.clear_widgets()
 
-        # Container for the top-right-aligned labels
         labels_layout = BoxLayout(
             orientation='vertical',
             size_hint_y=None,
-            height=100,  # Adjust to fit the labels
-            padding=[0, 0, 10, 0],  # Add right padding for alignment
+            height=100,
+            padding=[0, 0, 10, 0],
             spacing=5
         )
 
-        # Add the first label (right-aligned)
+        # First label
         labels_layout.add_widget(
             Label(
                 text="Oto twoje wyniki.",
@@ -60,13 +50,13 @@ class ResultScreen(Screen):
                 bold=True,
                 size_hint_y=None,
                 height=40,
-                color=[0, 0, 0, 1],  # Black color
+                color=[0, 0, 0, 1],
                 halign="left",
                 valign="middle"
             )
         )
 
-        # Add the second label (right-aligned)
+        # Second label
         labels_layout.add_widget(
             Label(
                 text=f"Data: {date}",
@@ -79,14 +69,11 @@ class ResultScreen(Screen):
             )
         )
 
-        # Add the labels layout to the plot container
         plot_container.add_widget(labels_layout)
-
-        # Add a spacer to create space between the labels and results
         plot_container.add_widget(
             BoxLayout(
                 size_hint_y=None,
-                height=20  # Adjust the height to control spacing
+                height=20
             )
         )
 
@@ -94,9 +81,6 @@ class ResultScreen(Screen):
         plot_generator = PlotGenerator(str(exam_id))
         results = plot_generator.generate_results()
 
-        # Dynamically add widgets for each result
-        # Dynamically add widgets for each result
-        # Dynamically add widgets for each result
         for result in results:
             parameter_name = result["parameter_name"]
             loinc_code = result["loinc_code"]
@@ -106,7 +90,6 @@ class ResultScreen(Screen):
             unit = result["unit"]
             plot_widget = result["plot_widget"]
 
-            # Create a horizontal layout for the result with spacing
             result_layout = BoxLayout(
                 orientation='horizontal',
                 size_hint_y=None,
@@ -115,7 +98,7 @@ class ResultScreen(Screen):
                 spacing=15
             )
 
-            # LEFT SIDE: Vertical layout for parameter information
+            # LEFT SIDE
             labels_layout = GridLayout(
                 cols=1,
                 size_hint_x=0.4,
@@ -151,7 +134,7 @@ class ResultScreen(Screen):
                 valign="middle"
             ))
 
-            # RIGHT SIDE: Vertical layout for reference value, plot, and MDIcon
+            # RIGHT SIDE
             plot_with_label_layout = GridLayout(
                 cols=1,
                 size_hint_x=0.5,
@@ -161,7 +144,6 @@ class ResultScreen(Screen):
                 padding=[0, 10, 0, 10]
             )
 
-            # Add the reference value to the layout
             plot_with_label_layout.add_widget(
                 Label(
                     text=self.define_reference_value(min_value, max_value, value, unit),
@@ -173,28 +155,15 @@ class ResultScreen(Screen):
                 )
             )
 
-            # Add the plot_widget
             plot_with_label_layout.add_widget(plot_widget)
 
-            # Add the MDIcon vertically centered
-            md_icon = MDIcon(
-                id='date_icon',
-                icon='emoticon',
-                size_hint_y=None,
-                halign="center",
-                height=30,
-                # pos_hint={"center_y": 0.5}  # Center the icon vertically
-            )
-            # plot_with_label_layout.add_widget(md_icon)
-
-            # Combine the left and right layouts into the horizontal result layout
             result_layout.add_widget(labels_layout)
             result_layout.add_widget(plot_with_label_layout)
 
-            # Add the entire result layout to the main scrollable container
             plot_container.add_widget(result_layout)
 
     def define_reference_value(self, min_value, max_value, value, unit):
+        '''Get reference value (optionally with an indicator).'''
         if float(value) < float(min_value):
             self.text_color = [1, 0, 0, 1]
             return f"[b]{value}[/b] [{unit}]  [b]v[/b]"
@@ -203,8 +172,6 @@ class ResultScreen(Screen):
             return f"[b]{value}[/b] [{unit}]  [b]^[/b]"
         self.text_color = [0, 0, 0, 1]
         return f"[b]{value}[/b] [{unit}]"
-
-
 
     def switch_to_main_screen(self):
         self.manager.current = 'main'

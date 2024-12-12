@@ -3,10 +3,6 @@ import os
 from kivy.lang import Builder
 from kivy.uix.screenmanager import Screen
 from kivy.uix.widget import Widget
-from kivymd.uix import dialog
-from kivymd.uix.dialog import MDDialog, MDDialogIcon, MDDialogHeadlineText, MDDialogSupportingText
-from kivymd.uix.screen import MDScreen
-from kivymd.app import MDApp
 from kivymd.uix.button import MDButton, MDButtonText
 from kivymd.uix.dialog import (
     MDDialog,
@@ -14,13 +10,6 @@ from kivymd.uix.dialog import (
     MDDialogHeadlineText,
     MDDialogSupportingText,
     MDDialogButtonContainer,
-    MDDialogContentContainer,
-)
-from kivymd.uix.divider import MDDivider
-from kivymd.uix.list import (
-    MDListItem,
-    MDListItemLeadingIcon,
-    MDListItemSupportingText,
 )
 
 Builder.load_file(os.path.join(os.path.dirname(__file__), 'info_screen.kv'))
