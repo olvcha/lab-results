@@ -25,7 +25,7 @@ class DataExtraction:
 
     def filter_exam_data(self, threshold=80):
         '''Filter the exam data and leave just the information about parameters existing in the database.
-        Returns tuple of exam data in format value : parameter_id'''
+        Return tuple of exam data in format value : parameter_id'''
         filtered_data = {}
         for id, name in self.parameters_data:
             match = process.extractOne(name, self.formatted_data.keys(), score_cutoff=threshold)

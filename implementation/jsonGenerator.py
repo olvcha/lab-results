@@ -3,13 +3,18 @@ import json
 
 
 class JsonGenerator:
+    '''Responsible for generating JSON from text.'''
     def __init__(self, data):
         self.data = data
-        #self.file_name = file_name
         self.parse_data()
-        #self.save_to_json()
 
     def parse_data(self):
+        '''
+        Parse given data into JSON format:
+        key - parameter name
+        value - parameter data
+        '''
+
         parsed_data = {}
         for entry in self.data:
             # Match the initial text (key) and the rest of the entry (value)
@@ -21,12 +26,8 @@ class JsonGenerator:
 
         return parsed_data
 
-    # def save_to_json(self):
-    #     parsed_data = self.parse_data()
-    #     with open(self.file_name, 'w', encoding='utf-8') as json_file:
-    #         json.dump(parsed_data, json_file, ensure_ascii=False, indent=4)
-
     def save_to_json_text(self):
+        '''Save to JSON.'''
         parsed_data = self.parse_data()
 
         return json.dumps(parsed_data, ensure_ascii=False)

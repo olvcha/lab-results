@@ -38,6 +38,7 @@ class NewResultScreen(Screen):
         self.date_dialog = None
         self.selected_date = None
         self.error_dialog = None
+        self.connection_error_dialog = None
         self.examination_table = ExaminationTable()
         self.file_manager = FileManager()
         self.global_data = GlobalData()
@@ -148,15 +149,19 @@ class NewResultScreen(Screen):
         if not filtered_data:
             self.show_info_dialog()
         else:
-            user_id = self.global_data.get_user_id()
-            file_id = self.file_manager.upload_file(self.selected_file_path, user_id, self.selected_date)
+            try:
+                user_id = self.global_data.get_user_id()
+                file_id = self.file_manager.upload_file(self.selected_file_path, user_id, self.selected_date)
 
-            self.exam_id = self.examination_table.add_examination(user_id, self.selected_date,
-                                                                  file_id, data)
+                self.exam_id = self.examination_table.add_examination(user_id, self.selected_date,
+                                                                      file_id, data)
 
-            self.save_parameters_data(self.exam_id, filtered_data)
-            #self.extract_and_save(data, self.exam_id)
-            self.ids.data_button.disabled = False
+                self.save_parameters_data(self.exam_id, filtered_data)
+                #self.extract_and_save(data, self.exam_id)
+                self.ids.data_button.disabled = False
+            except Exception as e:
+                print(f"Error loading data reference: {e}")
+                self.show_connection_error_dialog()
 
     def show_info_dialog(self):
         self.error_dialog = MDDialog(
@@ -186,6 +191,40 @@ class NewResultScreen(Screen):
             # -------------------------------------------------------------
         )
         self.error_dialog.open()
+
+    def show_connection_error_dialog(self):
+        self.connection_error_dialog = MDDialog(
+            # ----------------------------Icon-----------------------------
+            MDDialogIcon(
+                icon="information",
+            ),
+            # -----------------------Headline text-------------------------
+            MDDialogHeadlineText(
+                text="Informacja",
+            ),
+            # -----------------------Supporting text-----------------------
+            MDDialogSupportingText(
+                text="Nie można wykonać operacji.\n Sprawdź połączenie z internetem i spróbuj ponownie.",
+                halign="center",
+            ),
+            # ---------------------Button container------------------------
+            MDDialogButtonContainer(
+                Widget(),
+                MDButton(
+                    MDButtonText(text="Zamknij"),
+                    style="text",
+                    on_release=lambda *args: self.connection_error_action()
+                ),
+                spacing="8dp",
+            ),
+            # -------------------------------------------------------------
+        )
+        self.connection_error_dialog.open()
+
+    def connection_error_action(self):
+        self.ids.load_button_text.text = "Wybierz plik"
+        self.ids.file_icon.icon = 'close'
+        self.connection_error_dialog.dismiss()
 
     def switch_to_main_screen(self):
         self.manager.current = 'main'

@@ -10,8 +10,7 @@ from kivymd.uix.button import MDButton, MDButtonText
 from kivymd.uix.dialog import MDDialog, MDDialogIcon, MDDialogHeadlineText, MDDialogSupportingText, \
     MDDialogButtonContainer
 
-from implementation.plotGenerator import PlotGenerator
-from databaseFiles.tables.examinationTable import ExaminationTable
+
 from implementation.parameterChangeGenerator import ParameterChangeGenerator
 
 Builder.load_file(os.path.join(os.path.dirname(__file__), 'parameter_in_time_screen.kv'))

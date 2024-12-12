@@ -52,6 +52,7 @@ class ParameterChangeGenerator:
         return FigureCanvasKivyAgg(fig)
 
     def generate_results(self):
+        '''Generate a list of results, each containing plot widget with change of parameter values over time.'''
         results = []
         for param_id in self.examination_parameter_table.get_parameter_ids(self.user_id):
             dates = []
@@ -61,7 +62,7 @@ class ParameterChangeGenerator:
             min_value = parameter_data[0][2]
             max_value = parameter_data[0][3]
             unit = parameter_data[0][4]
-            loinc = parameter_data[0][5]
+            loinc_code = parameter_data[0][5]
 
             for data in self.examination_parameter_table.join_examination_with_examination_parameters(self.user_id,
                                                                                                           param_id):
@@ -72,7 +73,7 @@ class ParameterChangeGenerator:
 
             if len(values) > 1:
                 plot_widget = self.plot_parameter_in_time(parameter_name, dates, values, min_value, max_value,
-                                                          unit, loinc)
+                                                          unit, loinc_code)
                 results.append({
                     "plot_widget": plot_widget
         })

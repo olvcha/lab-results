@@ -10,7 +10,6 @@ from kivymd.uix.label import MDIcon, MDLabel
 from implementation.globalData import GlobalData
 from implementation.plotGenerator import PlotGenerator
 from databaseFiles.tables.examinationTable import ExaminationTable
-from implementation.fileManager import FileManager
 
 Builder.load_file(os.path.join(os.path.dirname(__file__), 'result_screen.kv'))
 

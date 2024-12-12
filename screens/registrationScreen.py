@@ -49,6 +49,7 @@ class RegistrationScreen(Screen):
                 self.ids.register_warning.text = "Użytkownik już istnieje. Spróbuj ponownie."
                 self.ids.username_field.text = ""
                 self.ids.password_field.text = ""
+                self.ids.repeat_password_field.text = ""
         else:
             self.ids.register_warning.text = "Hasła nie są identyczne. Spróbuj ponownie."
             self.ids.password_field.text = ""

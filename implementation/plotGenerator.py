@@ -11,14 +11,15 @@ class PlotGenerator:
     def __init__(self, exam_id):
         self.examination_parameter_table = ExaminationParameterTable()
         self.parameter_table = ParameterTable()
+        self.exam_id = exam_id
 
         try:
             self.examination_parameters = self.examination_parameter_table.get_examination_parameters_by_exam_id(
-                exam_id)
+                self.exam_id)
         except KeyError:
-            print(f"Key error: No data found for exam_id: {exam_id}")
+            print(f"Key error: No data found for exam_id: {self.exam_id}")
         except ValueError:
-            print(f"Value error: Invalid data for exam_id: {exam_id}")
+            print(f"Value error: Invalid data for exam_id: {self.exam_id}")
 
     def plot_parameter(self, min_value, ref_value, max_value):
         """
@@ -81,9 +82,10 @@ class PlotGenerator:
     def generate_results(self):
         """
         Generate a list of results, each containing:
-        - param_name: Name of the parameter.
+        - parameter_name: Name of the parameter.
         - loinc_code: Parameter code.
         - min_value, max_value, value: Numeric values for the parameter.
+        - unit: Unit of the parameter.
         - plot_widget: The plot widget for visualization.
         """
         results = []

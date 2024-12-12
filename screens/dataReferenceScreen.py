@@ -2,7 +2,10 @@ import os
 from kivy.lang import Builder
 from kivy.uix.screenmanager import Screen
 from kivy.clock import Clock  # Import Clock for scheduling
-from kivymd.uix.dialog import MDDialog, MDDialogIcon, MDDialogHeadlineText
+from kivy.uix.widget import Widget
+from kivymd.uix.button import MDButton, MDButtonText
+from kivymd.uix.dialog import MDDialog, MDDialogIcon, MDDialogHeadlineText, MDDialogButtonContainer, \
+    MDDialogSupportingText
 
 from databaseFiles.tables.examinationTable import ExaminationTable
 from implementation.fileManager import FileManager
@@ -16,6 +19,7 @@ class DataReferenceScreen(Screen):
     def __init__(self, **kwargs):
         super(DataReferenceScreen, self).__init__(**kwargs)
         self.wait_dialog = None
+        self.error_dialog = None
         self.exam_table = ExaminationTable()
         self.file_manager = FileManager()
         self.global_data = GlobalData()
@@ -43,6 +47,7 @@ class DataReferenceScreen(Screen):
 
         except Exception as e:
             print(f"Error loading data reference: {e}")
+            self.show_error_dialog()
         finally:
             # Dismiss the dialog after data is loaded
             if self.wait_dialog:
@@ -54,6 +59,35 @@ class DataReferenceScreen(Screen):
             MDDialogHeadlineText(text="Proszę czekać. \n Ładowanie danych."),
         )
         self.wait_dialog.open()
+
+    def show_error_dialog(self):
+        self.error_dialog = MDDialog(
+            MDDialogIcon(icon="information"),
+            MDDialogHeadlineText(
+                text="Informacja",
+            ),
+            # -----------------------Supporting text-----------------------
+            MDDialogSupportingText(
+                text="Błąd ładowania danych.\n Sprawdź połączenie z internetem i spróbuj ponownie.",
+                halign="center",
+            ),
+
+            # ---------------------Button container------------------------
+            MDDialogButtonContainer(
+                Widget(),
+                MDButton(
+                    MDButtonText(text="Powrót"),
+                    style="text",
+                    on_release=lambda *args: self.error_dialog_action()
+                ),
+                spacing="8dp",
+            ),
+        )
+        self.error_dialog.open()
+
+    def error_dialog_action(self):
+        self.error_dialog.dismiss()
+        self.switch_to_result_screen()
 
     def switch_to_result_screen(self):
         self.manager.current = 'result'
