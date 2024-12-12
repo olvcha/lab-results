@@ -38,7 +38,6 @@ class FileManager:
         if folders:
             return folders[0]['id']
 
-        # Create new folder
         folder_metadata = {
             'name': str(user_id),
             'mimeType': 'application/vnd.google-apps.folder',
@@ -53,10 +52,7 @@ class FileManager:
         creds = self.authenticate()
         service = build('drive', 'v3', credentials=creds)
 
-        # Create or get user folder
         user_folder_id = self.create_user_folder(service, user_id)
-
-        # Format file name
         file_name = f"{user_id}_{date}"
 
         file_metadata = {
@@ -114,7 +110,6 @@ class FileManager:
         mime_type = self.get_file_mime_type(file_id)
 
         if mime_type == 'application/pdf':
-            # Handle PDF file type
             file_stream = self.stream_file_from_drive(file_id)
             images = self.convert_pdf_to_images(file_stream)
             image_widgets = []
@@ -126,7 +121,6 @@ class FileManager:
             return image_widgets
 
         elif mime_type.startswith('image/'):
-            # Handle image files (JPG, PNG, GIF, etc.)
             file_stream = self.stream_file_from_drive(file_id)
             file_type = mime_type.split('/')[1]
             core_image = CoreImage(file_stream, ext=file_type)

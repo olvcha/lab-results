@@ -33,9 +33,7 @@ class PdfTextReader:
         return data
 
     def save_to_json(self):
+        '''Save the data to JSON format.'''
         json_generator = JsonGenerator(self.data)
 
         return json_generator.save_to_json_text()
-#
-# dd = PdfTextReader('/Users/ola/Repos/lab-results/krew.pdf')
-# print(dd.save_to_json())

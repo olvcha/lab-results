@@ -1,4 +1,5 @@
 class GlobalData:
+    '''Responsible for global data storage.'''
     _instance = None
 
     def __new__(cls):

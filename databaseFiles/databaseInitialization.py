@@ -1,9 +1,7 @@
 from databaseFiles.tables.userTable import UserTable
 from databaseFiles.tables.parameterTable import ParameterTable
 from databaseFiles.tables.examinationTable import ExaminationTable
-#rom databaseGile import Database
 from databaseFiles.database import Database
-from datetime import datetime
 import json
 
 
@@ -36,9 +34,9 @@ class DatabaseInitialization:
 
         if not users:
             add_query_1 = (
-                "INSERT INTO user (username, password) VALUES ('andrzej', 'kabanos')")
+                "INSERT INTO user (username, password) VALUES ('Andrzej', 'Andre')")
             add_query_2 = (
-                "INSERT INTO user (username, password) VALUES ('anna', 'maria')")
+                "INSERT INTO user (username, password) VALUES ('Bartosz', 'Barte')")
             cursor.execute(add_query_1)
             cursor.execute(add_query_2)
 
@@ -47,7 +45,7 @@ class DatabaseInitialization:
             connection.close()
 
     def initialize_parameter_table(self):
-        '''Initialize the parameter table data'''
+        '''Initialize the parameter table data.'''
         connection = self.database.connection_utility()
         cursor = connection.cursor()
 
@@ -123,7 +121,6 @@ class DatabaseInitialization:
             add_query_3 = (
                 "INSERT INTO examination (user_id, date, data_reference_id, data) VALUES (?, ?, ?, ?)")
 
-            # Execute the insert queries with appropriate parameters
             cursor.execute(add_query_1, (1, '21-01-2024', '/Users/ola/Documents/Inżynierka/badanie.png', json_string1))
             cursor.execute(add_query_2, (1, '15-06-2024', '/Users/ola/Documents/Inżynierka/badanie.png ', json_string2))
             cursor.execute(add_query_3, (1, '03-11-2024', '/Users/ola', json_string3))

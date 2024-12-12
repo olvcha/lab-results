@@ -1,8 +1,5 @@
-import json
-import matplotlib.dates as mdates
 from datetime import datetime
 from kivy_garden.matplotlib import FigureCanvasKivyAgg
-from kivymd.app import MDApp
 from matplotlib import pyplot as plt
 from databaseFiles.tables.examinationTable import ExaminationTable
 from databaseFiles.tables.parameterTable import ParameterTable
@@ -12,7 +9,7 @@ from implementation.globalData import GlobalData
 
 class ParameterChangeGenerator:
     '''Responsible for processing raw data into visualisations in the form of plot.
-    Represents the change of the parameters in time'''
+    Represents the change of the parameters in time.'''
 
     def __init__(self):
         global_data = GlobalData()
@@ -23,6 +20,7 @@ class ParameterChangeGenerator:
         self.examination_parameter_table = ExaminationParameterTable()
 
     def plot_parameter_in_time(self, parameter_name, dates, values, min_value, max_value, unit, loinc):
+        '''Create a plot of the parameter change in time.'''
         fig, ax = plt.subplots(figsize=(10, 6))
         ax.plot(dates, values, marker='o', linestyle='-', color='b')
 
@@ -41,8 +39,6 @@ class ParameterChangeGenerator:
             selected_dates = dates
 
         ax.set_xticks(selected_dates)
-
-
         ax.set_xlabel('Data')
         ax.set_ylabel(f'Wartość [{unit}]')
         ax.set_title(f'{parameter_name} (LOINC = {loinc})')

@@ -22,11 +22,11 @@ class PlotGenerator:
             print(f"Value error: Invalid data for exam_id: {self.exam_id}")
 
     def plot_parameter(self, min_value, ref_value, max_value):
-        """
+        '''
         Generate a horizontal bar plot with three colored segments:
         - The bar spans from (min_value - offset) to (max_value + offset).
         - Three colored segments: red, yellow, and green.
-        """
+        '''
         # Calculate range offset
         offset = max_value - min_value
         bar_start = min_value - offset
@@ -49,14 +49,14 @@ class PlotGenerator:
         bar_height = 0.025
         marker_height = 0.05
 
-        # Plot the bar segments
+        # Bar segments
         ax.barh([''], [2 * offset / 3], left=bar_start, color=red_color, height=bar_height, align='center')
         ax.barh([''], [offset / 3], left=min_value - offset / 3, color=yellow_color, height=bar_height, align='center')
         ax.barh([''], [max_value - min_value], left=min_value, color=green_color, height=bar_height, align='center')
         ax.barh([''], [offset / 3], left=max_value, color=yellow_color, height=bar_height, align='center')
         ax.barh([''], [2 * offset / 3], left=max_value + offset / 3, color=red_color, height=bar_height, align='center')
 
-        # Add thick black marker with horizontal caps for ref_value (scaled down by 0.5x again)
+        # Marker
         cap_length = 0.025 * offset
         marker_y_shift = 0
 
@@ -66,28 +66,22 @@ class PlotGenerator:
                   clamped_ref_value - cap_length, clamped_ref_value + cap_length, colors='black', linewidth=2)
 
         ax.axis('off')
-
-        # Remove y-axis ticks and labels
         ax.set_yticks([])
-
-        # Set x-axis limits for some padding around the bar
         ax.set_xlim(bar_start - 0.1 * offset, bar_end + 0.1 * offset)
 
-        # Use tight layout to minimize white space
         plt.tight_layout()
 
-        # Return the plot as a Kivy widget (FigureCanvasKivyAgg)
         return FigureCanvasKivyAgg(fig)
 
     def generate_results(self):
-        """
+        '''
         Generate a list of results, each containing:
         - parameter_name: Name of the parameter.
         - loinc_code: Parameter code.
         - min_value, max_value, value: Numeric values for the parameter.
         - unit: Unit of the parameter.
         - plot_widget: The plot widget for visualization.
-        """
+        '''
         results = []
         for value, parameter_id in self.examination_parameters:
             parameter_data = self.parameter_table.load_parameter_data(parameter_id)
